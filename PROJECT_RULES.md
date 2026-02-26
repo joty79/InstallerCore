@@ -35,3 +35,11 @@
 - Guardrail/rule: Keep HKCR cleanup attempts, but suppress Access Denied warnings for HKCR-only cleanup failures to avoid false-negative installer outcomes.
 - Files affected: `templates/Install.Template.ps1`.
 - Validation/tests run: Parser validation passed for template; regenerated TakeOwnership installer validated by parser.
+
+### Entry - 2026-02-26 (InstallerCore bootstrap script)
+- Date: 2026-02-26
+- Problem: InstallerCore lacked a single entry-point script for consistent local bootstrap/update workflows.
+- Root cause: Repo setup relied on manual clone/pull commands.
+- Guardrail/rule: Keep a root `install.ps1` that standardizes `Install`, `Update`, `Uninstall`, and `Open` actions against the GitHub repo/branch parameters.
+- Files affected: `install.ps1`.
+- Validation/tests run: `Parser::ParseFile` validation passed for `install.ps1`.
