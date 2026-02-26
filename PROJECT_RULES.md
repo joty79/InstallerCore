@@ -43,3 +43,11 @@
 - Guardrail/rule: Keep a root `install.ps1` that standardizes `Install`, `Update`, `Uninstall`, and `Open` actions against the GitHub repo/branch parameters.
 - Files affected: `install.ps1`.
 - Validation/tests run: `Parser::ParseFile` validation passed for `install.ps1`.
+
+### Entry - 2026-02-26 (SystemCleanup profile onboarding)
+- Date: 2026-02-26
+- Problem: `dism` workspace needed to migrate into template-driven installer flow with explicit file ownership.
+- Root cause: Context-menu tool files existed without an InstallerCore profile contract.
+- Guardrail/rule: Add a dedicated `SystemCleanup` profile and keep Desktop background menu keys under `HKCU\Software\Classes\DesktopBackground\Shell\SystemCleanup` with HKCR cleanup fallback only.
+- Files affected: `profiles/SystemCleanup.json`.
+- Validation/tests run: Profile rendered into generated installer via `scripts/New-ToolInstaller.ps1`; generated script parser validation passed.

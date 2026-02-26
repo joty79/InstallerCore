@@ -1,0 +1,83 @@
+{
+  "tool_name": "SystemCleanup",
+  "installer_title": "SystemCleanup Installer",
+  "install_folder_name": "SystemCleanupContext",
+  "github_repo": "joty79/SystemCleanup",
+  "github_ref": "master",
+  "legacy_root": "D:\\Users\\joty79\\scripts\\dism",
+  "publisher": "joty79",
+  "uninstall_key_name": "SystemCleanupContext",
+  "uninstall_display_name": "SystemCleanup Context Menu",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [
+    "cmd.exe",
+    "pwsh.exe",
+    "sfc.exe",
+    "dism.exe",
+    "takeown.exe",
+    "icacls.exe",
+    "reg.exe"
+  ],
+  "required_package_entries": [
+    "Install.ps1",
+    "SystemCleanup.cmd",
+    "CleanInFlight.ps1",
+    "SystemCleanup.reg"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "SystemCleanup.cmd",
+    "CleanInFlight.ps1",
+    "SystemCleanup.reg"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "SystemCleanup.cmd",
+    "CleanInFlight.ps1"
+  ],
+  "migration_copy_entries": [
+    "logs",
+    "state"
+  ],
+  "uninstall_preserve_files": [
+    "Install.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
+    "HKCR\\DesktopBackground\\Shell\\SystemCleanup"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "Windows Update CleanUp"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-5323"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup\\Command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
+      "name": "(default)",
+      "expected": "Windows Update CleanUp"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup\\Command",
+      "name": "(default)",
+      "expected": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+    }
+  ],
+  "wrapper_patches": []
+}
