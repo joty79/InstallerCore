@@ -27,3 +27,11 @@
 - Guardrail/rule: Add one profile per tool and generate installers; keep template generic and move all tool specifics into profile JSON.
 - Files affected: `profiles/TakeOwnership.json`.
 - Validation/tests run: Installer generation completed via `scripts/New-ToolInstaller.ps1` and parser validation passed on generated `TakeOwnership\Install.ps1`.
+
+### Entry - 2026-02-26 (HKCR cleanup permissions)
+- Date: 2026-02-26
+- Problem: Cleanup of HKCR context-menu keys can fail with Access Denied for non-elevated installs, causing noisy warnings.
+- Root cause: HKCR merged-view keys may require elevated rights even when HKCU keys are the actual source.
+- Guardrail/rule: Keep HKCR cleanup attempts, but suppress Access Denied warnings for HKCR-only cleanup failures to avoid false-negative installer outcomes.
+- Files affected: `templates/Install.Template.ps1`.
+- Validation/tests run: Parser validation passed for template; regenerated TakeOwnership installer validated by parser.
