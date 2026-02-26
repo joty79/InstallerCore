@@ -1,0 +1,114 @@
+{
+  "tool_name": "WhoIsUsingThis",
+  "installer_title": "WhoIsUsingThis Installer",
+  "install_folder_name": "WhoIsUsingThisContext",
+  "github_repo": "joty79/WhoIsUsingThis",
+  "github_ref": "master",
+  "legacy_root": "D:\\Users\\joty79\\scripts\\WhoIsUsingThis",
+  "publisher": "joty79",
+  "uninstall_key_name": "WhoIsUsingThisContext",
+  "uninstall_display_name": "WhoIsUsingThis Context Menu",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [
+    "tasklist.exe",
+    "takeown.exe",
+    "icacls.exe"
+  ],
+  "required_package_entries": [
+    "Install.ps1",
+    "WhoIsUsingThis.ps1",
+    "WhoIsUsingThis.vbs",
+    "WhoIsUsingThis.reg",
+    "assets\\bin\\handle.exe",
+    "assets\\icons\\WhoIsUsingThis.ico"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "WhoIsUsingThis.ps1",
+    "WhoIsUsingThis.vbs",
+    "WhoIsUsingThis.reg",
+    "assets\\bin\\handle.exe",
+    "assets\\icons\\WhoIsUsingThis.ico"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "WhoIsUsingThis.ps1",
+    "WhoIsUsingThis.vbs",
+    "assets\\bin\\handle.exe",
+    "assets\\icons\\WhoIsUsingThis.ico"
+  ],
+  "migration_copy_entries": [
+    "logs",
+    "state"
+  ],
+  "uninstall_preserve_files": [
+    "Install.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\*\\shell\\WhoIsUsingThis",
+    "HKCU\\Software\\Classes\\Directory\\shell\\WhoIsUsingThis",
+    "HKCU\\Software\\Classes\\*\\shell\\CheckLocks",
+    "HKCU\\Software\\Classes\\Directory\\shell\\CheckLocks",
+    "HKCR\\*\\shell\\WhoIsUsingThis",
+    "HKCR\\Directory\\shell\\WhoIsUsingThis",
+    "HKCR\\*\\shell\\CheckLocks",
+    "HKCR\\Directory\\shell\\CheckLocks"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\WhoIsUsingThis",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Who is using this 🔎?"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-102"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\WhoIsUsingThis\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\WhoIsUsingThis",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Who is using this 🔎?"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-102"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\WhoIsUsingThis\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\WhoIsUsingThis",
+      "name": "MUIVerb",
+      "expected": "Who is using this 🔎?"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\WhoIsUsingThis\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\WhoIsUsingThis\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
+    }
+  ],
+  "wrapper_patches": []
+}
