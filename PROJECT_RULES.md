@@ -19,3 +19,11 @@
 - Guardrail/rule: Introduce a dedicated InstallerCore repo with template + profile + generator workflow.
 - Files affected: `templates/Install.Template.ps1`, `profiles/WhoIsUsingThis.json`, `scripts/New-ToolInstaller.ps1`.
 - Validation/tests run: Generator output parse validation via `Parser::ParseFile` on generated installer.
+
+### Entry - 2026-02-26 (TakeOwnership)
+- Date: 2026-02-26
+- Problem: New tool (`TakeOwnership`) needed installer parity without template forking.
+- Root cause: Tool-specific registry/required files were not modeled yet in InstallerCore profiles.
+- Guardrail/rule: Add one profile per tool and generate installers; keep template generic and move all tool specifics into profile JSON.
+- Files affected: `profiles/TakeOwnership.json`.
+- Validation/tests run: Installer generation completed via `scripts/New-ToolInstaller.ps1` and parser validation passed on generated `TakeOwnership\Install.ps1`.

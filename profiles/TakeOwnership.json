@@ -1,0 +1,116 @@
+{
+  "tool_name": "TakeOwnership",
+  "installer_title": "TakeOwnership Installer",
+  "install_folder_name": "TakeOwnershipContext",
+  "github_repo": "joty79/TakeOwnership",
+  "github_ref": "master",
+  "legacy_root": "D:\\Users\\joty79\\scripts\\TakeOwnership",
+  "publisher": "joty79",
+  "uninstall_key_name": "TakeOwnershipContext",
+  "uninstall_display_name": "TakeOwnership Context Menu",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [
+    "takeown.exe",
+    "icacls.exe",
+    "tasklist.exe",
+    "wscript.exe"
+  ],
+  "required_package_entries": [
+    "Install.ps1",
+    "Manage_Ownership.ps1",
+    "SilentOwnership.vbs",
+    "Manage_Ownership.reg",
+    "assets\\RunAsTI\\RunAsTI.ps1"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "Manage_Ownership.ps1",
+    "SilentOwnership.vbs",
+    "Manage_Ownership.reg",
+    "assets\\RunAsTI\\RunAsTI.ps1"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "Manage_Ownership.ps1",
+    "SilentOwnership.vbs",
+    "assets\\RunAsTI\\RunAsTI.ps1"
+  ],
+  "migration_copy_entries": [
+    "ACL_Backups",
+    "logs",
+    "state"
+  ],
+  "uninstall_preserve_files": [
+    "Install.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Z_ManageOwnership",
+    "HKCR\\*\\shell\\Z_ManageOwnership",
+    "HKCR\\Directory\\shell\\Z_ManageOwnership"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "Manage Ownership 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-5324"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership",
+      "name": "NoWorkingDirectory",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\SilentOwnership.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\Z_ManageOwnership",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "Manage Ownership 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\Z_ManageOwnership",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-5324"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\Z_ManageOwnership",
+      "name": "NoWorkingDirectory",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\Z_ManageOwnership\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\SilentOwnership.vbs\" \"%1\""
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\SilentOwnership.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\Z_ManageOwnership\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\SilentOwnership.vbs\" \"%1\""
+    }
+  ],
+  "wrapper_patches": []
+}
