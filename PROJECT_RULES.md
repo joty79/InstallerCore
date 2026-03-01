@@ -51,3 +51,35 @@
 - Guardrail/rule: Add a dedicated `SystemCleanup` profile and keep Desktop background menu keys under `HKCU\Software\Classes\DesktopBackground\Shell\SystemCleanup` with HKCR cleanup fallback only.
 - Files affected: `profiles/SystemCleanup.json`.
 - Validation/tests run: Profile rendered into generated installer via `scripts/New-ToolInstaller.ps1`; generated script parser validation passed.
+
+### Entry - 2026-03-01 (Restore branch list picker in template)
+- Date: 2026-03-01
+- Problem: Generated installers exposed only a plain `GitHub branch/ref` prompt, while branch list selection existed in working installers such as `Robocopy`.
+- Root cause: `InstallerCore` template kept a simplified `ReadRefInteractive` implementation and dropped branch enumeration UX.
+- Guardrail/rule: `templates/Install.Template.ps1` must offer branch list selection when GitHub branch enumeration succeeds, with manual ref input as fallback; this is template-level behavior, not per-tool custom logic.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: `Parser::ParseFile` on template after edit; static comparison against `Robocopy\Install.ps1` branch picker flow.
+
+### Entry - 2026-03-02 (Clean Explorer restart flow in template)
+- Date: 2026-03-02
+- Problem: Installers used a naive `Stop-Process explorer` + `Start-Process explorer.exe` restart, which can create secondary zombie `explorer.exe` processes and lose the user's working folder window.
+- Root cause: Template restart logic forced a new Explorer process instead of letting Windows auto-restore the shell and reopening a folder through `Shell.Application`.
+- Guardrail/rule: `templates/Install.Template.ps1` must use the clean Explorer restart flow: stop Explorer, wait for shell auto-restart, never `Start-Process explorer.exe`, and reopen a safe folder path via `Shell.Application` COM when available.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: `Parser::ParseFile` on template after edit; static comparison against `SystemTools\RestartExplorer.ps1` restart flow.
+
+### Entry - 2026-03-02 (GitHub ref autodetect in template)
+- Date: 2026-03-02
+- Problem: Generated installers still depended on a fixed `github_ref` even after branch-list UX was restored, so test branches like `latest` required manual/profile edits.
+- Root cause: Template resolved GitHub source from `github_ref` only and had no branch autodetect fallback.
+- Guardrail/rule: `templates/Install.Template.ps1` must autodetect GitHub ref when `-GitHubRef` is not explicitly provided, in this priority order: remote default branch, `master`, profile value, then `latest`; branch list UI must use the autodetected ref as its default.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Generator output parse validation on regenerated `WhoIsUsingThis\Install.ps1`; static inspection for autodetect + branch-list flow.
+
+### Entry - 2026-03-02 (Shared submenu profiles must emit valid host parents per branch)
+- Date: 2026-03-02
+- Problem: A generated tool profile broke the shared `System Tools` submenu after moving a verb under a nested child key.
+- Root cause: The shared host submenu existed only on `Directory\Background\shell`; generated profile did not create valid `*\shell\SystemTools` and `Directory\shell\SystemTools` cascade parents for file/folder branches.
+- Guardrail/rule: In `InstallerCore` profiles, when a tool is installed under a shared submenu on new branches, emit full valid parent keys for those branches (`MUIVerb`, `SubCommands`, `Icon`) before nested child verbs.
+- Files affected: `profiles/WhoIsUsingThis.json`, `PROJECT_RULES.md`.
+- Validation/tests run: Static profile review plus live registry query of installed `SystemTools` branches; regenerated installer expected to include valid file/folder parent writes.
