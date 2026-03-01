@@ -83,3 +83,11 @@
 - Guardrail/rule: In `InstallerCore` profiles, when a tool is installed under a shared submenu on new branches, emit full valid parent keys for those branches (`MUIVerb`, `SubCommands`, `Icon`) before nested child verbs.
 - Files affected: `profiles/WhoIsUsingThis.json`, `PROJECT_RULES.md`.
 - Validation/tests run: Static profile review plus live registry query of installed `SystemTools` branches; regenerated installer expected to include valid file/folder parent writes.
+
+### Entry - 2026-03-02 (Remove InstallerCore bootstrap installer)
+- Date: 2026-03-02
+- Problem: Root `install.ps1` installed `InstallerCore` into `$HOME\scripts\InstallerCore`, which did not match the `%LOCALAPPDATA%` install pattern of generated installers and created a misleading uninstall flow.
+- Root cause: The bootstrap script was a repo self-installer with different lifecycle semantics than generated tool installers, but it looked like part of the same installer system.
+- Guardrail/rule: `InstallerCore` should not ship a root bootstrap `install.ps1`; keep this repo focused on template/profile/generator source-of-truth and avoid a separate self-installer UX.
+- Files affected: `install.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Static review of root `install.ps1` install target and uninstall behavior; confirmed no registry writes were present.
