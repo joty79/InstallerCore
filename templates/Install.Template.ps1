@@ -98,11 +98,17 @@ function RegCmd([AllowEmptyString()][string[]]$RegArgs, [switch]$IgnoreNotFound)
 }
 function RegDel([string]$Key) { RegCmd -RegArgs @('delete', $Key, '/f') -IgnoreNotFound | Out-Null }
 function RegAdd([string]$Key, [string]$Name, [string]$Type, [AllowEmptyString()][string]$Value) {
-    $safe = if ($Type -eq 'REG_DWORD') { if ([string]::IsNullOrWhiteSpace($Value)) { '0' } else { $Value } } else { if ($Value -eq '') { '""' } else { $Value } }
+    $safe = if ($Type -eq 'REG_DWORD') { if ([string]::IsNullOrWhiteSpace($Value)) { '0' } else { $Value } } else { $Value }
     $regArgs = @('add', $Key)
     if ($Name -eq '(default)') { $regArgs += '/ve' } else { $regArgs += @('/v', $Name) }
     $regArgs += @('/t', $Type, '/d', $safe, '/f')
     RegCmd -RegArgs $regArgs | Out-Null
+    if ($Type -in @('REG_SZ', 'REG_EXPAND_SZ') -and $Value -eq '') {
+        $actual = RegGet -Key $Key -Name $Name
+        if ($null -eq $actual -or $actual -ne '') {
+            throw "Empty-string registry write verification failed for $Key [$Name]"
+        }
+    }
 }
 function RegGet([string]$Key, [string]$Name) {
     $q = if ($Name -eq '(default)') { RegCmd -RegArgs @('query', $Key, '/ve') -IgnoreNotFound } else { RegCmd -RegArgs @('query', $Key, '/v', $Name) -IgnoreNotFound }
