@@ -3,7 +3,7 @@
   "installer_title": "SystemCleanup Installer",
   "install_folder_name": "SystemCleanupContext",
   "github_repo": "joty79/SystemCleanup",
-  "github_ref": "master",
+  "github_ref": "",
   "legacy_root": "D:\\Users\\joty79\\scripts\\dism",
   "publisher": "joty79",
   "uninstall_key_name": "SystemCleanupContext",
@@ -45,23 +45,25 @@
   ],
   "registry_cleanup_keys": [
     "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
-    "HKCR\\DesktopBackground\\Shell\\SystemCleanup"
+    "HKCR\\DesktopBackground\\Shell\\SystemCleanup",
+    "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
+    "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup"
   ],
   "registry_values": [
     {
-      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
-      "name": "(default)",
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
+      "name": "MUIVerb",
       "type": "REG_SZ",
       "value": "Windows Update CleanUp"
     },
     {
-      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
       "name": "Icon",
       "type": "REG_SZ",
       "value": "imageres.dll,-5323"
     },
     {
-      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup\\Command",
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup\\Command",
       "name": "(default)",
       "type": "REG_SZ",
       "value": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
@@ -69,12 +71,12 @@
   ],
   "registry_verify": [
     {
-      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
-      "name": "(default)",
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
+      "name": "MUIVerb",
       "expected": "Windows Update CleanUp"
     },
     {
-      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup\\Command",
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup\\Command",
       "name": "(default)",
       "expected": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
     }

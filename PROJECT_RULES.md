@@ -107,3 +107,12 @@
 - Guardrail/rule: In `InstallerCore`, empty-string registry writes must use the real empty value and immediately verify by readback for `REG_SZ`/`REG_EXPAND_SZ`; template helpers must fail loudly on mismatch instead of silently continuing.
 - Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
 - Validation/tests run: Template parser validation; regenerated `WhoIsUsingThis\Install.ps1` and `TakeOwnership\Install.ps1`; targeted scan confirmed the old literal `""` pattern was removed from template/generated installers.
+
+### Entry - 2026-03-02 (SystemCleanup moved under desktop System Tools host)
+
+- Date: 2026-03-02
+- Problem: `SystemCleanup` needed current template behavior and integration under the shared `System Tools` submenu without changing its desktop-background interaction surface.
+- Root cause: The profile still generated a standalone `DesktopBackground\Shell\SystemCleanup` verb and an old installer snapshot with pre-hardening helper behavior.
+- Guardrail/rule: `SystemCleanup` is a child-only desktop-background tool under `HKCU\Software\Classes\DesktopBackground\Shell\SystemTools\shell\SystemCleanup`. Parent `DesktopBackground\Shell\SystemTools` is owned by the `SystemTools` repo, not by the child profile.
+- Files affected: `profiles/SystemCleanup.json`, `PROJECT_RULES.md`.
+- Validation/tests run: Regenerated `SystemCleanup\Install.ps1`; parser validation on generated installer; static review of child-only desktop-background registry paths.
