@@ -116,3 +116,35 @@
 - Guardrail/rule: `SystemCleanup` is a child-only desktop-background tool under `HKCU\Software\Classes\DesktopBackground\Shell\SystemTools\shell\SystemCleanup`. Parent `DesktopBackground\Shell\SystemTools` is owned by the `SystemTools` repo, not by the child profile.
 - Files affected: `profiles/SystemCleanup.json`, `PROJECT_RULES.md`.
 - Validation/tests run: Regenerated `SystemCleanup\Install.ps1`; parser validation on generated installer; static review of child-only desktop-background registry paths.
+
+### Entry - 2026-03-02 (Interactive installers must support Local and GitHub sources)
+- Date: 2026-03-02
+- Problem: Generated installers exposed only GitHub flow in the interactive `Install`/`Update` menu, even though CLI already supported `-PackageSource Local`.
+- Root cause: Template `switch ($Action)` hard-overrode `PackageSource` to `GitHub` for `Install` and `Update`, so local testing existed only as a hidden CLI path.
+- Guardrail/rule: In `InstallerCore`, interactive `Install` and `Update` must ask for package source (`Local` or `GitHub`) and default to `Local`. Keep `InstallGitHub` and `UpdateGitHub` as explicit GitHub-only actions for non-interactive use.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Parser validation on template after edit; static review of action flow to confirm `PackageSource` is no longer hard-forced to `GitHub` for generic interactive install/update.
+
+### Entry - 2026-03-03 (Interactive source chooser defaults to GitHub)
+- Date: 2026-03-03
+- Problem: Interactive installers needed GitHub as the first/default source choice instead of Local.
+- Root cause: The initial source chooser fix defaulted to `Local`, which added the missing option but did not match the desired everyday workflow.
+- Guardrail/rule: In `InstallerCore`, interactive `Install` and `Update` must present `GitHub` as option `[1]` and as the default selection. Keep `Local` available as option `[2]` and keep CLI `-PackageSource` overrides intact.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Parser validation on template after edit; regenerated downstream installers for parser validation.
+
+### Entry - 2026-03-03 (WhoIsUsingThis profile must include background branches)
+- Date: 2026-03-03
+- Problem: Regenerating `WhoIsUsingThis\Install.ps1` from `InstallerCore` silently removed background support, so local installer tests did not reproduce the manual `.reg` behavior.
+- Root cause: The source-of-truth profile `profiles/WhoIsUsingThis.json` still defined only file and folder child verbs; the repo-local manual fix for `Directory\\Background` and `DesktopBackground` had never been propagated back into `InstallerCore`.
+- Guardrail/rule: When a generated installer gains new registry branches, update the `InstallerCore` profile first, then regenerate the downstream installer. `WhoIsUsingThis` must include child-only entries for `Directory\\Background\\shell\\SystemTools\\shell\\WhoIsUsingThis` and `DesktopBackground\\Shell\\SystemTools\\shell\\WhoIsUsingThis`.
+- Files affected: `profiles/WhoIsUsingThis.json`, `PROJECT_RULES.md`.
+- Validation/tests run: Static profile review after edit; regenerated `WhoIsUsingThis\Install.ps1`; parser validation on generated installer.
+
+### Entry - 2026-03-03 (TakeOwnership profile must include background branches)
+- Date: 2026-03-03
+- Problem: `TakeOwnership` still did not appear on folder background or desktop background, even with the manual `.reg` check.
+- Root cause: The source-of-truth profile `profiles/TakeOwnership.json` only defined file and folder child verbs, and the manual `.reg` had the same gap.
+- Guardrail/rule: `TakeOwnership` must include child-only entries for `Directory\\Background\\shell\\SystemTools\\shell\\TakeOwnership` and `DesktopBackground\\Shell\\SystemTools\\shell\\TakeOwnership`, using `%V` for the background target path and preserving `NoWorkingDirectory`.
+- Files affected: `profiles/TakeOwnership.json`, `PROJECT_RULES.md`.
+- Validation/tests run: Static profile review after edit; regenerated `TakeOwnership\\Install.ps1`; parser validation on generated installer.
