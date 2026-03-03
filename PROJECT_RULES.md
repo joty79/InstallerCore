@@ -116,3 +116,19 @@
 - Guardrail/rule: `SystemCleanup` is a child-only desktop-background tool under `HKCU\Software\Classes\DesktopBackground\Shell\SystemTools\shell\SystemCleanup`. Parent `DesktopBackground\Shell\SystemTools` is owned by the `SystemTools` repo, not by the child profile.
 - Files affected: `profiles/SystemCleanup.json`, `PROJECT_RULES.md`.
 - Validation/tests run: Regenerated `SystemCleanup\Install.ps1`; parser validation on generated installer; static review of child-only desktop-background registry paths.
+
+### Entry - 2026-03-03 (Add Download Latest local repo sync action)
+- Date: 2026-03-03
+- Problem: Generated installers could install/update into `%LOCALAPPDATA%`, but there was no supported action to refresh a local repo/work folder in place from GitHub without performing install or registry writes.
+- Root cause: Template action flow only modeled install-target deployment and did not separate raw package download/update from install-time side effects.
+- Guardrail/rule: `templates/Install.Template.ps1` must expose a `DownloadLatest` action that deploys the GitHub package into `$PSScriptRoot`, skips registry/uninstall/Explorer-restart steps, disallows local fallback, and relaunches the updated `Install.ps1` after download completes.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: `Parser::ParseFile` validation on template after edit; static review of action/menu flow and temp-package cleanup path.
+
+### Entry - 2026-03-03 (Download Latest menu placement)
+- Date: 2026-03-03
+- Problem: The new `DownloadLatest` action appeared last in the interactive menu, which made the local-repo sync path harder to access during manual testing.
+- Root cause: Initial template menu wiring appended the new action after the open/log utility actions instead of grouping it with install/update/uninstall actions.
+- Guardrail/rule: In generated installers, `DownloadLatest` must appear directly below `Uninstall` and use `Green` menu color so the non-install local sync action remains prominent and grouped with the core lifecycle actions.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Template parser validation after menu reorder; regenerated installer parser validation in owning repo.
