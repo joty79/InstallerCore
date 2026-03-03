@@ -148,3 +148,19 @@
 - Guardrail/rule: `TakeOwnership` must include child-only entries for `Directory\\Background\\shell\\SystemTools\\shell\\TakeOwnership` and `DesktopBackground\\Shell\\SystemTools\\shell\\TakeOwnership`, using `%V` for the background target path and preserving `NoWorkingDirectory`.
 - Files affected: `profiles/TakeOwnership.json`, `PROJECT_RULES.md`.
 - Validation/tests run: Static profile review after edit; regenerated `TakeOwnership\\Install.ps1`; parser validation on generated installer.
+
+### Entry - 2026-03-03 (Restore Download Latest local sync action)
+- Date: 2026-03-03
+- Problem: Generated installers no longer exposed the `DownloadLatest` local working-copy sync action, so downstream repos regenerated from `InstallerCore` lost the new menu item and relaunch flow.
+- Root cause: The current template snapshot had drifted behind the intended action set and no longer contained the previously added `DownloadLatest` block.
+- Guardrail/rule: `templates/Install.Template.ps1` must keep a `DownloadLatest` action that downloads GitHub content into `$PSScriptRoot`, skips install side effects, appears directly below `Uninstall` in the interactive menu, and relaunches the updated `Install.ps1`.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Parser validation on template after restore; downstream regenerate required to pick up the restored action.
+
+### Entry - 2026-03-03 (Branch picker is list-only)
+- Date: 2026-03-03
+- Problem: The interactive branch picker exposed an unnecessary manual ref path (`M`) even though the desired workflow is strict branch-list selection.
+- Root cause: Template branch picker mixed two UX modes: enumerated branch selection and free-form ref entry.
+- Guardrail/rule: In `InstallerCore`, interactive GitHub ref selection is list-only. If branch enumeration succeeds, allow only number selection or Enter for the default branch. If branch enumeration fails, fall back to the resolved default ref instead of prompting for arbitrary manual input.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Parser validation on template after edit; downstream regenerate required to pick up the simplified branch picker.
