@@ -164,3 +164,11 @@
 - Guardrail/rule: In `InstallerCore`, interactive GitHub ref selection is list-only. If branch enumeration succeeds, allow only number selection or Enter for the default branch. If branch enumeration fails, fall back to the resolved default ref instead of prompting for arbitrary manual input.
 - Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`.
 - Validation/tests run: Parser validation on template after edit; downstream regenerate required to pick up the simplified branch picker.
+
+### Entry - 2026-03-03 (SystemCleanup profile must include Directory Background branch)
+- Date: 2026-03-03
+- Problem: `SystemCleanup` local `.reg` and installer behavior had already expanded to `Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup`, but the `InstallerCore` source-of-truth profile still only modeled `DesktopBackground`.
+- Root cause: The repo-local background support fix in `SystemCleanup` was never propagated back into `profiles/SystemCleanup.json`, so blind regenerate from `InstallerCore` would drop valid background support.
+- Guardrail/rule: Keep `profiles/SystemCleanup.json` aligned with the current manual `.reg` contract. `SystemCleanup` must define both `Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup` and `DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup` child-only branches in cleanup, write, and verify sections.
+- Files affected: `profiles/SystemCleanup.json`, `PROJECT_RULES.md`.
+- Validation/tests run: Static comparison against `SystemCleanup\\SystemCleanup.reg`; profile review after edit.
