@@ -44,12 +44,34 @@
     "Install.ps1"
   ],
   "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemCleanup",
+    "HKCR\\Directory\\Background\\shell\\SystemCleanup",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup",
+    "HKCR\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup",
     "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemCleanup",
     "HKCR\\DesktopBackground\\Shell\\SystemCleanup",
     "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
     "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup"
   ],
   "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Windows Update CleanUp"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-5323"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup\\Command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+    },
     {
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
       "name": "MUIVerb",
@@ -70,6 +92,16 @@
     }
   ],
   "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup",
+      "name": "MUIVerb",
+      "expected": "Windows Update CleanUp"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup\\Command",
+      "name": "(default)",
+      "expected": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+    },
     {
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
       "name": "MUIVerb",
