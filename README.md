@@ -1,66 +1,326 @@
-# InstallerCore
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Windows_10%2F11-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Platform">
+  <img src="https://img.shields.io/badge/PowerShell-7%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white" alt="PowerShell">
+  <img src="https://img.shields.io/badge/Type-Template_Engine-8B5CF6?style=for-the-badge&logo=blueprint&logoColor=white" alt="Template Engine">
+  <img src="https://img.shields.io/badge/Dependencies-Zero-2ea44f?style=for-the-badge" alt="Dependencies">
+</p>
 
-`InstallerCore` είναι το shared framework για να παράγουμε consistent `Install.ps1` installers για Windows context-menu tools.
+<h1 align="center">⚙️ InstallerCore</h1>
 
-Αντί να ξαναγράφουμε installer logic σε κάθε repo, κρατάμε:
-- ένα κοινό template,
-- tool-specific profile metadata,
-- και generator που συνθέτει το τελικό installer.
+<p align="center">
+  <b>Profile-driven installer generator for Windows context menu tools — one template, many tools</b><br>
+  <sub>JSON profile · PowerShell template · Code generation · GitHub integration — build production-ready installers in seconds</sub>
+</p>
 
-## 🔵 Γιατί υπάρχει
+---
 
-- Ίδιο flow σε όλα τα tools (`Install / Update / Uninstall`).
-- Μικρότερο ρίσκο από copy/paste errors.
-- Γρήγορο rollout νέου tool με προβλέψιμη δομή.
-- Ευκολότερη συντήρηση όταν αλλάζει κοινή installer συμπεριφορά.
+## ✨ What's Inside
 
-## 🔵 Architecture
+| # | Component | Description |
+|:-:|-----------|-------------|
+| 📄 | **[Template Engine](#-template-engine)** | 750-line PowerShell template with embedded profile marker for code generation |
+| 📋 | **[Profile System](#-profile-system)** | JSON profiles that define every tool-specific setting — registry, files, GitHub |
+| 🔧 | **[Generator Script](#-generator-script)** | One-command script that merges template + profile into a production installer |
 
-- `templates/Install.Template.ps1`
-  Generic installer engine (actions, deploy, registry write/verify, uninstall metadata, logs).
+---
 
-- `profiles/*.json`
-  Tool contract: files to deploy, registry keys, labels, assets, GitHub source defaults.
+## 📄 Template Engine
 
-- `scripts/New-ToolInstaller.ps1`
-  Generator που κάνει embed το profile στο template και παράγει repo-specific `Install.ps1`.
+> A single, generic PowerShell template that generates complete install/update/uninstall flows for any context menu tool — driven entirely by an embedded JSON profile.
 
-## 🔵 Quick Start
+### The Problem
+
+- Every context menu tool (`WhoIsUsingThis`, `TakeOwnership`, `SystemCleanup`) needs its own `Install.ps1`
+- Each installer must handle: **registry writes**, **file deployment**, **GitHub downloads**, **Explorer restart**, **legacy cleanup**, **uninstall entries** — all identically
+- Maintaining separate installers per tool leads to **drift** — one gets a fix, others don't
+- Testing installer changes requires touching every downstream repo
+
+### The Solution
+
+A single `Install.Template.ps1` with a placeholder marker (`__EMBEDDED_PROFILE_JSON__`) that gets replaced with a tool-specific JSON profile at generation time:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              INSTALLERCORE ARCHITECTURE                      │
+│                                                             │
+│  profiles/                 templates/                       │
+│  ├── WhoIsUsingThis.json   └── Install.Template.ps1         │
+│  ├── TakeOwnership.json         │                           │
+│  └── SystemCleanup.json         │  __EMBEDDED_PROFILE_JSON__ │
+│         │                       │         ▲                  │
+│         │    ┌──────────────┐    │         │                  │
+│         └──▶ │ New-Tool     │────┘         │                  │
+│              │ Installer.ps1│──────────────┘                  │
+│              └──────┬───────┘                                │
+│                     │                                        │
+│                     ▼                                        │
+│              WhoIsUsingThis/Install.ps1  (generated)         │
+│              TakeOwnership/Install.ps1   (generated)         │
+│              SystemCleanup/Install.ps1   (generated)         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+Every generated installer is a **self-contained, standalone PowerShell script** — no external dependencies, no module imports, no InstallerCore runtime needed.
+
+### Built-in Actions
+
+The template provides these actions out-of-the-box for every generated installer:
+
+| Action | Mode | Description |
+|--------|------|-------------|
+| `Install` | Interactive | Source chooser (GitHub/Local) → branch picker → deploy → registry → verify |
+| `Update` | Interactive | Same as Install, preserves existing data |
+| `Uninstall` | Interactive/CLI | Registry cleanup → file removal → Explorer restart |
+| `InstallGitHub` | CLI-only | Direct GitHub install (no prompts when used with `-Force`) |
+| `UpdateGitHub` | CLI-only | Direct GitHub update |
+| `DownloadLatest` | Interactive | Downloads latest files to `$PSScriptRoot` and relaunches |
+| `OpenInstallDirectory` | Utility | Opens the install folder in Explorer |
+| `OpenInstallLogs` | Utility | Opens the installer log file |
+
+### Template Features
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              GENERATED INSTALLER CAPABILITIES                │
+│                                                             │
+│  📦 Package Resolution                                      │
+│     ├─ Local source (files alongside Install.ps1)           │
+│     ├─ GitHub codeload (anonymous download)                 │
+│     ├─ GitHub API fallback (authenticated via gh auth)      │
+│     └─ Local fallback when GitHub is unreachable            │
+│                                                             │
+│  🔀 Branch Management                                       │
+│     ├─ Auto-detect default branch from remote               │
+│     ├─ Interactive branch list picker                       │
+│     └─ Fallback: master → profile ref → latest             │
+│                                                             │
+│  🗝️ Registry Management                                     │
+│     ├─ Cleanup legacy keys before writing new ones          │
+│     ├─ Empty-string write + readback verification           │
+│     ├─ Post-install registry verify against expected values │
+│     └─ HKCR Access Denied suppression for non-elevated      │
+│                                                             │
+│  📂 Deployment                                               │
+│     ├─ File copy with preserve-existing support             │
+│     ├─ Core file verification after deploy                  │
+│     ├─ Wrapper script patching ({InstallRoot} replacement)  │
+│     └─ Install metadata saved to state/install-meta.json    │
+│                                                             │
+│  🔄 Explorer Restart                                         │
+│     ├─ Clean stop (no zombie processes)                     │
+│     ├─ Wait for shell auto-restart                          │
+│     └─ Reopen folder via Shell.Application COM               │
+│                                                             │
+│  📋 Programs & Features                                      │
+│     └─ Uninstall entry with DisplayName, Publisher, Version │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📋 Profile System
+
+> A JSON file that defines everything about a tool's installer — name, files, registry keys, GitHub repo, legacy cleanup — without touching the template.
+
+### Profile Structure
+
+Every profile JSON has these sections:
+
+| Section | Purpose | Example |
+|---------|---------|---------|
+| `tool_name` | Internal identifier | `"WhoIsUsingThis"` |
+| `installer_title` | Display name in menu header | `"WhoIsUsingThis Installer"` |
+| `install_folder_name` | Target folder under `%LOCALAPPDATA%` | `"WhoIsUsingThisContext"` |
+| `github_repo` | GitHub `owner/repo` for downloads | `"joty79/WhoIsUsingThis"` |
+| `github_ref` | Default branch (auto-detected if empty) | `""` |
+| `required_package_entries` | Files that must exist in the source package | `["Install.ps1", "*.vbs", "*.ps1"]` |
+| `deploy_entries` | Files to copy to install directory | Same as above, plus assets |
+| `registry_cleanup_keys` | Legacy keys to delete before install | `["HKCU\\...\\OldKeyName"]` |
+| `registry_values` | Keys/values to write during install | `[{key, name, type, value}]` |
+| `registry_verify` | Expected values to verify after install | `[{key, name, expected}]` |
+| `wrapper_patches` | Regex patches for launcher scripts | `[{file, regex, replacement}]` |
+| `uninstall_preserve_files` | Files to keep after uninstall | `["Install.ps1"]` |
+
+### Profile Example (abridged)
+
+```json
+{
+  "tool_name": "TakeOwnership",
+  "installer_title": "TakeOwnership Installer",
+  "install_folder_name": "TakeOwnershipContext",
+  "github_repo": "joty79/TakeOwnership",
+  "github_ref": "",
+  "required_package_entries": [
+    "Install.ps1",
+    "Manage_Ownership.ps1",
+    "SilentOwnership.vbs",
+    "assets\\RunAsTI\\RunAsTI.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership",
+    "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\TakeOwnership"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\TakeOwnership",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Manage Ownership 🛡️"
+    }
+  ]
+}
+```
+
+### Shared Submenu Rules
+
+Tools that live under the shared **System Tools** context menu follow strict ownership rules:
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  SHARED SUBMENU OWNERSHIP                                     │
+│                                                               │
+│  SystemTools repo (host):                                     │
+│    ✅ Creates parent keys: *\shell\SystemTools                 │
+│    ✅ Sets MUIVerb, SubCommands, Icon on parent                │
+│                                                               │
+│  Child profiles (TakeOwnership, WhoIsUsingThis, etc.):        │
+│    ✅ Creates only: ...\SystemTools\shell\<ToolVerb>            │
+│    ✅ Targeted cleanup of own legacy keys                      │
+│    ❌ NEVER creates or modifies parent SystemTools keys         │
+│    ❌ NEVER writes empty SubCommands on shared parents          │
+└──────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔧 Generator Script
+
+> Run one command, get a production-ready, self-contained installer with embedded profile and full parser validation.
+
+### Usage
 
 ```powershell
-pwsh -NoProfile -File .\scripts\New-ToolInstaller.ps1 `
+# Generate installer for TakeOwnership
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
+  -ProfilePath .\profiles\TakeOwnership.json `
+  -OutputPath D:\Users\joty79\scripts\TakeOwnership\Install.ps1
+
+# Generate installer for WhoIsUsingThis
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
   -ProfilePath .\profiles\WhoIsUsingThis.json `
   -OutputPath D:\Users\joty79\scripts\WhoIsUsingThis\Install.ps1
+
+# Generate installer for SystemCleanup
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
+  -ProfilePath .\profiles\SystemCleanup.json `
+  -OutputPath D:\Users\joty79\scripts\SystemCleanup\Install.ps1
 ```
 
-## 🔵 Τι χρειάζεται να μου δίνεις (χωρίς JSON)
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `-TemplatePath` | `string` | `templates\Install.Template.ps1` | Path to the template file |
+| `-ProfilePath` | `string` | *(required)* | Path to the tool-specific JSON profile |
+| `-OutputPath` | `string` | *(required)* | Where to write the generated `Install.ps1` |
 
-Για νέο tool, στείλε αυτό το mini brief:
+### What Happens During Generation
 
-```txt
-REPO: D:\Users\joty79\scripts\<Tool>
-ToolName:
-GitHubRepo: joty79/<Tool>
-GitHubRef: master
-DeployFiles: (π.χ. .ps1, .vbs, .reg, assets\...)
-MenuText:
-Icon: (ή none)
-OldKeysToCleanup: (αν υπάρχουν)
-Notes: (π.χ. "same as previous tool")
+```
+┌───────────────────────────────────────────────────────┐
+│  New-ToolInstaller.ps1                                 │
+│                                                        │
+│  1. Read template     → Install.Template.ps1           │
+│  2. Read profile      → TakeOwnership.json             │
+│  3. Validate profile  → tool_name, required_entries    │
+│  4. Replace marker    → __EMBEDDED_PROFILE_JSON__      │
+│  5. Write output      → TakeOwnership/Install.ps1      │
+│  6. Parse validate    → Parser::ParseFile (PS7 AST)    │
+│     └─ If errors → throw with line number + message    │
+└───────────────────────────────────────────────────────┘
 ```
 
-Αν δεν ξέρεις κάτι, γράψε `same as current` και το συμπληρώνω εγώ.
+The generator **fails fast** on parse errors — you'll never ship a broken installer.
 
-## 🔵 Standard Output per Tool
+---
 
-Με βάση το brief, το workflow παράγει:
-- profile JSON στο `InstallerCore\profiles\...`
-- generated `Install.ps1` στο tool repo
-- registry cleanup/write/verify rules
-- deploy list + required file checks
-- uninstall entry metadata
+## 📦 Adding a New Tool
 
-## 🔵 Current Direction
+### Step-by-step
 
-- Branch policy: `master` ως default/primary branch.
-- One-branch default workflow για αυτά τα repos (εκτός αν ζητηθεί αλλιώς).
+1. **Create a profile** — copy an existing profile from `profiles/` and modify the tool-specific values
+2. **Define registry keys** — add `registry_cleanup_keys`, `registry_values`, and `registry_verify` for your context menu entries
+3. **List required files** — add every runtime file to `required_package_entries` and `deploy_entries`
+4. **Generate** — run `New-ToolInstaller.ps1` with your new profile
+5. **Test** — run the generated `Install.ps1` with `-Action Install -PackageSource Local`
+
+### Checklist for new profiles
+
+- [ ] `tool_name` is unique across all profiles
+- [ ] `github_repo` matches the actual GitHub repository
+- [ ] `required_package_entries` lists every file the tool needs at runtime
+- [ ] `registry_cleanup_keys` includes all legacy key paths (HKCU + HKCR)
+- [ ] `registry_values` uses `{InstallRoot}` placeholder for paths
+- [ ] `registry_verify` covers at least the command keys
+- [ ] If child of System Tools: only child verb keys, no parent keys
+
+---
+
+## 📁 Project Structure
+
+```
+InstallerCore/
+├── templates/
+│   └── Install.Template.ps1       # 750-line generic installer template
+├── profiles/
+│   ├── WhoIsUsingThis.json        # Lock scanner tool profile
+│   ├── TakeOwnership.json         # Ownership manager tool profile
+│   └── SystemCleanup.json         # System cleanup tool profile
+├── scripts/
+│   └── New-ToolInstaller.ps1      # Profile→template merger + validator
+├── PROJECT_RULES.md               # Decision log and project guardrails
+└── README.md                      # You are here
+```
+
+---
+
+## 🧠 Technical Notes
+
+<details>
+<summary><b>Why embed the profile JSON inside the generated script?</b></summary>
+
+Each generated `Install.ps1` must be **completely self-contained** — users clone a tool repo and run the installer directly without needing InstallerCore. Embedding the profile as a heredoc string (`@' ... '@`) means the installer carries all its configuration internally. No external file dependencies, no module imports, no runtime resolution.
+
+</details>
+
+<details>
+<summary><b>Why reg.exe instead of PowerShell registry cmdlets?</b></summary>
+
+PowerShell registry cmdlets (`New-Item`, `Set-ItemProperty`) have issues with **empty-string `REG_SZ` values** and **HKCR merged-view paths**. `reg.exe` handles these edge cases reliably and consistently. The template includes a `RegAdd` helper that writes via `reg.exe` and immediately reads back to verify — failing loudly on mismatches instead of silently continuing.
+
+</details>
+
+<details>
+<summary><b>How does the branch auto-detect work?</b></summary>
+
+When no explicit `-GitHubRef` is provided, the template resolves a branch in this priority order: **remote default branch** (via `gh api` or GitHub API), **`master`**, **profile `github_ref` value**, then **`latest`**. It checks each candidate against the actual branch list from the remote. In interactive mode, the branch list is presented as a numbered picker (list-only, no freeform input).
+
+</details>
+
+<details>
+<summary><b>Why do child tools never create shared parent keys?</b></summary>
+
+The shared `System Tools` submenu is a cascade menu registered by its own host repo. If multiple child tools each create their own version of the parent `SystemTools` key, they can **overwrite each other's settings** (especially `SubCommands` vs nested `shell\` children). The strict rule: child profiles write only `...\SystemTools\shell\<ToolVerb>` and never touch the parent. This prevents inter-tool conflicts and makes install/uninstall order-independent.
+
+</details>
+
+<details>
+<summary><b>How does the Explorer restart avoid zombie processes?</b></summary>
+
+The template uses a clean restart flow: stop Explorer, then **wait for Windows to auto-restart the shell** (via `Winlogon`). It never calls `Start-Process explorer.exe`, which would create a secondary zombie instance. After the shell auto-restarts, it reopens a folder window via `Shell.Application` COM. This matches the behavior of the dedicated `RestartExplorer.ps1` tool.
+
+</details>
+
+---
+
+<p align="center">
+  <sub>One template · Many tools · Zero drift · Profile-driven installer generation for Windows context menu tools</sub>
+</p>
