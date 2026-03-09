@@ -206,3 +206,11 @@
 - Guardrail/rule: After a tool repo is onboarded to `InstallerCore`, do not maintain a bespoke repo-local `Install.ps1`. Fix behavior in `templates/Install.Template.ps1` or `profiles/<Tool>.json`, then regenerate the downstream installer.
 - Files affected: `PROJECT_RULES.md`, `README.md`.
 - Validation/tests run: Documentation/rule update only.
+
+### Entry - 2026-03-09 (Firewall profile onboarding)
+- Date: 2026-03-09
+- Problem: `Firewall` needed a portable installer for VM use, but the repo had only a script and a manual `.reg` file pointing at machine-local script/icon paths.
+- Root cause: No `InstallerCore` profile existed for `Firewall`, and the required icon still lived outside the workspace.
+- Guardrail/rule: Keep `profiles/Firewall.json` as the source of truth for `Firewall`. Import the icon into the repo under `.assets`, deploy it with the installer, and patch the shipped `.reg` artifact to `{InstallRoot}` paths after install.
+- Files affected: `profiles/Firewall.json`, `PROJECT_RULES.md`.
+- Validation/tests run: Generated `D:\\Users\\joty79\\scripts\\Firewall\\Install.ps1` via `scripts\\New-ToolInstaller.ps1`; PowerShell parser validation passed on generated installer.

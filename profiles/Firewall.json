@@ -1,0 +1,96 @@
+{
+  "tool_name": "Firewall",
+  "installer_title": "Firewall Installer",
+  "install_folder_name": "FirewallContext",
+  "github_repo": "joty79/Firewall",
+  "github_ref": "",
+  "legacy_root": "D:\\Users\\joty79\\scripts\\Firewall",
+  "publisher": "joty79",
+  "uninstall_key_name": "FirewallContext",
+  "uninstall_display_name": "Firewall Context Menu",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [
+    "pwsh.exe",
+    "wt.exe",
+    "reg.exe"
+  ],
+  "required_package_entries": [
+    "Install.ps1",
+    "FirewallMenu.ps1",
+    "FirewallMenu.reg",
+    ".assets",
+    ".assets\\icons\\firewall.ico"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "FirewallMenu.ps1",
+    "FirewallMenu.reg",
+    ".assets"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "FirewallMenu.ps1",
+    ".assets\\icons\\firewall.ico"
+  ],
+  "migration_copy_entries": [
+    "logs",
+    "state"
+  ],
+  "uninstall_preserve_files": [
+    "Install.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCR\\exefile\\shell\\FirewallManager",
+    "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "Firewall Manager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\firewall.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wt.exe -- pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\FirewallMenu.ps1\" -TargetItem \"%1\""
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager",
+      "name": "(default)",
+      "expected": "Firewall Manager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\firewall.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager\\command",
+      "name": "(default)",
+      "expected": "wt.exe -- pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\FirewallMenu.ps1\" -TargetItem \"%1\""
+    }
+  ],
+  "wrapper_patches": [
+    {
+      "file": "FirewallMenu.reg",
+      "regex": "(?i)d:\\\\Users\\\\joty79\\\\Documents\\\\Icons\\\\firewall\\.ico",
+      "replacement": "{InstallRoot}\\.assets\\icons\\firewall.ico"
+    },
+    {
+      "file": "FirewallMenu.reg",
+      "regex": "(?i)d:\\\\Users\\\\joty79\\\\scripts\\\\firewall\\\\FirewallMenu\\.ps1",
+      "replacement": "{InstallRoot}\\FirewallMenu.ps1"
+    }
+  ]
+}
