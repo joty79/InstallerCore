@@ -14,6 +14,90 @@ function Resolve-NormalizedPath {
     [System.IO.Path]::GetFullPath($Path.Trim())
 }
 
+function Get-ProfileArray {
+    param(
+        [Parameter(Mandatory)]$Profile,
+        [Parameter(Mandatory)][string]$Name
+    )
+
+    $prop = $Profile.PSObject.Properties[$Name]
+    if ($null -eq $prop -or $null -eq $prop.Value) { return @() }
+    return @($prop.Value)
+}
+
+function Test-AbsoluteFileSystemPathLiteral {
+    param([AllowEmptyString()][string]$Value)
+
+    if ([string]::IsNullOrWhiteSpace($Value)) { return $false }
+    return ($Value -match '(?i)(^|["''\s=])([A-Z]:\\|\\\\[^\\])')
+}
+
+function Assert-RelativeRepoPath {
+    param(
+        [AllowEmptyString()][string]$Value,
+        [Parameter(Mandatory)][string]$Context
+    )
+
+    if ([string]::IsNullOrWhiteSpace($Value)) { return }
+
+    if ([System.IO.Path]::IsPathRooted($Value) -or (Test-AbsoluteFileSystemPathLiteral -Value $Value)) {
+        throw "Profile $Context must be repo-relative. Move external runtime files into the workspace (prefer .assets) and reference them from there: $Value"
+    }
+
+    if ($Value -match '(^|[\\/])\.\.([\\/]|$)') {
+        throw "Profile $Context must stay inside the workspace. Parent-path traversal is not allowed: $Value"
+    }
+}
+
+function Assert-RelativePathList {
+    param(
+        [Parameter(Mandatory)]$Profile,
+        [Parameter(Mandatory)][string[]]$FieldNames
+    )
+
+    foreach ($fieldName in $FieldNames) {
+        foreach ($entry in @(Get-ProfileArray -Profile $Profile -Name $fieldName)) {
+            Assert-RelativeRepoPath -Value ([string]$entry) -Context $fieldName
+        }
+    }
+}
+
+function Assert-RelativeRowPathProperty {
+    param(
+        [Parameter(Mandatory)]$Profile,
+        [Parameter(Mandatory)][string]$FieldName,
+        [Parameter(Mandatory)][string]$PropertyName
+    )
+
+    foreach ($row in @(Get-ProfileArray -Profile $Profile -Name $FieldName)) {
+        if ($null -eq $row) { continue }
+        $prop = $row.PSObject.Properties[$PropertyName]
+        if ($null -eq $prop) { continue }
+        Assert-RelativeRepoPath -Value ([string]$prop.Value) -Context "$FieldName.$PropertyName"
+    }
+}
+
+function Assert-NoAbsoluteRuntimeString {
+    param(
+        [Parameter(Mandatory)]$Profile,
+        [Parameter(Mandatory)][string]$FieldName,
+        [Parameter(Mandatory)][string]$PropertyName
+    )
+
+    foreach ($row in @(Get-ProfileArray -Profile $Profile -Name $FieldName)) {
+        if ($null -eq $row) { continue }
+        $prop = $row.PSObject.Properties[$PropertyName]
+        if ($null -eq $prop) { continue }
+
+        $value = [string]$prop.Value
+        if ([string]::IsNullOrWhiteSpace($value)) { continue }
+
+        if (Test-AbsoluteFileSystemPathLiteral -Value $value) {
+            throw "Profile $FieldName.$PropertyName contains an absolute filesystem path. Move the dependency into the workspace (prefer .assets) and use a relative path or {InstallRoot}: $value"
+        }
+    }
+}
+
 $TemplatePath = Resolve-NormalizedPath -Path $TemplatePath
 $ProfilePath = Resolve-NormalizedPath -Path $ProfilePath
 $OutputPath = Resolve-NormalizedPath -Path $OutputPath
@@ -39,6 +123,18 @@ if (-not $profileObj.PSObject.Properties['tool_name']) {
 if (-not $profileObj.PSObject.Properties['required_package_entries']) {
     throw 'Profile must include required_package_entries.'
 }
+Assert-RelativePathList -Profile $profileObj -FieldNames @(
+    'required_package_entries',
+    'deploy_entries',
+    'preserve_existing_entries',
+    'verify_core_files',
+    'migration_copy_entries',
+    'uninstall_preserve_files'
+)
+Assert-RelativeRowPathProperty -Profile $profileObj -FieldName 'wrapper_patches' -PropertyName 'file'
+Assert-NoAbsoluteRuntimeString -Profile $profileObj -FieldName 'registry_values' -PropertyName 'value'
+Assert-NoAbsoluteRuntimeString -Profile $profileObj -FieldName 'registry_verify' -PropertyName 'expected'
+Assert-NoAbsoluteRuntimeString -Profile $profileObj -FieldName 'wrapper_patches' -PropertyName 'replacement'
 
 $rendered = $templateRaw.Replace('__EMBEDDED_PROFILE_JSON__', $profileRaw)
 $outputDir = Split-Path -Path $OutputPath -Parent

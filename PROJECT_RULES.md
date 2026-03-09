@@ -9,6 +9,7 @@
 - Do not hardcode tool-specific registry keys/paths in template logic.
 - Tool-specific decisions belong in `profiles/*.json`.
 - Generated installers must keep action flow parity: Install/Update/Uninstall/Open actions, metadata, registry write+verify, and uninstall entry.
+- Generated installers must not depend on runtime files outside the tool workspace. Move imported icons, binaries, helper scripts, and sidecar files into the repo first, preferably under `.assets`, and reference only repo-local paths or `{InstallRoot}` in profiles.
 
 ## Decision Log
 
@@ -180,3 +181,11 @@
 - Guardrail/rule: Keep a dedicated `profiles/SystemTools.json` for the host repo. It must recreate the canonical `SystemToolsMenu.reg` structure on `*`, `Directory`, `Directory\\Background`, and `DesktopBackground`, verify empty-string `SubCommands`, and patch hardcoded VBS launcher script paths to `{InstallRoot}` after deploy.
 - Files affected: `profiles/SystemTools.json`, `PROJECT_RULES.md`.
 - Validation/tests run: Generated `D:\\Users\\joty79\\scripts\\SystemTools\\Install.ps1` via `scripts\\New-ToolInstaller.ps1`; PowerShell parser validation passed on generated installer.
+
+### Entry - 2026-03-09 (Fail fast on external runtime asset paths)
+- Date: 2026-03-09
+- Problem: Tool repos can still hide runtime dependencies outside their own workspace, which makes generated installers non-portable on another PC when icons or helper files are missing.
+- Root cause: `InstallerCore` documented self-contained installers, but the generator did not validate repo-external absolute paths in profile file lists, registry values, or wrapper replacements.
+- Guardrail/rule: At installer-authoring time, import external runtime dependencies into the tool repo first, preferably under `.assets`. `scripts/New-ToolInstaller.ps1` must fail fast when profiles use absolute filesystem paths for runtime/deploy entries or installer-facing strings; deployed references must resolve through repo-relative paths and `{InstallRoot}`.
+- Files affected: `scripts/New-ToolInstaller.ps1`, `README.md`, `PROJECT_RULES.md`.
+- Validation/tests run: PowerShell parser validation on `scripts/New-ToolInstaller.ps1`; generator smoke test against existing `profiles/SystemTools.json`.

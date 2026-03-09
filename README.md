@@ -133,8 +133,8 @@ Every profile JSON has these sections:
 | `install_folder_name` | Target folder under `%LOCALAPPDATA%` | `"WhoIsUsingThisContext"` |
 | `github_repo` | GitHub `owner/repo` for downloads | `"joty79/WhoIsUsingThis"` |
 | `github_ref` | Default branch (auto-detected if empty) | `""` |
-| `required_package_entries` | Files that must exist in the source package | `["Install.ps1", "*.vbs", "*.ps1"]` |
-| `deploy_entries` | Files to copy to install directory | Same as above, plus assets |
+| `required_package_entries` | Repo-relative runtime files that must exist in the source package | `["Install.ps1", ".assets\\icons\\tool.ico"]` |
+| `deploy_entries` | Repo-relative files to copy to install directory | Same as above, plus assets |
 | `registry_cleanup_keys` | Legacy keys to delete before install | `["HKCU\\...\\OldKeyName"]` |
 | `registry_values` | Keys/values to write during install | `[{key, name, type, value}]` |
 | `registry_verify` | Expected values to verify after install | `[{key, name, expected}]` |
@@ -154,7 +154,7 @@ Every profile JSON has these sections:
     "Install.ps1",
     "Manage_Ownership.ps1",
     "SilentOwnership.vbs",
-    "assets\\RunAsTI\\RunAsTI.ps1"
+    ".assets\\RunAsTI\\RunAsTI.ps1"
   ],
   "registry_cleanup_keys": [
     "HKCU\\Software\\Classes\\*\\shell\\Z_ManageOwnership",
@@ -170,6 +170,22 @@ Every profile JSON has these sections:
   ]
 }
 ```
+
+### Workspace Asset Rule
+
+Generated installers must stay portable across PCs. If a tool depends on any runtime file that currently lives outside the workspace, move that file into the repo before generating the installer, preferably under `.assets`.
+
+Examples:
+- icons such as `.ico`
+- helper binaries such as `.exe` / `.dll`
+- helper scripts copied from another repo
+- launcher templates or sidecar files needed at runtime
+
+Rules:
+- `required_package_entries`, `deploy_entries`, and `wrapper_patches.file` must be repo-relative paths
+- runtime registry commands, icon paths, and wrapper replacements must not contain absolute filesystem paths like `D:\...`
+- use repo-local files and reference deployed paths through `{InstallRoot}`
+- prefer `.assets\...` for imported runtime dependencies so ownership is obvious
 
 ### Shared Submenu Rules
 
@@ -248,17 +264,20 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 
 1. **Create a profile** — copy an existing profile from `profiles/` and modify the tool-specific values
 2. **Define registry keys** — add `registry_cleanup_keys`, `registry_values`, and `registry_verify` for your context menu entries
-3. **List required files** — add every runtime file to `required_package_entries` and `deploy_entries`
-4. **Generate** — run `New-ToolInstaller.ps1` with your new profile
-5. **Test** — run the generated `Install.ps1` with `-Action Install -PackageSource Local`
+3. **Internalize runtime files** — if the tool currently depends on files outside the workspace, copy them into the repo first, preferably under `.assets`
+4. **List required files** — add every runtime file to `required_package_entries` and `deploy_entries`
+5. **Generate** — run `New-ToolInstaller.ps1` with your new profile
+6. **Test** — run the generated `Install.ps1` with `-Action Install -PackageSource Local`
 
 ### Checklist for new profiles
 
 - [ ] `tool_name` is unique across all profiles
 - [ ] `github_repo` matches the actual GitHub repository
+- [ ] No runtime dependency is left outside the workspace; imported files live in `.assets` or another repo-local folder
 - [ ] `required_package_entries` lists every file the tool needs at runtime
+- [ ] `required_package_entries` / `deploy_entries` use only repo-relative paths
 - [ ] `registry_cleanup_keys` includes all legacy key paths (HKCU + HKCR)
-- [ ] `registry_values` uses `{InstallRoot}` placeholder for paths
+- [ ] `registry_values` uses `{InstallRoot}` placeholder for deployed file paths and contains no hardcoded `D:\...` paths
 - [ ] `registry_verify` covers at least the command keys
 - [ ] If child of System Tools: only child verb keys, no parent keys
 
@@ -288,6 +307,8 @@ InstallerCore/
 <summary><b>Why embed the profile JSON inside the generated script?</b></summary>
 
 Each generated `Install.ps1` must be **completely self-contained** — users clone a tool repo and run the installer directly without needing InstallerCore. Embedding the profile as a heredoc string (`@' ... '@`) means the installer carries all its configuration internally. No external file dependencies, no module imports, no runtime resolution.
+
+`New-ToolInstaller.ps1` enforces this during generation. If a profile contains repo-external absolute paths, generation fails fast and tells you to move those files into the workspace first.
 
 </details>
 
