@@ -172,3 +172,11 @@
 - Guardrail/rule: Keep `profiles/SystemCleanup.json` aligned with the current manual `.reg` contract. `SystemCleanup` must define both `Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup` and `DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup` child-only branches in cleanup, write, and verify sections.
 - Files affected: `profiles/SystemCleanup.json`, `PROJECT_RULES.md`.
 - Validation/tests run: Static comparison against `SystemCleanup\\SystemCleanup.reg`; profile review after edit.
+
+### Entry - 2026-03-09 (SystemTools host profile onboarding)
+- Date: 2026-03-09
+- Problem: `SystemTools` still lacked a template-generated installer, so host-menu deployment stayed split between repo-local scripts and manual path assumptions.
+- Root cause: `InstallerCore` had profiles only for child tools; the shared host repo had no profile encoding its canonical parent keys, built-in child verbs, and launcher patch requirements.
+- Guardrail/rule: Keep a dedicated `profiles/SystemTools.json` for the host repo. It must recreate the canonical `SystemToolsMenu.reg` structure on `*`, `Directory`, `Directory\\Background`, and `DesktopBackground`, verify empty-string `SubCommands`, and patch hardcoded VBS launcher script paths to `{InstallRoot}` after deploy.
+- Files affected: `profiles/SystemTools.json`, `PROJECT_RULES.md`.
+- Validation/tests run: Generated `D:\\Users\\joty79\\scripts\\SystemTools\\Install.ps1` via `scripts\\New-ToolInstaller.ps1`; PowerShell parser validation passed on generated installer.
