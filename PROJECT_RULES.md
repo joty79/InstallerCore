@@ -10,6 +10,7 @@
 - Tool-specific decisions belong in `profiles/*.json`.
 - Generated installers must keep action flow parity: Install/Update/Uninstall/Open actions, metadata, registry write+verify, and uninstall entry.
 - Generated installers must not depend on runtime files outside the tool workspace. Move imported icons, binaries, helper scripts, and sidecar files into the repo first, preferably under `.assets`, and reference only repo-local paths or `{InstallRoot}` in profiles.
+- Once a tool repo is onboarded to `InstallerCore`, do not hand-write or maintain a bespoke repo-local `Install.ps1`. Regenerate `Install.ps1` from the template/profile pair and make template/profile fixes at the source.
 
 ## Decision Log
 
@@ -189,3 +190,19 @@
 - Guardrail/rule: At installer-authoring time, import external runtime dependencies into the tool repo first, preferably under `.assets`. `scripts/New-ToolInstaller.ps1` must fail fast when profiles use absolute filesystem paths for runtime/deploy entries or installer-facing strings; deployed references must resolve through repo-relative paths and `{InstallRoot}`.
 - Files affected: `scripts/New-ToolInstaller.ps1`, `README.md`, `PROJECT_RULES.md`.
 - Validation/tests run: PowerShell parser validation on `scripts/New-ToolInstaller.ps1`; generator smoke test against existing `profiles/SystemTools.json`.
+
+### Entry - 2026-03-09 (RunAsTI profile onboarding + registry-path validator fix)
+- Date: 2026-03-09
+- Problem: `RunAsTI` needed a real template-generated installer/profile, and the new absolute-path validator falsely rejected its embedded TI payload because the payload contains `\Registry\User\...` strings that are registry literals, not filesystem paths.
+- Root cause: `RunAsTI` existed only as repo-local `.reg`/wrapper logic with machine-specific icon/script paths, and the validator heuristic treated any leading backslash path-like literal as a filesystem path.
+- Guardrail/rule: Keep `profiles/RunAsTI.json` as the source-of-truth profile for `RunAsTI`, with repo-owned `.assets` icons and `{InstallRoot}` command/icon paths. In `scripts/New-ToolInstaller.ps1`, absolute-path validation must fail on drive-letter filesystem paths while allowing registry payload literals such as `\Registry\User\...`.
+- Files affected: `profiles/RunAsTI.json`, `scripts/New-ToolInstaller.ps1`, `README.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Generated `RunAsTI` installer from `profiles/RunAsTI.json` via `scripts\New-ToolInstaller.ps1`; parser validation passed on `scripts/New-ToolInstaller.ps1`; static checks confirmed generated installer still contains interactive package-source chooser and branch picker.
+
+### Entry - 2026-03-09 (No bespoke Install.ps1 after onboarding)
+- Date: 2026-03-09
+- Problem: An onboarded repo drifted into a hand-written `Install.ps1`, which dropped standard template behaviors such as interactive `Local/GitHub` source selection and the branch picker.
+- Root cause: The repo received direct installer edits locally instead of treating `InstallerCore` template + profile as the only source of truth for installer behavior.
+- Guardrail/rule: After a tool repo is onboarded to `InstallerCore`, do not maintain a bespoke repo-local `Install.ps1`. Fix behavior in `templates/Install.Template.ps1` or `profiles/<Tool>.json`, then regenerate the downstream installer.
+- Files affected: `PROJECT_RULES.md`, `README.md`.
+- Validation/tests run: Documentation/rule update only.

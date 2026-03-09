@@ -29,7 +29,7 @@ function Test-AbsoluteFileSystemPathLiteral {
     param([AllowEmptyString()][string]$Value)
 
     if ([string]::IsNullOrWhiteSpace($Value)) { return $false }
-    return ($Value -match '(?i)(^|["''\s=])([A-Z]:\\|\\\\[^\\])')
+    return ($Value -match '(?i)(^|["''\s=])([A-Z]:\\)')
 }
 
 function Assert-RelativeRepoPath {

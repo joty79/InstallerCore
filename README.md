@@ -267,7 +267,8 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 3. **Internalize runtime files** — if the tool currently depends on files outside the workspace, copy them into the repo first, preferably under `.assets`
 4. **List required files** — add every runtime file to `required_package_entries` and `deploy_entries`
 5. **Generate** — run `New-ToolInstaller.ps1` with your new profile
-6. **Test** — run the generated `Install.ps1` with `-Action Install -PackageSource Local`
+6. **Use the generated installer as source-of-truth** — do not hand-write a bespoke repo-local `Install.ps1` once the repo is onboarded
+7. **Test** — run the generated `Install.ps1` with `-Action Install -PackageSource Local`
 
 ### Checklist for new profiles
 
@@ -276,6 +277,7 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 - [ ] No runtime dependency is left outside the workspace; imported files live in `.assets` or another repo-local folder
 - [ ] `required_package_entries` lists every file the tool needs at runtime
 - [ ] `required_package_entries` / `deploy_entries` use only repo-relative paths
+- [ ] `Install.ps1` is generated from `InstallerCore`; no bespoke installer logic is being maintained in the downstream repo
 - [ ] `registry_cleanup_keys` includes all legacy key paths (HKCU + HKCR)
 - [ ] `registry_values` uses `{InstallRoot}` placeholder for deployed file paths and contains no hardcoded `D:\...` paths
 - [ ] `registry_verify` covers at least the command keys
@@ -292,6 +294,7 @@ InstallerCore/
 ├── profiles/
 │   ├── WhoIsUsingThis.json        # Lock scanner tool profile
 │   ├── TakeOwnership.json         # Ownership manager tool profile
+│   ├── RunAsTI.json               # TrustedInstaller context-menu profile
 │   └── SystemCleanup.json         # System cleanup tool profile
 ├── scripts/
 │   └── New-ToolInstaller.ps1      # Profile→template merger + validator
