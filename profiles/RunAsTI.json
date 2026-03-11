@@ -1,0 +1,1311 @@
+{
+  "tool_name": "RunAsTI",
+  "installer_title": "RunAsTI Installer",
+  "install_folder_name": "RunAsTIContext",
+  "github_repo": "joty79/RunAsTI",
+  "github_ref": "",
+  "legacy_root": "D:\\Users\\joty79\\scripts\\RunAsTI",
+  "publisher": "joty79",
+  "uninstall_key_name": "RunAsTIContext",
+  "uninstall_display_name": "RunAsTI Context Menu",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [
+    "reg.exe"
+  ],
+  "required_package_entries": [
+    "Install.ps1",
+    "RunAsTI.ps1",
+    "RunAsTI_Menu.vbs",
+    "RunAsAdmin_Menu.vbs",
+    "RegistryFinder_TI.vbs",
+    "RegistryFinder_TI.reg",
+    "enable RunAsTI v3.1.reg",
+    "disable RunAsTI v3.1.reg",
+    ".assets",
+    ".assets\\icons\\cmd.ico",
+    ".assets\\icons\\pwsh.ico",
+    ".assets\\icons\\sudo.ico"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "RunAsTI.ps1",
+    "RunAsTI_Menu.vbs",
+    "RunAsAdmin_Menu.vbs",
+    "RegistryFinder_TI.vbs",
+    "RegistryFinder_TI.reg",
+    "enable RunAsTI v3.1.reg",
+    "disable RunAsTI v3.1.reg",
+    ".assets"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "RunAsTI.ps1",
+    "RunAsTI_Menu.vbs",
+    "RunAsAdmin_Menu.vbs",
+    ".assets\\icons\\cmd.ico",
+    ".assets\\icons\\pwsh.ico",
+    ".assets\\icons\\sudo.ico"
+  ],
+  "migration_copy_entries": [
+    "logs",
+    "state"
+  ],
+  "uninstall_preserve_files": [
+    "Install.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCR\\RunAsTI",
+    "HKCU\\Software\\Classes\\RunAsTI",
+    "HKCR\\batfile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\batfile\\shell\\RunAsTI",
+    "HKCR\\cmdfile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\cmdfile\\shell\\RunAsTI",
+    "HKCR\\exefile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\exefile\\shell\\RunAsTI",
+    "HKCR\\mscfile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\mscfile\\shell\\RunAsTI",
+    "HKCR\\Microsoft.PowerShellScript.1\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\Microsoft.PowerShellScript.1\\shell\\RunAsTI",
+    "HKCR\\regfile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\regfile\\shell\\RunAsTI",
+    "HKCR\\Folder\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\Folder\\shell\\RunAsTI",
+    "HKCR\\Directory\\shell\\RunAsTI_Terminal",
+    "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal",
+    "HKCR\\Directory\\background\\shell\\RunAsTI_Terminal",
+    "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal",
+    "HKCR\\Directory\\background\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI",
+    "HKCR\\Directory\\background\\shell\\RunAsTI_PS5",
+    "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_PS5",
+    "HKCR\\Directory\\background\\shell\\RunAsTI_CMD",
+    "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_CMD",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\RunAsTI_Terminal",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\RunAsTI_PS5",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\RunAsTI_CMD",
+    "HKCR\\JSFile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\JSFile\\shell\\RunAsTI",
+    "HKCR\\VBSFile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\VBSFile\\shell\\RunAsTI",
+    "HKCR\\WinRAR\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\WinRAR\\shell\\RunAsTI",
+    "HKCR\\CABFolder\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\CABFolder\\shell\\RunAsTI",
+    "HKCR\\Msi.Package\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\Msi.Package\\shell\\RunAsTI",
+    "HKCR\\dllfile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\dllfile\\shell\\RunAsTI",
+    "HKCR\\inffile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\inffile\\shell\\RunAsTI",
+    "HKCR\\cplfile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\cplfile\\shell\\RunAsTI",
+    "HKCR\\WSFFile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\WSFFile\\shell\\RunAsTI",
+    "HKCR\\htafile\\shell\\RunAsTI",
+    "HKCU\\Software\\Classes\\htafile\\shell\\RunAsTI"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\batfile\\shell\\RunAsTI",
+      "name": "Extended",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\batfile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\batfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\cmd.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\batfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cmdfile\\shell\\RunAsTI",
+      "name": "Extended",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cmdfile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cmdfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\cmd.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cmdfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\RunAsTI",
+      "name": "Extended",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\sudo.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\mscfile\\shell\\RunAsTI",
+      "name": "Extended",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\mscfile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\mscfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "mmc.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\mscfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Microsoft.PowerShellScript.1\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Microsoft.PowerShellScript.1\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Microsoft.PowerShellScript.1\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "powershell.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Microsoft.PowerShellScript.1\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"powershell\" \"-NoExit -nop -c iex((gc -lit %L)-join[char]10)\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\regfile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Import as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\regfile\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\regfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "regedit.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\regfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"regedit.exe\" \"/s\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\WinRAR\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Open as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\WinRAR\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\WinRAR\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-16710"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\WinRAR\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"explorer.exe\" \"\\\"%L\\\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\CABFolder\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Open as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\CABFolder\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\CABFolder\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-16710"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\CABFolder\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"explorer.exe\" \"\\\"%L\\\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Msi.Package\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Install as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Msi.Package\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Msi.Package\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "msiexec.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Msi.Package\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"msiexec.exe\" \"/i\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\dllfile\\shell\\RunAsTI",
+      "name": "Extended",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\dllfile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\dllfile\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\dllfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-154"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\dllfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"regsvr32.exe\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\inffile\\shell\\RunAsTI",
+      "name": "Extended",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\inffile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Install as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\inffile\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\inffile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-67"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\inffile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"pwsh.exe\" \"-WindowStyle Hidden -Command \"\"& InfDefaultInstall.exe '%1'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cplfile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cplfile\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cplfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-137"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cplfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"control.exe\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\htafile\\shell\\RunAsTI",
+      "name": "Extended",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\htafile\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Run as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\htafile\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\htafile\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "mshta.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\htafile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"mshta.exe\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Folder\\shell\\RunAsTI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Open as 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Folder\\shell\\RunAsTI",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Folder\\shell\\RunAsTI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-4"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Folder\\shell\\RunAsTI",
+      "name": "AppliesTo",
+      "type": "REG_SZ",
+      "value": "NOT System.ParsingName:=\"::{645FF040-5081-101B-9F08-00AA002F954E}\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Folder\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Terminal"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal",
+      "name": "Position",
+      "type": "REG_SZ",
+      "value": "Middle"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 7"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "pwsh.exe -NoExit -Command \"Set-Location -LiteralPath '%V'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 5"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "powershell.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "powershell.exe -NoExit -Command \"Set-Location -LiteralPath '%V'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\03_CMD",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "CMD"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\03_CMD",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "cmd.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\03_CMD\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "cmd.exe /k cd /d \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 7 👨‍💼"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "CommandFlags",
+      "type": "REG_DWORD",
+      "value": "0x00000020"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 5 👨‍💼"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "powershell.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "CMD 👨‍💼"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "cmd.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%V\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 7 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "CommandFlags",
+      "type": "REG_DWORD",
+      "value": "0x00000020"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 5 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "powershell.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "CMD 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "cmd.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%V\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Terminal"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 7"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "pwsh.exe -NoExit -Command \"Set-Location -LiteralPath '%L'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 5"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "powershell.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "powershell.exe -NoExit -Command \"Set-Location -LiteralPath '%L'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\03_CMD",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "CMD"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\03_CMD",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "cmd.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\03_CMD\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "cmd.exe /k cd /d \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 7 👨‍💼"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "CommandFlags",
+      "type": "REG_DWORD",
+      "value": "0x00000020"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 5 👨‍💼"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "powershell.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "CMD 👨‍💼"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "cmd.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%L\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 7 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "CommandFlags",
+      "type": "REG_DWORD",
+      "value": "0x00000020"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "PowerShell 5 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "powershell.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "CMD 🛡️"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "cmd.exe,0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%L\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "10",
+      "type": "REG_SZ",
+      "value": "function RunAsTI ($cmd,$arg) { $id='RunAsTI'; $key=\"Registry::HKU\\$(((whoami /user)-split' ')[-1])\\Volatile Environment\"; $code=@'"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "11",
+      "type": "REG_SZ",
+      "value": " $I=[int32]; $M=$I.module.gettype(\"System.Runtime.Interop`Services.Mar`shal\"); $P=$I.module.gettype(\"System.Int`Ptr\"); $S=[string]"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "12",
+      "type": "REG_SZ",
+      "value": " $D=@(); $T=@(); $DM=[AppDomain]::CurrentDomain.\"DefineDynami`cAssembly\"(1,1).\"DefineDynami`cModule\"(1); $Z=[uintptr]::size "
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "13",
+      "type": "REG_SZ",
+      "value": " 0..5|% {$D += $DM.\"Defin`eType\"(\"1337MAGIQ_$_\",1179913,[ValueType])}; $D += [uintptr]; 4..6|% {$D += $D[$_].\"MakeByR`efType\"()}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "14",
+      "type": "REG_SZ",
+      "value": " $F='kernel','advapi','advapi', ($S,$S,$I,$I,$I,$I,$I,$S,$D[7],$D[8]), ([uintptr],$S,$I,$I,$D[9]),([uintptr],$S,$I,$I,[byte[]],$I)"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "15",
+      "type": "REG_SZ",
+      "value": " 0..2|% {$9=$D[0].\"DefinePInvok`eMethod\"(('CreateProcess','RegOpenKeyEx','RegSetValueEx')[$_],$F[$_]+'32',8214,1,$S,$F[$_+3],1,4)}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "16",
+      "type": "REG_SZ",
+      "value": " $DF=($P,$I,$P),($I,$I,$I,$I,$P,$D[1]),($I,$S,$S,$S,$I,$I,$I,$I,$I,$I,$I,$I,[int16],[int16],$P,$P,$P,$P),($D[3],$P),($P,$P,$I,$I)"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "17",
+      "type": "REG_SZ",
+      "value": " 1..5|% {$k=$_; $n=1; $DF[$_-1]|% {$9=$D[$k].\"Defin`eField\"('f' + $n++, $_, 6)}}; 0..5|% {$T += $D[$_].\"Creat`eType\"()}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "18",
+      "type": "REG_SZ",
+      "value": " 0..5|% {nv \"A$_\" ([Activator]::CreateInstance($T[$_])) -fo}; function F ($1,$2) {$T[0].\"G`etMethod\"($1).invoke(0,$2)}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "19",
+      "type": "REG_SZ",
+      "value": " $TI=(whoami /groups)-like'*1-16-16384*'; $As=0; if(!$cmd) {$cmd='control';$arg='admintools'}; if ($cmd-eq'This PC'){$cmd='file:'}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "20",
+      "type": "REG_SZ",
+      "value": " if (!$TI) {'TrustedInstaller','lsass','winlogon'|% {if (!$As) {$9=sc.exe start $_; $As=@(get-process -name $_ -ea 0|% {$_})[0]}}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "21",
+      "type": "REG_SZ",
+      "value": " function M ($1,$2,$3) {$M.\"G`etMethod\"($1,[type[]]$2).invoke(0,$3)}; $H=@(); $Z,(4*$Z+16)|% {$H += M \"AllocHG`lobal\" $I $_}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "22",
+      "type": "REG_SZ",
+      "value": " M \"WriteInt`Ptr\" ($P,$P) ($H[0],$As.Handle); $A1.f1=131072; $A1.f2=$Z; $A1.f3=$H[0]; $A2.f1=1; $A2.f2=1; $A2.f3=1; $A2.f4=1"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "23",
+      "type": "REG_SZ",
+      "value": " $A2.f6=$A1; $A3.f1=10*$Z+32; $A4.f1=$A3; $A4.f2=$H[1]; M \"StructureTo`Ptr\" ($D[2],$P,[boolean]) (($A2 -as $D[2]),$A4.f2,$false)"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "24",
+      "type": "REG_SZ",
+      "value": " $Run=@($null, \"powershell -win Hidden -nop -c iex `$env:R; # $id\", 0, 0, 0, 0x0E080600, 0, $null, ($A4 -as $T[4]), ($A5 -as $T[5]))"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "25",
+      "type": "REG_SZ",
+      "value": " F 'CreateProcess' $Run; return}; $env:R=''; rp $key $id -force; $priv=[diagnostics.process].\"GetM`ember\"('SetPrivilege',42)[0]"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "26",
+      "type": "REG_SZ",
+      "value": " 'SeSecurityPrivilege','SeTakeOwnershipPrivilege','SeBackupPrivilege','SeRestorePrivilege' |% {$priv.Invoke($null, @(\"$_\",2))}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "27",
+      "type": "REG_SZ",
+      "value": " $HKU=[uintptr][uint32]2147483651; $NT='S-1-5-18'; $reg=($HKU,$NT,8,2,($HKU -as $D[9])); F 'RegOpenKeyEx' $reg; $LNK=$reg[4]"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "28",
+      "type": "REG_SZ",
+      "value": " function L ($1,$2,$3) {sp 'Registry::HKCR\\AppID\\{CDCBCFCA-3CDC-436f-A4E2-0E02075250C2}' 'RunAs' $3 -force -ea 0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "29",
+      "type": "REG_SZ",
+      "value": "  $b=[Text.Encoding]::Unicode.GetBytes(\"\\Registry\\User\\$1\"); F 'RegSetValueEx' @($2,'SymbolicLinkValue',0,6,[byte[]]$b,$b.Length)}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "30",
+      "type": "REG_SZ",
+      "value": " function Q {[int](gwmi win32_process -filter 'name=\"explorer.exe\"'|?{$_.getownersid().sid-eq$NT}|select -last 1).ProcessId}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "31",
+      "type": "REG_SZ",
+      "value": " $env:wt=if(gcm wt.exe -ea 0){'wt.exe \"-d .\"'}else{'powershell'}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "32",
+      "type": "REG_SZ",
+      "value": " $11bug=($((gwmi Win32_OperatingSystem).BuildNumber)-eq'22000')-AND(($cmd-eq'file:')-OR(test-path -lit $cmd -PathType Container))"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "33",
+      "type": "REG_SZ",
+      "value": " if ($11bug) {'System.Windows.Forms','Microsoft.VisualBasic' |% {$9=[Reflection.Assembly]::LoadWithPartialName(\"$_\")}}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "34",
+      "type": "REG_SZ",
+      "value": " if ($11bug) {$path='^(l)'+$($cmd -replace '([\\+\\^\\%\\~\\(\\)\\[\\]])','{$1}')+'{ENTER}'; $cmd='control.exe'; $arg='admintools'}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "35",
+      "type": "REG_SZ",
+      "value": " L ($key-split'\\\\')[1] $LNK ''; $R=[diagnostics.process]::start($cmd,$arg); if ($R) {$R.PriorityClass='High'; $R.WaitForExit()}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "36",
+      "type": "REG_SZ",
+      "value": " if ($11bug) {$w=0; do {if($w-gt40){break}; sleep -mi 250;$w++} until (Q); [Microsoft.VisualBasic.Interaction]::AppActivate($(Q))}"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "37",
+      "type": "REG_SZ",
+      "value": " if ($11bug) {[Windows.Forms.SendKeys]::SendWait($path)}; do {sleep 7} while(Q); L '.Default' $LNK 'Interactive User'"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "38",
+      "type": "REG_SZ",
+      "value": "'@; $V='';'cmd','arg','id','key'|%{$V+=\"`n`$$_='$($(gv $_ -val)-replace\"'\",\"''\")';\"}; sp $key $id $($V,$code) -type 7 -force -ea 0"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "39",
+      "type": "REG_SZ",
+      "value": " (New-Object -ComObject Shell.Application).ShellExecute(\"powershell\", \"-win Hidden -nop -c `n$V `$env:R=(gi `$key -ea 0).getvalue(`$id)-join''; iex `$env:R\", \"\", \"runas\", 0)"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\RunAsTI",
+      "name": "40",
+      "type": "REG_SZ",
+      "value": "}; $A=,([environment]::commandline-split'-[-]%+ ?',2)[1]-split'\"([^\"]+)\"|([^ ]+)',2|%{$_.Trim(' \"')}; RunAsTI $A[1] $A[2]; # 1337MAGIQ, 2025.11.16"
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\batfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\cmd.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\batfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cmdfile\\shell\\RunAsTI",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\cmd.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cmdfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\RunAsTI",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\sudo.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\exefile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\mscfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Microsoft.PowerShellScript.1\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"powershell\" \"-NoExit -nop -c iex((gc -lit %L)-join[char]10)\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\regfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"regedit.exe\" \"/s\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\WinRAR\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"explorer.exe\" \"\\\"%L\\\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\CABFolder\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"explorer.exe\" \"\\\"%L\\\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Msi.Package\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"msiexec.exe\" \"/i\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\dllfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"regsvr32.exe\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\inffile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"pwsh.exe\" \"-WindowStyle Hidden -Command \"\"& InfDefaultInstall.exe '%1'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\cplfile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"control.exe\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\htafile\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"mshta.exe\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Folder\\shell\\RunAsTI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7\\command",
+      "name": "(default)",
+      "expected": "pwsh.exe -NoExit -Command \"Set-Location -LiteralPath '%V'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5\\command",
+      "name": "(default)",
+      "expected": "powershell.exe -NoExit -Command \"Set-Location -LiteralPath '%V'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\03_CMD\\command",
+      "name": "(default)",
+      "expected": "cmd.exe /k cd /d \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%V\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%V'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\background\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%V\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\01_PowerShell7\\command",
+      "name": "(default)",
+      "expected": "pwsh.exe -NoExit -Command \"Set-Location -LiteralPath '%L'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\02_PowerShell5\\command",
+      "name": "(default)",
+      "expected": "powershell.exe -NoExit -Command \"Set-Location -LiteralPath '%L'\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\03_CMD\\command",
+      "name": "(default)",
+      "expected": "cmd.exe /k cd /d \"%L\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\11_PowerShell7_Admin\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\12_PowerShell5_Admin\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\13_CMD_Admin\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsAdmin_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%L\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\21_PowerShell7_TI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"pwsh.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\22_PowerShell5_TI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"powershell.exe\" \"-NoExit -Command \"\"Set-Location -LiteralPath '%L'\"\"\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\RunAsTI_Terminal\\shell\\23_CMD_TI\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\RunAsTI_Menu.vbs\" \"cmd.exe\" \"/k cd /d \"%L\"\""
+    }
+  ],
+  "wrapper_patches": [
+    {
+      "file": "RegistryFinder_TI.vbs",
+      "regex": "RunAsTI_Script\\s*=\\s*\"[^\"]+\"",
+      "replacement": "RunAsTI_Script = \"{InstallRoot}\\RunAsTI.ps1\""
+    },
+    {
+      "file": "enable RunAsTI v3.1.reg",
+      "regex": "D:\\\\Users\\\\joty79\\\\scripts\\\\RunAsTI\\\\RunAsTI_Menu\\.vbs",
+      "replacement": "{InstallRoot}\\RunAsTI_Menu.vbs"
+    },
+    {
+      "file": "enable RunAsTI v3.1.reg",
+      "regex": "D:\\\\Users\\\\joty79\\\\scripts\\\\RunAsTI\\\\RunAsAdmin_Menu\\.vbs",
+      "replacement": "{InstallRoot}\\RunAsAdmin_Menu.vbs"
+    },
+    {
+      "file": "enable RunAsTI v3.1.reg",
+      "regex": "d:\\\\Users\\\\joty79\\\\Documents\\\\Icons\\\\cmd\\.ico",
+      "replacement": "{InstallRoot}\\.assets\\icons\\cmd.ico"
+    },
+    {
+      "file": "enable RunAsTI v3.1.reg",
+      "regex": "d:\\\\Users\\\\joty79\\\\Documents\\\\Icons\\\\pwsh\\.ico",
+      "replacement": "{InstallRoot}\\.assets\\icons\\pwsh.ico"
+    },
+    {
+      "file": "enable RunAsTI v3.1.reg",
+      "regex": "d:\\\\Users\\\\joty79\\\\Documents\\\\Icons\\\\sudo\\.ico",
+      "replacement": "{InstallRoot}\\.assets\\icons\\sudo.ico"
+    },
+    {
+      "file": "RegistryFinder_TI.reg",
+      "regex": "D:\\\\Users\\\\joty79\\\\scripts\\\\RunAsTI\\\\RegistryFinder_TI\\.vbs",
+      "replacement": "{InstallRoot}\\RegistryFinder_TI.vbs"
+    }
+  ]
+}

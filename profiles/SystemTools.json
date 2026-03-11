@@ -1,0 +1,379 @@
+{
+  "tool_name": "SystemTools",
+  "installer_title": "SystemTools Installer",
+  "install_folder_name": "SystemToolsContext",
+  "github_repo": "joty79/SystemTools",
+  "github_ref": "",
+  "legacy_root": "D:\\Users\\joty79\\scripts\\SystemTools",
+  "publisher": "joty79",
+  "uninstall_key_name": "SystemToolsContext",
+  "uninstall_display_name": "System Tools Context Menu",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [
+    "reg.exe"
+  ],
+  "required_package_entries": [
+    "Install.ps1",
+    "AddDelPath.ps1",
+    "RestartExplorer.ps1",
+    "RefreshShell.ps1",
+    "Install-SystemToolsMenu.ps1",
+    "Launch-SystemToolsMenu.vbs",
+    "Launch-RestartExplorer.vbs",
+    "Launch-RefreshShell.vbs",
+    ".assets",
+    ".assets\\icons\\folder_to_path.ico",
+    ".assets\\icons\\restart_explorer.ico",
+    ".assets\\icons\\refresh_shell.ico"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "AddDelPath.ps1",
+    "RestartExplorer.ps1",
+    "RefreshShell.ps1",
+    "Install-SystemToolsMenu.ps1",
+    "Launch-SystemToolsMenu.vbs",
+    "Launch-RestartExplorer.vbs",
+    "Launch-RefreshShell.vbs",
+    ".assets"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "AddDelPath.ps1",
+    "RestartExplorer.ps1",
+    "RefreshShell.ps1",
+    "Install-SystemToolsMenu.ps1",
+    "Launch-SystemToolsMenu.vbs",
+    "Launch-RestartExplorer.vbs",
+    "Launch-RefreshShell.vbs",
+    ".assets\\icons\\folder_to_path.ico",
+    ".assets\\icons\\restart_explorer.ico",
+    ".assets\\icons\\refresh_shell.ico"
+  ],
+  "migration_copy_entries": [
+    "logs",
+    "state"
+  ],
+  "uninstall_preserve_files": [
+    "Install.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\*\\shell\\SystemTools",
+    "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools",
+    "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools",
+    "HKCR\\*\\shell\\SystemTools",
+    "HKCR\\Directory\\shell\\SystemTools",
+    "HKCR\\Directory\\Background\\shell\\SystemTools",
+    "HKCR\\DesktopBackground\\Shell\\SystemTools"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "System Tools"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-109"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "System Tools"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-109"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\PathManager",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Manage Folder PATH..."
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\PathManager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\folder_to_path.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\PathManager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-SystemToolsMenu.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RestartExplorer",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Restart Explorer"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RestartExplorer",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\restart_explorer.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RestartExplorer\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-RestartExplorer.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RefreshShell",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Refresh Shell"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RefreshShell",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\refresh_shell.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RefreshShell\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-RefreshShell.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "System Tools"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-109"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\PathManager",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Manage Folder PATH..."
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\PathManager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\folder_to_path.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\PathManager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-SystemToolsMenu.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RestartExplorer",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Restart Explorer"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RestartExplorer",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\restart_explorer.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RestartExplorer\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-RestartExplorer.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RefreshShell",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Refresh Shell"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RefreshShell",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\refresh_shell.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RefreshShell\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-RefreshShell.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "System Tools"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "imageres.dll,-109"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools",
+      "name": "Position",
+      "type": "REG_SZ",
+      "value": "Bottom"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RestartExplorer",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Restart Explorer"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RestartExplorer",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\restart_explorer.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RestartExplorer\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-RestartExplorer.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RefreshShell",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Refresh Shell"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RefreshShell",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\refresh_shell.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RefreshShell\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-RefreshShell.vbs\""
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\PathManager\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-SystemToolsMenu.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RestartExplorer\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-RestartExplorer.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\RefreshShell\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-RefreshShell.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\PathManager\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-SystemToolsMenu.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RestartExplorer\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-RestartExplorer.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\RefreshShell\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-RefreshShell.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools",
+      "name": "Position",
+      "expected": "Bottom"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RestartExplorer\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-RestartExplorer.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\RefreshShell\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-RefreshShell.vbs\""
+    }
+  ],
+  "wrapper_patches": [
+    {
+      "file": "Launch-SystemToolsMenu.vbs",
+      "regex": "scriptPath\\s*=\\s*\"[^\"]+\"",
+      "replacement": "scriptPath = \"{InstallRoot}\\AddDelPath.ps1\""
+    },
+    {
+      "file": "Launch-RestartExplorer.vbs",
+      "regex": "scriptPath\\s*=\\s*\"[^\"]+\"",
+      "replacement": "scriptPath = \"{InstallRoot}\\RestartExplorer.ps1\""
+    },
+    {
+      "file": "Launch-RefreshShell.vbs",
+      "regex": "scriptPath\\s*=\\s*\"[^\"]+\"",
+      "replacement": "scriptPath = \"{InstallRoot}\\RefreshShell.ps1\""
+    }
+  ]
+}
