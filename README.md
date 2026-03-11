@@ -18,9 +18,46 @@
 
 | # | Component | Description |
 |:-:|-----------|-------------|
+| ⬇️ | **[Repo Downloader](#-repo-downloader)** | Root `install.ps1` that refreshes the current `InstallerCore` working copy in place |
 | 📄 | **[Template Engine](#-template-engine)** | 750-line PowerShell template with embedded profile marker for code generation |
 | 📋 | **[Profile System](#-profile-system)** | JSON profiles that define every tool-specific setting — registry, files, GitHub |
 | 🔧 | **[Generator Script](#-generator-script)** | One-command script that merges template + profile into a production installer |
+
+---
+
+## ⬇️ Repo Downloader
+
+> `InstallerCore` itself is special: its root `install.ps1` is not a generated installer and does not install into `%LOCALAPPDATA%`. It is a downloader-only refresh flow for the current repo directory.
+
+### What it does
+
+- Downloads the selected GitHub branch of `joty79/InstallerCore`
+- Extracts it to a temp folder
+- Verifies the extracted repo shape (`README.md`, `PROJECT_RULES.md`, template, generator)
+- Copies the latest files into the directory where `install.ps1` is currently running
+- Relaunches the updated downloader
+
+### What it does not do
+
+- no registry writes
+- no uninstall entry
+- no `%LOCALAPPDATA%` deployment
+- no separate install directory
+
+### Usage
+
+```powershell
+# Interactive menu
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
+
+# Directly refresh the current InstallerCore repo folder
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -Action DownloadLatest
+
+# Refresh from a specific branch
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -Action DownloadLatest -GitHubRef master
+```
+
+The target path defaults to `$PSScriptRoot`, so running the script from `D:\Users\joty79\scripts\InstallerCore` refreshes that working copy in place.
 
 ---
 
@@ -289,16 +326,20 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 
 ```
 InstallerCore/
+├── install.ps1                     # Downloader-only self-refresh entrypoint for this repo
 ├── templates/
 │   └── Install.Template.ps1       # 750-line generic installer template
 ├── profiles/
 │   ├── WhoIsUsingThis.json        # Lock scanner tool profile
 │   ├── TakeOwnership.json         # Ownership manager tool profile
+│   ├── Firewall.json              # Firewall context-menu tool profile
 │   ├── RunAsTI.json               # TrustedInstaller context-menu profile
-│   └── SystemCleanup.json         # System cleanup tool profile
+│   ├── SystemCleanup.json         # System cleanup tool profile
+│   └── SystemTools.json           # Shared System Tools host profile
 ├── scripts/
 │   └── New-ToolInstaller.ps1      # Profile→template merger + validator
 ├── PROJECT_RULES.md               # Decision log and project guardrails
+├── CHANGELOG.md                   # Notable repo-level changes
 └── README.md                      # You are here
 ```
 

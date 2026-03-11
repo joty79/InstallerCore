@@ -214,3 +214,11 @@
 - Guardrail/rule: Keep `profiles/Firewall.json` as the source of truth for `Firewall`. Import the icon into the repo under `.assets`, deploy it with the installer, and patch the shipped `.reg` artifact to `{InstallRoot}` paths after install.
 - Files affected: `profiles/Firewall.json`, `PROJECT_RULES.md`.
 - Validation/tests run: Generated `D:\\Users\\joty79\\scripts\\Firewall\\Install.ps1` via `scripts\\New-ToolInstaller.ps1`; PowerShell parser validation passed on generated installer.
+
+### Entry - 2026-03-12 (Downloader-only root install.ps1 for InstallerCore)
+- Date: 2026-03-12
+- Problem: `InstallerCore` still needed a convenient self-update entrypoint in the repo root, but the old bootstrap installer model was misleading because this repo is the template source-of-truth, not an app installed under `%LOCALAPPDATA%`.
+- Root cause: The earlier rule removed `install.ps1` entirely to avoid install/uninstall semantics, which also removed a practical in-place refresh path for the repo itself.
+- Guardrail/rule: `InstallerCore` may ship a root `install.ps1` only as a downloader-only self-refresh workflow. It must update the current repo directory in place, use GitHub branch autodetect/list selection like the template, and must not perform registry writes, uninstall registration, or separate install-directory deployment.
+- Files affected: `install.ps1`, `README.md`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: PowerShell parser validation on `install.ps1`; static review of downloader-only action set and README usage guidance.
