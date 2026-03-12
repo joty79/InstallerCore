@@ -12,3 +12,4 @@ All notable changes to `InstallerCore` live here.
 ### Fixed
 
 - Updated the root downloader to skip rewriting files that are already byte-identical, reducing false dirty git state after refreshing an already synced local repo checkout.
+- Updated the root downloader to refresh git state automatically for already-clean repo checkouts, so unchanged files do not remain falsely marked as modified after download.

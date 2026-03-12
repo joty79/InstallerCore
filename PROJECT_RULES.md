@@ -222,3 +222,11 @@
 - Guardrail/rule: `InstallerCore` may ship a root `install.ps1` only as a downloader-only self-refresh workflow. It must update the current repo directory in place, use GitHub branch autodetect/list selection like the template, and must not perform registry writes, uninstall registration, or separate install-directory deployment.
 - Files affected: `install.ps1`, `README.md`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: PowerShell parser validation on `install.ps1`; static review of downloader-only action set and README usage guidance.
+
+### Entry - 2026-03-12 (Downloader must refresh git state for clean checkouts)
+- Date: 2026-03-12
+- Problem: Running the downloader against an already clean local `InstallerCore` checkout still left tracked files falsely marked as modified, even when the file bytes matched `HEAD`.
+- Root cause: Updating files outside git left the repo's working-tree/index state stale until a manual `git add -A`, despite no logical content change.
+- Guardrail/rule: If the target directory starts as a clean git checkout, the root downloader must refresh git state after copying and must not leave staged changes behind.
+- Files affected: `install.ps1`, `README.md`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Local reproduction on a clean `InstallerCore` checkout; byte-level compare against `HEAD`; verified that `git add -A` cleared the false-dirty state before automating that refresh.

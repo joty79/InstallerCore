@@ -323,6 +323,50 @@ function Deploy-RepoContent {
     }
 }
 
+function Test-GitRepoRoot {
+    param([Parameter(Mandatory)][string]$Path)
+    return (Test-Path -LiteralPath (Join-Path $Path '.git'))
+}
+
+function Test-GitWorkingTreeClean {
+    param([Parameter(Mandatory)][string]$RepoRoot)
+
+    if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
+        return $false
+    }
+
+    if (-not (Test-GitRepoRoot -Path $RepoRoot)) {
+        return $false
+    }
+
+    $statusLines = @(git -C $RepoRoot status --porcelain=v1 2>$null)
+    return ($LASTEXITCODE -eq 0 -and $statusLines.Count -eq 0)
+}
+
+function Refresh-GitWorkingTreeState {
+    param([Parameter(Mandatory)][string]$RepoRoot)
+
+    if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
+        return
+    }
+
+    if (-not (Test-GitRepoRoot -Path $RepoRoot)) {
+        return
+    }
+
+    # Refresh git's view of downloader-touched files without leaving staged changes behind.
+    & git -C $RepoRoot add -A
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host 'Git index refresh failed after download.' -ForegroundColor Yellow
+        return
+    }
+
+    & git -C $RepoRoot reset --quiet HEAD -- .
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host 'Git index reset failed after download.' -ForegroundColor Yellow
+    }
+}
+
 function CleanupTempPackageRoots {
     foreach ($tempRoot in $script:TempPackageRoots) {
         try {
@@ -359,6 +403,7 @@ function Start-RelaunchUpdatedInstaller {
 
 function RunDownloadLatest {
     $targetRoot = Resolve-NormalizedPath -Path $TargetPath
+    $refreshGitState = Test-GitWorkingTreeClean -RepoRoot $targetRoot
     EnsureGitHubRefResolved
 
     if (-not $script:HasCliArgs) {
@@ -375,6 +420,9 @@ function RunDownloadLatest {
     try {
         $sourceRoot = ResolveGitHubSourceRoot
         Deploy-RepoContent -SourceRoot $sourceRoot -TargetRoot $targetRoot
+        if ($refreshGitState) {
+            Refresh-GitWorkingTreeState -RepoRoot $targetRoot
+        }
 
         if (-not (Test-InstallerCoreRoot -Root $targetRoot)) {
             Write-Host 'Download completed with warnings: target directory is missing required InstallerCore files.' -ForegroundColor Yellow

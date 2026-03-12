@@ -35,6 +35,7 @@
 - Extracts it to a temp folder
 - Verifies the extracted repo shape (`README.md`, `PROJECT_RULES.md`, template, generator)
 - Copies the latest files into the directory where `install.ps1` is currently running
+- If the target directory starts as a clean git checkout, refreshes git state after the copy so unchanged files do not stay falsely marked as modified
 - Relaunches the updated downloader
 
 ### What it does not do
