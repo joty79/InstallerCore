@@ -273,10 +273,53 @@ function Deploy-RepoContent {
         [Parameter(Mandatory)][string]$TargetRoot
     )
 
+    function Test-MatchingFileContent {
+        param(
+            [Parameter(Mandatory)][string]$SourceFile,
+            [Parameter(Mandatory)][string]$TargetFile
+        )
+
+        if (-not (Test-Path -LiteralPath $TargetFile -PathType Leaf)) {
+            return $false
+        }
+
+        $sourceInfo = Get-Item -LiteralPath $SourceFile -ErrorAction Stop
+        $targetInfo = Get-Item -LiteralPath $TargetFile -ErrorAction Stop
+        if ($sourceInfo.Length -ne $targetInfo.Length) {
+            return $false
+        }
+
+        return ((Get-FileHash -LiteralPath $SourceFile -Algorithm SHA256).Hash -eq (Get-FileHash -LiteralPath $TargetFile -Algorithm SHA256).Hash)
+    }
+
+    function Sync-RepoItem {
+        param(
+            [Parameter(Mandatory)][string]$SourcePath,
+            [Parameter(Mandatory)][string]$TargetPath
+        )
+
+        $sourceItem = Get-Item -LiteralPath $SourcePath -Force -ErrorAction Stop
+        if ($sourceItem.PSIsContainer) {
+            EnsureDir $TargetPath
+            foreach ($child in @(Get-ChildItem -LiteralPath $SourcePath -Force -ErrorAction Stop)) {
+                if ($child.Name -eq '.git') { continue }
+                Sync-RepoItem -SourcePath $child.FullName -TargetPath (Join-Path $TargetPath $child.Name)
+            }
+            return
+        }
+
+        EnsureDir (Split-Path -Path $TargetPath -Parent)
+        if (Test-MatchingFileContent -SourceFile $SourcePath -TargetFile $TargetPath) {
+            return
+        }
+
+        Copy-Item -LiteralPath $SourcePath -Destination $TargetPath -Force
+    }
+
     EnsureDir $TargetRoot
     foreach ($item in @(Get-ChildItem -LiteralPath $SourceRoot -Force -ErrorAction Stop)) {
         if ($item.Name -eq '.git') { continue }
-        Copy-Item -LiteralPath $item.FullName -Destination $TargetRoot -Recurse -Force
+        Sync-RepoItem -SourcePath $item.FullName -TargetPath (Join-Path $TargetRoot $item.Name)
     }
 }
 
