@@ -230,3 +230,11 @@
 - Guardrail/rule: If the target directory starts as a clean git checkout, the root downloader must refresh git state after copying and must not leave staged changes behind.
 - Files affected: `install.ps1`, `README.md`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: Local reproduction on a clean `InstallerCore` checkout; byte-level compare against `HEAD`; verified that `git add -A` cleared the false-dirty state before automating that refresh.
+
+### Entry - 2026-03-12 (Downloader should not relaunch itself)
+- Date: 2026-03-12
+- Problem: After finishing a local self-refresh, the root downloader reopened itself automatically, which added unnecessary extra process noise for a repo-local update action.
+- Root cause: The first downloader implementation reused the downstream installer `DownloadLatest` relaunch pattern even though `InstallerCore` is only refreshing its own working copy.
+- Guardrail/rule: The root `InstallerCore` downloader should finish after a successful download and should not auto-relaunch `install.ps1`.
+- Files affected: `install.ps1`, `README.md`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: PowerShell parser validation on `install.ps1`; static review of downloader flow after removing relaunch behavior.

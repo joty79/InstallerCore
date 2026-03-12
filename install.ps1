@@ -379,28 +379,6 @@ function CleanupTempPackageRoots {
     $script:TempPackageRoots.Clear()
 }
 
-function Start-RelaunchUpdatedInstaller {
-    param([Parameter(Mandatory)][string]$TargetRoot)
-
-    $updatedInstaller = Join-Path $TargetRoot 'install.ps1'
-    if (-not (Test-Path -LiteralPath $updatedInstaller)) {
-        throw "Updated downloader was not found after download: $updatedInstaller"
-    }
-
-    $pwshCmd = Get-Command pwsh.exe -ErrorAction SilentlyContinue
-    $pwshExe = if ($null -ne $pwshCmd) { $pwshCmd.Source } else { Join-Path $PSHOME 'pwsh.exe' }
-    $launcherPath = Join-Path $env:TEMP ("InstallerCore_relaunch_{0}.cmd" -f [guid]::NewGuid().ToString('N'))
-    $launcherContent = @(
-        '@echo off',
-        'setlocal',
-        'timeout /t 2 /nobreak >nul',
-        ('start "" "{0}" -ExecutionPolicy Bypass -File "{1}"' -f $pwshExe, $updatedInstaller),
-        'del "%~f0"'
-    )
-    Set-Content -LiteralPath $launcherPath -Value $launcherContent -Encoding ASCII
-    Start-Process -FilePath $launcherPath -WindowStyle Hidden | Out-Null
-}
-
 function RunDownloadLatest {
     $targetRoot = Resolve-NormalizedPath -Path $TargetPath
     $refreshGitState = Test-GitWorkingTreeClean -RepoRoot $targetRoot
@@ -429,8 +407,7 @@ function RunDownloadLatest {
             return 2
         }
 
-        Start-RelaunchUpdatedInstaller -TargetRoot $targetRoot
-        Write-Host 'Latest files downloaded successfully. Relaunching updated downloader...' -ForegroundColor Green
+        Write-Host 'Latest files downloaded successfully.' -ForegroundColor Green
         return 0
     }
     finally {
