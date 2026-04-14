@@ -254,3 +254,11 @@
 - Guardrail/rule: `profiles/WinAppManager.json` must stay child-only under the existing `SystemTools` host and may write only `...\SystemTools\shell\WinAppManager` branches for `Directory`, `Directory\Background`, and `DesktopBackground`. Use a repo-owned launcher file patched to `{InstallRoot}` for context-menu startup; do not let the child profile create or modify the parent `SystemTools` keys.
 - Files affected: `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: Regenerated downstream `WinAppManager\Install.ps1`; downstream non-admin install smoke with registry readback and patched-launcher verification.
+
+### Entry - 2026-04-14 (Template must tolerate source==install repair paths)
+- Date: 2026-04-14
+- Problem: Downstream update/install flows could either crash on self-copy repair paths or silently leave stale code by nesting folders like `Modules\Modules` when deploying into an existing install root.
+- Root cause: `Deploy()` only skipped same-path file copies, not same-path directory copies, and its directory branch used `Copy-Item <dir> -> <existing dir>` semantics that create nested folders instead of syncing the directory contents.
+- Guardrail/rule: In `templates/Install.Template.ps1`, skip deploy entries entirely when normalized source and destination resolve to the same path, and when deploying directories copy the source children into the target directory instead of copying the parent folder as a new nested child.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Downstream parser validation and installed-copy local update smoke planned after template regeneration.

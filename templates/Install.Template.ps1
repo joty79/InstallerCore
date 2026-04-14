@@ -352,16 +352,18 @@ function Deploy([string]$SourceRoot, [string]$InstallRoot) {
         $dst = Join-Path $InstallRoot $rel
         if (-not (Test-Path -LiteralPath $src)) { throw "Missing deploy entry: $rel" }
         $preserve = $keep.ContainsKey($rel.ToLowerInvariant())
+        if ((Norm $src) -ieq (Norm $dst)) { continue }
         $srcItem = Get-Item -LiteralPath $src
         if ($srcItem.PSIsContainer) {
             if ($preserve -and (Test-Path -LiteralPath $dst)) { continue }
-            EnsureDir (Split-Path -Path $dst -Parent)
-            Copy-Item -LiteralPath $src -Destination $dst -Recurse -Force
+            EnsureDir $dst
+            foreach ($child in @(Get-ChildItem -LiteralPath $src -Force)) {
+                Copy-Item -LiteralPath $child.FullName -Destination $dst -Recurse -Force
+            }
             continue
         }
         EnsureDir (Split-Path -Path $dst -Parent)
         if ($preserve -and (Test-Path -LiteralPath $dst)) { continue }
-        if ((Norm $src) -ieq (Norm $dst)) { continue }
         Copy-Item -LiteralPath $src -Destination $dst -Force
     }
 }

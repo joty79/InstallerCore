@@ -9,6 +9,10 @@ All notable changes to `InstallerCore` live here.
 - Added `profiles/WinAppManager.json` so `WinAppManager` can use the shared `InstallerCore` install/update/uninstall flow instead of maintaining a bespoke repo-local installer.
 - Extended the `WinAppManager` profile with child-only `System Tools` registry integration and a patched `Launch-WinAppManager.vbs` launcher for elevated context-menu startup.
 
+### Changed
+
+- Updated the shared install template to skip same-path self-copy deploy entries and to copy directory contents into existing targets instead of nesting sibling folders like `Modules\Modules` during update/install runs.
+
 ## [2026-03-12]
 
 ### Added
