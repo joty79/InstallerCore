@@ -278,3 +278,11 @@
 - Guardrail/rule: In `InstallerCore`, `DownloadLatest` must preserve the current host family when it relaunches (`WT` session => fresh `WT` window, plain `pwsh` => plain `pwsh`) and must treat the working-copy target root as the active install/log root for the duration of the download so embedded app UIs can tail the correct log file.
 - Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: Template parser validation planned after edit; downstream regeneration and workspace action probe planned in `WinAppManager`.
+
+### Entry - 2026-04-15 (Profiles must own tool icons as runtime assets)
+- Date: 2026-04-15
+- Problem: A downstream context-menu tool still shipped with a generic `shell32.dll` icon even though a real tool-specific icon asset now existed in the repo.
+- Root cause: The profile contract had not yet modeled the icon as a required/deployed runtime file plus explicit registry `Icon` verification, so the generated installer kept a placeholder fallback icon.
+- Guardrail/rule: In `InstallerCore`, when a tool has a specific context-menu icon, the profile must own it as a repo-local runtime asset and wire it through `required_package_entries`, `deploy_entries`, `verify_core_files`, `registry_values`, and `registry_verify`. Do not leave generic `shell32.dll` fallback icons in a profile once a canonical repo-owned icon exists.
+- Files affected: `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Regenerated `WinAppManager\Install.ps1`; static review confirmed `{InstallRoot}\assets\MsStore.ico` in embedded registry values and verify entries.
