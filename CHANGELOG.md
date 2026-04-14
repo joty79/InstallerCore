@@ -12,6 +12,7 @@ All notable changes to `InstallerCore` live here.
 ### Changed
 
 - Updated the shared install template to skip same-path self-copy deploy entries and to copy directory contents into existing targets instead of nesting sibling folders like `Modules\Modules` during update/install runs.
+- Added `-NoSelfRelaunch` to the shared installer template so embedded app updaters can run `DownloadLatest` inside the current TUI without spawning a second installer window.
 
 ## [2026-03-12]
 

@@ -262,3 +262,11 @@
 - Guardrail/rule: In `templates/Install.Template.ps1`, skip deploy entries entirely when normalized source and destination resolve to the same path, and when deploying directories copy the source children into the target directory instead of copying the parent folder as a new nested child.
 - Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: Downstream parser validation and installed-copy local update smoke planned after template regeneration.
+
+### Entry - 2026-04-15 (Embedded DownloadLatest must not spawn a second installer)
+- Date: 2026-04-15
+- Problem: A downstream app could run `DownloadLatest` from inside its own TUI, but the installer still spawned a separate relaunched installer window because the template only knew the standalone self-relaunch flow.
+- Root cause: `RunDownloadLatest()` always called `Start-RelaunchUpdatedInstaller`, with no switch to distinguish standalone installer usage from embedded in-app updater usage.
+- Guardrail/rule: The shared installer template must expose a `-NoSelfRelaunch` switch. Embedded TUI updaters use it so `DownloadLatest` can finish silently in the background and let the app decide when/how to relaunch the updated host.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Downstream regeneration and working-copy in-app update smoke planned.

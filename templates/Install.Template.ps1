@@ -11,7 +11,8 @@ param(
     [string]$GitHubRef = '',
     [string]$GitHubZipUrl = '',
     [switch]$Force,
-    [switch]$NoExplorerRestart
+    [switch]$NoExplorerRestart,
+    [switch]$NoSelfRelaunch
 )
 
 Set-StrictMode -Version Latest
@@ -593,8 +594,13 @@ function RunDownloadLatest {
             return 2
         }
 
-        Start-RelaunchUpdatedInstaller -TargetRoot $targetRoot
-        Write-Host 'Latest files downloaded successfully. Relaunching updated installer...' -ForegroundColor Green
+        if (-not $NoSelfRelaunch) {
+            Start-RelaunchUpdatedInstaller -TargetRoot $targetRoot
+            Write-Host 'Latest files downloaded successfully. Relaunching updated installer...' -ForegroundColor Green
+        }
+        else {
+            Write-Host 'Latest files downloaded successfully.' -ForegroundColor Green
+        }
         return 0
     }
     finally {
@@ -748,7 +754,16 @@ switch ($Action) {
     'Update' { PreparePackageSource -Mode 'Update'; if (-not (Confirm "Update existing $($script:DisplayName) at '$InstallPath'?")) { Write-Host 'Cancelled.' -ForegroundColor Yellow; exit 0 }; exit (RunInstallOrUpdate -Mode 'Update') }
     'UpdateGitHub' { $PackageSource = 'GitHub'; EnsureGitHubRefResolved; Write-Host ("Using GitHub ref: {0}" -f $GitHubRef) -ForegroundColor DarkCyan; if (-not (Confirm "Update existing $($script:DisplayName) at '$InstallPath'?")) { Write-Host 'Cancelled.' -ForegroundColor Yellow; exit 0 }; exit (RunInstallOrUpdate -Mode 'Update') }
     'Uninstall' { if (-not (Confirm "Uninstall $($script:DisplayName) from '$InstallPath'?")) { Write-Host 'Cancelled.' -ForegroundColor Yellow; exit 0 }; exit (RunUninstall) }
-    'DownloadLatest' { if (-not (Confirm "Download latest $($script:DisplayName) into '$PSScriptRoot' and relaunch the updated installer?")) { Write-Host 'Cancelled.' -ForegroundColor Yellow; exit 0 }; exit (RunDownloadLatest) }
+    'DownloadLatest' {
+        $downloadPrompt = if ($NoSelfRelaunch) {
+            "Download latest $($script:DisplayName) into '$PSScriptRoot'?"
+        }
+        else {
+            "Download latest $($script:DisplayName) into '$PSScriptRoot' and relaunch the updated installer?"
+        }
+        if (-not (Confirm $downloadPrompt)) { Write-Host 'Cancelled.' -ForegroundColor Yellow; exit 0 }
+        exit (RunDownloadLatest)
+    }
     'OpenInstallDirectory' { if (-not (Test-Path -LiteralPath $InstallPath)) { Write-Host ("Install directory not found: {0}" -f $InstallPath) -ForegroundColor Yellow; exit 1 }; Start-Process explorer.exe -ArgumentList $InstallPath; exit 0 }
     'OpenInstallLogs' { $logFile = Join-Path $InstallPath 'logs\\installer.log'; $logDir = Split-Path -Path $logFile -Parent; EnsureDir $logDir; if (Test-Path -LiteralPath $logFile) { Start-Process notepad.exe -ArgumentList $logFile } else { Start-Process explorer.exe -ArgumentList $logDir }; exit 0 }
     default { Write-Host "Unknown action: $Action" -ForegroundColor Red; exit 1 }
