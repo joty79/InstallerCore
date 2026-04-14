@@ -57,6 +57,7 @@ $script:ResolvedPackageSource = $PackageSource
 $script:ResolvedGitHubCommit = ''
 $script:TempPackageRoots = [System.Collections.Generic.List[string]]::new()
 $script:HasCliArgs = $MyInvocation.BoundParameters.Count -gt 0
+$script:IsWindowsTerminalSession = -not [string]::IsNullOrWhiteSpace($env:WT_SESSION)
 
 if ([string]::IsNullOrWhiteSpace($InstallPath)) { $InstallPath = Join-Path $env:LOCALAPPDATA ([string](Get-P 'install_folder_name' "$($script:ToolName)Context")) }
 if ([string]::IsNullOrWhiteSpace($GitHubRepo)) { $GitHubRepo = [string](Get-P 'github_repo' '') }
@@ -546,16 +547,31 @@ function Start-RelaunchUpdatedInstaller([string]$TargetRoot) {
 
     $pwshCmd = Get-Command pwsh.exe -ErrorAction SilentlyContinue
     $pwshExe = if ($null -ne $pwshCmd) { $pwshCmd.Source } else { Join-Path $PSHOME 'pwsh.exe' }
-    $launcherPath = Join-Path $env:TEMP ("{0}_relaunch_{1}.cmd" -f $script:ToolName, [guid]::NewGuid().ToString('N'))
-    $launcherContent = @(
-        '@echo off',
-        'setlocal',
-        'timeout /t 2 /nobreak >nul',
-        ('start "" "{0}" -ExecutionPolicy Bypass -File "{1}"' -f $pwshExe, $updatedInstaller),
-        'del "%~f0"'
-    )
-    Set-Content -LiteralPath $launcherPath -Value $launcherContent -Encoding ASCII
-    Start-Process -FilePath $launcherPath -WindowStyle Hidden | Out-Null
+    if (-not (Test-Path -LiteralPath $pwshExe -PathType Leaf)) {
+        throw "pwsh.exe was not found for relaunch: $pwshExe"
+    }
+
+    if ($script:IsWindowsTerminalSession) {
+        $wtCommand = Get-Command wt.exe -ErrorAction SilentlyContinue
+        if ($null -ne $wtCommand) {
+            Start-Process -FilePath $wtCommand.Source -ArgumentList @(
+                '-w', 'new',
+                'nt',
+                '--title', $script:ToolName,
+                'pwsh.exe',
+                '-NoProfile',
+                '-ExecutionPolicy', 'Bypass',
+                '-File', $updatedInstaller
+            ) | Out-Null
+            return
+        }
+    }
+
+    Start-Process -FilePath $pwshExe -ArgumentList @(
+        '-NoProfile',
+        '-ExecutionPolicy', 'Bypass',
+        '-File', $updatedInstaller
+    ) | Out-Null
 }
 
 function RunDownloadLatest {
@@ -569,11 +585,16 @@ function RunDownloadLatest {
 
     $originalSourcePath = $SourcePath
     $originalPackageSource = $PackageSource
+    $originalInstallPath = $InstallPath
+    $originalInstallerLogPath = $script:InstallerLogPath
     try {
         $PackageSource = 'GitHub'
         Set-Variable -Name PackageSource -Scope Script -Value 'GitHub'
         $SourcePath = $targetRoot
         Set-Variable -Name SourcePath -Scope Script -Value $targetRoot
+        $InstallPath = $targetRoot
+        Set-Variable -Name InstallPath -Scope Script -Value $targetRoot
+        $script:InstallerLogPath = Join-Path $targetRoot 'logs\installer.log'
 
         EnsureGitHubRefResolved
         if (-not $script:HasCliArgs) {
@@ -606,6 +627,8 @@ function RunDownloadLatest {
     finally {
         Set-Variable -Name SourcePath -Scope Script -Value $originalSourcePath
         Set-Variable -Name PackageSource -Scope Script -Value $originalPackageSource
+        Set-Variable -Name InstallPath -Scope Script -Value $originalInstallPath
+        $script:InstallerLogPath = $originalInstallerLogPath
         CleanupTempPackageRoots
     }
 }

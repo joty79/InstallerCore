@@ -2,6 +2,13 @@
 
 All notable changes to `InstallerCore` live here.
 
+## [2026-04-15]
+
+### Changed
+
+- Updated the shared `DownloadLatest` relaunch flow so generated installers now preserve the current host family: `WT` sessions relaunch in a fresh `WT` window, while plain `pwsh` sessions relaunch in plain `pwsh`.
+- Updated `RunDownloadLatest()` to treat the working-copy target root as the active log/install root during the download, so embedded in-app updater panels tail the correct `logs\installer.log` for workspace updates.
+
 ## [2026-04-14]
 
 ### Added

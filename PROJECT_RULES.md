@@ -270,3 +270,11 @@
 - Guardrail/rule: The shared installer template must expose a `-NoSelfRelaunch` switch. Embedded TUI updaters use it so `DownloadLatest` can finish silently in the background and let the app decide when/how to relaunch the updated host.
 - Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: Downstream regeneration and working-copy in-app update smoke planned.
+
+### Entry - 2026-04-15 (DownloadLatest must preserve host family and log root)
+- Date: 2026-04-15
+- Problem: The same updater/relaunch confusion resurfaced in a downstream app because workspace `DownloadLatest` still behaved like a generic detached relaunch and kept writing logs to the default install path instead of the actual working-copy target.
+- Root cause: `Start-RelaunchUpdatedInstaller()` always relaunched through the same generic path regardless of the current host, and `RunDownloadLatest()` did not temporarily switch `InstallPath` / `InstallerLogPath` to the working-copy target root.
+- Guardrail/rule: In `InstallerCore`, `DownloadLatest` must preserve the current host family when it relaunches (`WT` session => fresh `WT` window, plain `pwsh` => plain `pwsh`) and must treat the working-copy target root as the active install/log root for the duration of the download so embedded app UIs can tail the correct log file.
+- Files affected: `templates/Install.Template.ps1`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Template parser validation planned after edit; downstream regeneration and workspace action probe planned in `WinAppManager`.
