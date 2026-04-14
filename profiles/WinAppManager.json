@@ -16,6 +16,7 @@
     "assets\\MsStore.ico",
     "Modules",
     "catalog",
+    "profiles",
     "README.md"
   ],
   "deploy_entries": [
@@ -25,6 +26,7 @@
     "assets\\MsStore.ico",
     "Modules",
     "catalog",
+    "profiles",
     "README.md"
   ],
   "preserve_existing_entries": [],
@@ -38,6 +40,7 @@
     "Modules\\ReviewUI.ps1",
     "catalog\\default-catalog.json",
     "catalog\\app-descriptions.json",
+    "profiles\\joty79.json",
     "README.md"
   ],
   "migration_copy_entries": [

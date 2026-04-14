@@ -286,3 +286,11 @@
 - Guardrail/rule: In `InstallerCore`, when a tool has a specific context-menu icon, the profile must own it as a repo-local runtime asset and wire it through `required_package_entries`, `deploy_entries`, `verify_core_files`, `registry_values`, and `registry_verify`. Do not leave generic `shell32.dll` fallback icons in a profile once a canonical repo-owned icon exists.
 - Files affected: `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: Regenerated `WinAppManager\Install.ps1`; static review confirmed `{InstallRoot}\assets\MsStore.ico` in embedded registry values and verify entries.
+
+### Entry - 2026-04-15 (Shipped profiles are package content, not migration-only state)
+- Date: 2026-04-15
+- Problem: A downstream installed app showed only `_preferences.json` under `%LOCALAPPDATA%\<Tool>\profiles` even though the repo already shipped multiple profile JSONs.
+- Root cause: The profile contract modeled `profiles` only under `migration_copy_entries`, which preserves existing runtime state but does not deploy the folder into fresh or repaired installs.
+- Guardrail/rule: In `InstallerCore`, if a tool ships repo-owned profile JSONs for operator use, the `profiles` folder must be included in `required_package_entries` and `deploy_entries`. Keep runtime preference/state files such as `_preferences.json` compatible with migration, but do not rely on migration-only semantics for shipped profile content.
+- Files affected: `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Regenerated `WinAppManager\Install.ps1`; downstream local update/readback confirmed the installed `profiles` folder receives the repo-owned JSON files.

@@ -9,6 +9,7 @@ All notable changes to `InstallerCore` live here.
 - Updated the shared `DownloadLatest` relaunch flow so generated installers now preserve the current host family: `WT` sessions relaunch in a fresh `WT` window, while plain `pwsh` sessions relaunch in plain `pwsh`.
 - Updated `RunDownloadLatest()` to treat the working-copy target root as the active log/install root during the download, so embedded in-app updater panels tail the correct `logs\installer.log` for workspace updates.
 - Updated `profiles/WinAppManager.json` so the child `System Tools` verb now deploys and verifies the repo-owned `assets\MsStore.ico` icon instead of using the generic `shell32.dll` fallback.
+- Updated `profiles/WinAppManager.json` so the shipped `profiles` folder is treated as real package content (`required` + `deploy`) instead of migration-only state, allowing installed copies to receive the repo-owned profile JSONs by default.
 
 ## [2026-04-14]
 
