@@ -1,0 +1,151 @@
+{
+  "tool_name": "WinAppManager",
+  "installer_title": "WinAppManager Installer",
+  "install_folder_name": "WinAppManager",
+  "github_repo": "joty79/WinAppManager",
+  "github_ref": "",
+  "publisher": "joty79",
+  "uninstall_key_name": "WinAppManager",
+  "uninstall_display_name": "WinAppManager",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [],
+  "required_package_entries": [
+    "Install.ps1",
+    "WinAppManager.ps1",
+    "Launch-WinAppManager.vbs",
+    "Modules",
+    "catalog",
+    "README.md"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "WinAppManager.ps1",
+    "Launch-WinAppManager.vbs",
+    "Modules",
+    "catalog",
+    "README.md"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "WinAppManager.ps1",
+    "Launch-WinAppManager.vbs",
+    "Modules\\AppState.ps1",
+    "Modules\\UiCommon.ps1",
+    "Modules\\ReviewUI.ps1",
+    "catalog\\default-catalog.json",
+    "catalog\\app-descriptions.json",
+    "README.md"
+  ],
+  "migration_copy_entries": [
+    "logs",
+    "state",
+    "profiles",
+    "exports",
+    "snapshots"
+  ],
+  "uninstall_preserve_files": [],
+  "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\WinAppManager",
+    "HKCR\\Directory\\shell\\SystemTools\\shell\\WinAppManager",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\WinAppManager",
+    "HKCR\\Directory\\Background\\shell\\SystemTools\\shell\\WinAppManager",
+    "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\WinAppManager",
+    "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\WinAppManager"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\WinAppManager",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "WinAppManager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\WinAppManager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-42"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\WinAppManager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-WinAppManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\WinAppManager",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "WinAppManager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\WinAppManager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-42"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\WinAppManager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-WinAppManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\WinAppManager",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "WinAppManager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\WinAppManager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "shell32.dll,-42"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\WinAppManager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\Launch-WinAppManager.vbs\""
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\WinAppManager",
+      "name": "MUIVerb",
+      "expected": "WinAppManager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\WinAppManager\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-WinAppManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\WinAppManager",
+      "name": "MUIVerb",
+      "expected": "WinAppManager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\WinAppManager\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-WinAppManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\WinAppManager",
+      "name": "MUIVerb",
+      "expected": "WinAppManager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\WinAppManager\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-WinAppManager.vbs\""
+    }
+  ],
+  "wrapper_patches": [
+    {
+      "file": "Launch-WinAppManager.vbs",
+      "regex": "(?i)d:\\\\users\\\\joty79\\\\scripts\\\\winappmanager\\\\WinAppManager\\.ps1",
+      "replacement": "{InstallRoot}\\WinAppManager.ps1"
+    }
+  ]
+}

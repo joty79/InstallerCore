@@ -238,3 +238,19 @@
 - Guardrail/rule: The root `InstallerCore` downloader should finish after a successful download and should not auto-relaunch `install.ps1`.
 - Files affected: `install.ps1`, `README.md`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: PowerShell parser validation on `install.ps1`; static review of downloader flow after removing relaunch behavior.
+
+### Entry - 2026-04-14 (WinAppManager profile onboarding)
+- Date: 2026-04-14
+- Problem: `WinAppManager` needed install/update/uninstall onboarding plus an in-app update entry, but it still had no `InstallerCore` profile contract to generate the downstream installer from a shared source of truth.
+- Root cause: The app workflow matured before the installer layer was onboarded, so the repo risked growing a bespoke `Install.ps1` or app-side update logic that would drift from the shared template flow.
+- Guardrail/rule: Keep `profiles/WinAppManager.json` as the source-of-truth installer profile for `WinAppManager`. The downstream repo `Install.ps1` must stay generated from `InstallerCore`, and the app's own `Update app` menu entry should launch that generated installer flow instead of duplicating installer behavior inside the app.
+- Files affected: `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Installer generation planned via `scripts\New-ToolInstaller.ps1` to `WinAppManager\Install.ps1`; parser/runtime validation planned in the downstream repo.
+
+### Entry - 2026-04-14 (WinAppManager as child-only SystemTools tool)
+- Date: 2026-04-14
+- Problem: `WinAppManager` also needed a real context-menu entry under the shared `System Tools` host, not just a standalone installer/update flow.
+- Root cause: The first profile onboarding covered deployment only and omitted the shared-submenu child registry contract plus the hidden launcher needed for clean elevated startup from Explorer.
+- Guardrail/rule: `profiles/WinAppManager.json` must stay child-only under the existing `SystemTools` host and may write only `...\SystemTools\shell\WinAppManager` branches for `Directory`, `Directory\Background`, and `DesktopBackground`. Use a repo-owned launcher file patched to `{InstallRoot}` for context-menu startup; do not let the child profile create or modify the parent `SystemTools` keys.
+- Files affected: `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: Regenerated downstream `WinAppManager\Install.ps1`; downstream non-admin install smoke with registry readback and patched-launcher verification.
