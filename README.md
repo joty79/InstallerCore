@@ -170,6 +170,7 @@ Every profile JSON has these sections:
 | `installer_title` | Display name in menu header | `"WhoIsUsingThis Installer"` |
 | `install_folder_name` | Target folder under `%LOCALAPPDATA%` | `"WhoIsUsingThisContext"` |
 | `github_repo` | GitHub `owner/repo` for downloads | `"joty79/WhoIsUsingThis"` |
+| `app_metadata_file` | Repo-relative JSON metadata file that carries the real shipped app version | `"app-metadata.json"` |
 | `github_ref` | Default branch (auto-detected if empty) | `""` |
 | `required_package_entries` | Repo-relative runtime files that must exist in the source package | `["Install.ps1", ".assets\\icons\\tool.ico"]` |
 | `deploy_entries` | Repo-relative files to copy to install directory | Same as above, plus assets |
@@ -221,9 +222,12 @@ Examples:
 
 Rules:
 - `required_package_entries`, `deploy_entries`, and `wrapper_patches.file` must be repo-relative paths
+- `app_metadata_file`, when present, must also be repo-relative and should normally point at the repo-owned version metadata JSON
 - runtime registry commands, icon paths, and wrapper replacements must not contain absolute filesystem paths like `D:\...`
 - use repo-local files and reference deployed paths through `{InstallRoot}`
 - prefer `.assets\...` for imported runtime dependencies so ownership is obvious
+
+If a profile supplies `app_metadata_file`, the shared template reads the version from that deployed file and uses it as the generated installer's effective version for install metadata / uninstall `DisplayVersion`. This keeps the installer aligned with the actual app version instead of a stale template constant.
 
 ### Shared Submenu Rules
 

@@ -294,3 +294,11 @@
 - Guardrail/rule: In `InstallerCore`, if a tool ships repo-owned profile JSONs for operator use, the `profiles` folder must be included in `required_package_entries` and `deploy_entries`. Keep runtime preference/state files such as `_preferences.json` compatible with migration, but do not rely on migration-only semantics for shipped profile content.
 - Files affected: `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: Regenerated `WinAppManager\Install.ps1`; downstream local update/readback confirmed the installed `profiles` folder receives the repo-owned JSON files.
+
+### Entry - 2026-04-16 (Template must read real app version from repo metadata)
+- Date: 2026-04-16
+- Problem: Downstream apps could add changelog-worthy features for days while the UI and uninstall entry still claimed an old version because the shared installer template only knew a static `InstallerVersion` constant.
+- Root cause: There was no shared contract for “the real app version lives in this repo-owned metadata file”, so the app UI and generated installer drifted independently.
+- Guardrail/rule: `InstallerCore` profiles may declare `app_metadata_file` as a repo-relative JSON file containing the shipped app version. When present, `templates/Install.Template.ps1` must read that file from the active package root and use its `version` as the generated installer's effective version for install metadata and uninstall `DisplayVersion`. The generator must validate that `app_metadata_file` stays repo-relative.
+- Files affected: `templates/Install.Template.ps1`, `scripts/New-ToolInstaller.ps1`, `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
+- Validation/tests run: PowerShell parser validation for template/generator; regenerated downstream `WinAppManager\Install.ps1`; static readback confirmed embedded `app_metadata_file` plus metadata-driven installer version resolution

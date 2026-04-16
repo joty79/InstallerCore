@@ -123,6 +123,9 @@ if (-not $profileObj.PSObject.Properties['tool_name']) {
 if (-not $profileObj.PSObject.Properties['required_package_entries']) {
     throw 'Profile must include required_package_entries.'
 }
+if ($profileObj.PSObject.Properties['app_metadata_file']) {
+    Assert-RelativeRepoPath -Value ([string]$profileObj.app_metadata_file) -Context 'app_metadata_file'
+}
 Assert-RelativePathList -Profile $profileObj -FieldNames @(
     'required_package_entries',
     'deploy_entries',

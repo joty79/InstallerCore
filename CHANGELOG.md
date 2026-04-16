@@ -2,6 +2,14 @@
 
 All notable changes to `InstallerCore` live here.
 
+## [2026-04-16]
+
+### Changed
+
+- Added profile-level `app_metadata_file` support so generated installers can read the real shipped app version from a repo-owned metadata JSON instead of relying on a stale template constant.
+- Updated `scripts/New-ToolInstaller.ps1` to validate `app_metadata_file` as a repo-relative path, keeping the new version contract portable across machines.
+- Updated `profiles/WinAppManager.json` to deploy and verify `app-metadata.json`, then regenerated the downstream `WinAppManager\Install.ps1` so install metadata and uninstall `DisplayVersion` follow the app's actual version.
+
 ## [2026-04-15]
 
 ### Changed

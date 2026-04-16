@@ -44,9 +44,31 @@ function NormalizeGitHubRef([string]$Ref) {
     }
     return $candidate
 }
+function Resolve-AppVersionFromRoot([string]$PackageRoot, [AllowEmptyString()][string]$MetadataFile, [AllowEmptyString()][string]$FallbackVersion = '1.0.0') {
+    if ([string]::IsNullOrWhiteSpace($MetadataFile) -or [string]::IsNullOrWhiteSpace($PackageRoot)) {
+        return $FallbackVersion
+    }
+
+    $metadataPath = Join-Path $PackageRoot $MetadataFile
+    if (-not (Test-Path -LiteralPath $metadataPath -PathType Leaf)) {
+        return $FallbackVersion
+    }
+
+    try {
+        $metadata = Get-Content -LiteralPath $metadataPath -Raw | ConvertFrom-Json
+        $versionProperty = $metadata.PSObject.Properties['version']
+        if ($null -ne $versionProperty -and -not [string]::IsNullOrWhiteSpace([string]$versionProperty.Value)) {
+            return [string]$versionProperty.Value
+        }
+    }
+    catch {}
+
+    return $FallbackVersion
+}
 
 $script:ToolName = [string](Get-P 'tool_name' 'Tool')
-$script:InstallerVersion = '1.0.0'
+$script:AppMetadataFile = [string](Get-P 'app_metadata_file' 'app-metadata.json')
+$script:InstallerVersion = [string](Get-P 'app_version' '1.0.0')
 $script:DisplayName = [string](Get-P 'uninstall_display_name' "$($script:ToolName) Context Menu")
 $script:InstallerTitle = [string](Get-P 'installer_title' "$($script:ToolName) Installer")
 $script:LegacyRoot = [string](Get-P 'legacy_root' '')
@@ -65,6 +87,7 @@ $GitHubRef = NormalizeGitHubRef $GitHubRef
 if (-not $script:GitHubRefSpecified) { $GitHubRef = NormalizeGitHubRef ([string](Get-P 'github_ref' '')) }
 $InstallPath = Norm $InstallPath
 $SourcePath = Norm $SourcePath
+$script:InstallerVersion = Resolve-AppVersionFromRoot -PackageRoot $SourcePath -MetadataFile $script:AppMetadataFile -FallbackVersion $script:InstallerVersion
 $script:InstallerLogPath = Join-Path $InstallPath 'logs\installer.log'
 
 function Log([string]$Message, [ValidateSet('INFO', 'WARN', 'ERROR')] [string]$Level = 'INFO') {
@@ -397,6 +420,7 @@ function SaveMeta([string]$InstallRoot, [string]$Mode) {
     $meta = [ordered]@{
         schema_version = 1
         installer_version = $script:InstallerVersion
+        app_version = $script:InstallerVersion
         tool_name = $script:ToolName
         install_path = $InstallPath
         source_path = if ($script:ResolvedPackageSource -eq 'GitHub') { "github://$GitHubRepo@$GitHubRef" } else { $SourcePath }
@@ -498,7 +522,11 @@ function RunInstallOrUpdate([ValidateSet('Install', 'Update')] [string]$Mode) {
     Log "Starting $Mode to $InstallPath"
     foreach ($cmd in @('pwsh.exe', 'wscript.exe') + (Arr 'required_commands')) { if (-not (Get-Command $cmd -ErrorAction SilentlyContinue)) { Log "Missing required command: $cmd" 'ERROR'; return 1 } }
     EnsureDir $InstallPath; EnsureDir (Join-Path $InstallPath 'logs'); EnsureDir (Join-Path $InstallPath 'state'); EnsureDir (Join-Path $InstallPath 'assets')
-    try { $src = ResolveSourceRoot; Deploy -SourceRoot $src -InstallRoot $InstallPath } finally { foreach ($t in $script:TempPackageRoots) { try { if (Test-Path -LiteralPath $t) { Remove-Item -LiteralPath $t -Recurse -Force -ErrorAction SilentlyContinue } } catch {} } $script:TempPackageRoots.Clear() }
+    try {
+        $src = ResolveSourceRoot
+        $script:InstallerVersion = Resolve-AppVersionFromRoot -PackageRoot $src -MetadataFile $script:AppMetadataFile -FallbackVersion $script:InstallerVersion
+        Deploy -SourceRoot $src -InstallRoot $InstallPath
+    } finally { foreach ($t in $script:TempPackageRoots) { try { if (Test-Path -LiteralPath $t) { Remove-Item -LiteralPath $t -Recurse -Force -ErrorAction SilentlyContinue } } catch {} } $script:TempPackageRoots.Clear() }
     PatchWrappers -InstallRoot $InstallPath
     $coreOk = VerifyCore -InstallRoot $InstallPath
     WriteRegistry -InstallRoot $InstallPath
