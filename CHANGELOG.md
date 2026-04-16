@@ -10,6 +10,7 @@ All notable changes to `InstallerCore` live here.
 - Updated `scripts/New-ToolInstaller.ps1` to validate `app_metadata_file` as a repo-relative path, keeping the new version contract portable across machines.
 - Updated `profiles/WinAppManager.json` to deploy and verify `app-metadata.json`, then regenerated the downstream `WinAppManager\Install.ps1` so install metadata and uninstall `DisplayVersion` follow the app's actual version.
 - Updated `profiles/SystemCleanup.json` to match the modern PowerShell launcher contract: deploy/verify `app-metadata.json`, `SystemCleanup.ps1`, `FullCleanup.cmd`, and `ManageUpdates.ps1`, and register `SystemCleanup.ps1` as the primary context-menu entrypoint.
+- Updated `profiles/SystemCleanup.json` again to use a shipped `Launch-SystemCleanup.vbs` hidden launcher, so Explorer context-menu launches hand off directly to `WT/pwsh` without flashing an intermediate PowerShell window.
 
 ## [2026-04-15]
 

@@ -247,6 +247,14 @@
 - Files affected: `profiles/SystemCleanup.json`, `CHANGELOG.md`, `PROJECT_RULES.md`
 - Validation/tests run: Regenerated `SystemCleanup\Install.ps1` via `scripts\New-ToolInstaller.ps1`; PowerShell parser validation passed on the generated installer.
 
+### Entry - 2026-04-16 (SystemCleanup context-menu launch should go through hidden VBS wrapper)
+- Date: 2026-04-16
+- Problem: Even with the PowerShell launcher migration, Explorer context-menu launch still flashed a visible intermediate `pwsh` window before the app rehosted itself into Windows Terminal.
+- Root cause: The profile registry command still targeted `pwsh.exe -File ...` directly, which exposed the bootstrap PowerShell host to the user.
+- Guardrail/rule: When a PowerShell TUI wants WT-first behavior from Explorer, prefer shipping a repo-owned `.vbs` launcher and point the generated registry command at `wscript.exe "{InstallRoot}\Launch-*.vbs"`. The VBS should perform the elevated `WT/pwsh` handoff directly so Explorer does not show the intermediate PowerShell window.
+- Files affected: `profiles/SystemCleanup.json`, `CHANGELOG.md`, `PROJECT_RULES.md`
+- Validation/tests run: Regenerated `SystemCleanup\Install.ps1`; PowerShell parser validation passed on the generated installer; static review of VBS patching and generated registry command strings.
+
 ### Entry - 2026-04-14 (WinAppManager profile onboarding)
 - Date: 2026-04-14
 - Problem: `WinAppManager` needed install/update/uninstall onboarding plus an in-app update entry, but it still had no `InstallerCore` profile contract to generate the downstream installer from a shared source of truth.
