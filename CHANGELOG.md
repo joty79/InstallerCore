@@ -9,6 +9,7 @@ All notable changes to `InstallerCore` live here.
 - Added profile-level `app_metadata_file` support so generated installers can read the real shipped app version from a repo-owned metadata JSON instead of relying on a stale template constant.
 - Updated `scripts/New-ToolInstaller.ps1` to validate `app_metadata_file` as a repo-relative path, keeping the new version contract portable across machines.
 - Updated `profiles/WinAppManager.json` to deploy and verify `app-metadata.json`, then regenerated the downstream `WinAppManager\Install.ps1` so install metadata and uninstall `DisplayVersion` follow the app's actual version.
+- Updated `profiles/SystemCleanup.json` to match the modern PowerShell launcher contract: deploy/verify `app-metadata.json`, `SystemCleanup.ps1`, `FullCleanup.cmd`, and `ManageUpdates.ps1`, and register `SystemCleanup.ps1` as the primary context-menu entrypoint.
 
 ## [2026-04-15]
 

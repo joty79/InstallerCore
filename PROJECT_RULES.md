@@ -239,6 +239,14 @@
 - Files affected: `install.ps1`, `README.md`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: PowerShell parser validation on `install.ps1`; static review of downloader flow after removing relaunch behavior.
 
+### Entry - 2026-04-16 (SystemCleanup profile must track the PowerShell launcher contract)
+- Date: 2026-04-16
+- Problem: `profiles/SystemCleanup.json` had drifted behind the actual repo/runtime state, so regenerating from `InstallerCore` would have dropped the modern PowerShell launcher contract and several required runtime files.
+- Root cause: `SystemCleanup` evolved from the older CMD-centric launcher into a `SystemCleanup.ps1`-first tool, but that change was never fully backported into the source-of-truth profile.
+- Guardrail/rule: Keep `profiles/SystemCleanup.json` aligned with the current PowerShell launcher contract. The profile must deploy/verify `app-metadata.json`, `SystemCleanup.ps1`, `FullCleanup.cmd`, and `ManageUpdates.ps1`, and the generated registry command must target `pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "{InstallRoot}\SystemCleanup.ps1"` rather than the legacy CMD entrypoint.
+- Files affected: `profiles/SystemCleanup.json`, `CHANGELOG.md`, `PROJECT_RULES.md`
+- Validation/tests run: Regenerated `SystemCleanup\Install.ps1` via `scripts\New-ToolInstaller.ps1`; PowerShell parser validation passed on the generated installer.
+
 ### Entry - 2026-04-14 (WinAppManager profile onboarding)
 - Date: 2026-04-14
 - Problem: `WinAppManager` needed install/update/uninstall onboarding plus an in-app update entry, but it still had no `InstallerCore` profile contract to generate the downstream installer from a shared source of truth.

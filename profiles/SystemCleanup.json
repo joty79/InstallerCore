@@ -4,6 +4,7 @@
   "install_folder_name": "SystemCleanupContext",
   "github_repo": "joty79/SystemCleanup",
   "github_ref": "",
+  "app_metadata_file": "app-metadata.json",
   "legacy_root": "D:\\Users\\joty79\\scripts\\dism",
   "publisher": "joty79",
   "uninstall_key_name": "SystemCleanupContext",
@@ -20,21 +21,33 @@
   ],
   "required_package_entries": [
     "Install.ps1",
+    "app-metadata.json",
+    "SystemCleanup.ps1",
+    "FullCleanup.cmd",
     "SystemCleanup.cmd",
     "CleanInFlight.ps1",
+    "ManageUpdates.ps1",
     "SystemCleanup.reg"
   ],
   "deploy_entries": [
     "Install.ps1",
+    "app-metadata.json",
+    "SystemCleanup.ps1",
+    "FullCleanup.cmd",
     "SystemCleanup.cmd",
     "CleanInFlight.ps1",
+    "ManageUpdates.ps1",
     "SystemCleanup.reg"
   ],
   "preserve_existing_entries": [],
   "verify_core_files": [
     "Install.ps1",
+    "app-metadata.json",
+    "SystemCleanup.ps1",
+    "FullCleanup.cmd",
     "SystemCleanup.cmd",
-    "CleanInFlight.ps1"
+    "CleanInFlight.ps1",
+    "ManageUpdates.ps1"
   ],
   "migration_copy_entries": [
     "logs",
@@ -70,7 +83,7 @@
       "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup\\Command",
       "name": "(default)",
       "type": "REG_SZ",
-      "value": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+      "value": "pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\SystemCleanup.ps1\""
     },
     {
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
@@ -88,7 +101,7 @@
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup\\Command",
       "name": "(default)",
       "type": "REG_SZ",
-      "value": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+      "value": "pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\SystemCleanup.ps1\""
     }
   ],
   "registry_verify": [
@@ -100,7 +113,7 @@
     {
       "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\SystemCleanup\\Command",
       "name": "(default)",
-      "expected": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+      "expected": "pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\SystemCleanup.ps1\""
     },
     {
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup",
@@ -110,7 +123,7 @@
     {
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\SystemCleanup\\Command",
       "name": "(default)",
-      "expected": "cmd.exe /c \"{InstallRoot}\\SystemCleanup.cmd\""
+      "expected": "pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\SystemCleanup.ps1\""
     }
   ],
   "wrapper_patches": []
