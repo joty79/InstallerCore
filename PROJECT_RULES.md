@@ -342,4 +342,4 @@
 - Root cause: The template resolved GitHub refs for downloads but did not resolve the commit SHA, and local-source installs did not capture the local git `HEAD` they deployed from.
 - Guardrail/rule: Generated installers should populate `state\install-meta.json` with the resolved GitHub commit when using GitHub sources and the local git `HEAD`/branch/dirty state when using a git working copy. Downstream apps can then compare installed commit metadata against the remote branch.
 - Files affected: `templates/Install.Template.ps1`, downstream `SystemTools\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
-- Validation/tests run: Pending parser validation and downstream generation validation.
+- Validation/tests run: Parser validation passed for `templates\Install.Template.ps1`, `scripts\New-ToolInstaller.ps1`, and root `install.ps1`; `profiles\SystemTools.json` parsed as JSON; regenerated downstream `SystemTools\Install.ps1`.
