@@ -318,3 +318,19 @@
 - Guardrail/rule: `InstallerCore` profiles may declare `app_metadata_file` as a repo-relative JSON file containing the shipped app version. When present, `templates/Install.Template.ps1` must read that file from the active package root and use its `version` as the generated installer's effective version for install metadata and uninstall `DisplayVersion`. The generator must validate that `app_metadata_file` stays repo-relative.
 - Files affected: `templates/Install.Template.ps1`, `scripts/New-ToolInstaller.ps1`, `profiles/WinAppManager.json`, `PROJECT_RULES.md`, `CHANGELOG.md`
 - Validation/tests run: PowerShell parser validation for template/generator; regenerated downstream `WinAppManager\Install.ps1`; static readback confirmed embedded `app_metadata_file` plus metadata-driven installer version resolution
+
+### Entry - 2026-04-22 (Generated installers must survive non-interactive prompts)
+- Date: 2026-04-22
+- Problem: A downstream generated installer crashed in Codex/non-interactive execution with `You cannot call a method on a null-valued expression`, and `-NoExplorerRestart` caused a completed update to return non-zero solely because the skip was logged as a warning.
+- Root cause: The template called `.Trim()` directly on `Read-Host` results and treated intentional Explorer restart suppression as warning/failure state.
+- Guardrail/rule: In `templates/Install.Template.ps1`, confirmation prompts must handle `$null` as cancellation. `-NoExplorerRestart` must be informational, not a warning, so scripted verification can intentionally suppress Explorer restart without failing.
+- Files affected: `templates/Install.Template.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`
+- Validation/tests run: Parser validation passed for `templates\Install.Template.ps1`, `scripts\New-ToolInstaller.ps1`, and root `install.ps1`; regenerated downstream `SystemTools\Install.ps1`; downstream `Install.ps1 -Action Update -NoExplorerRestart -Force` completed with exit code `0` and installed hash readback matched repo files.
+
+### Entry - 2026-04-22 (SystemTools update UI belongs in the app, not host registry)
+- Date: 2026-04-22
+- Problem: `SystemTools` needed the same user-facing update affordance as newer apps, but that affordance is `Update: ...` plus `Update app` inside the app TUI, not a separate Explorer context-menu child verb.
+- Root cause: The generated installer/profile provides update mechanics, while the downstream app script must expose those mechanics in its own UI.
+- Guardrail/rule: Do not add a generic `Update SystemTools...` Explorer verb from the host profile for this case. Keep `profiles/SystemTools.json` focused on deploying `Install.ps1` and context-menu tools; implement the app-side update header/submenu in downstream `AddDelPath.ps1`.
+- Files affected: `profiles/SystemTools.json`, `PROJECT_RULES.md`, downstream `SystemTools`.
+- Validation/tests run: `profiles\SystemTools.json` parsed as JSON; regenerated downstream `SystemTools\Install.ps1`; downstream update completed with exit code `0`; registry readback confirmed the mistaken `UpdateSystemTools` context-menu verb is absent.

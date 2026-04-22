@@ -111,7 +111,9 @@ function DeployEntries {
 
 function Confirm([string]$Prompt) {
     if ($Force) { return $true }
-    return ((Read-Host "$Prompt [y/N]").Trim().ToLowerInvariant() -eq 'y')
+    $response = Read-Host "$Prompt [y/N]"
+    if ($null -eq $response) { return $false }
+    return ($response.Trim().ToLowerInvariant() -eq 'y')
 }
 
 function RegCmd([AllowEmptyString()][string[]]$RegArgs, [switch]$IgnoreNotFound) {
@@ -462,9 +464,10 @@ function Get-ExplorerRestartPath {
 }
 
 function RestartExplorer {
-    if ($NoExplorerRestart) { Log 'Explorer restart skipped by -NoExplorerRestart.' 'WARN'; return }
+    if ($NoExplorerRestart) { Log 'Explorer restart skipped by -NoExplorerRestart.'; return }
     if (-not $Force) {
-        $a = (Read-Host 'Restart Explorer now to refresh context menus? [Y/n]').Trim().ToLowerInvariant()
+        $restartResponse = Read-Host 'Restart Explorer now to refresh context menus? [Y/n]'
+        $a = if ($null -eq $restartResponse) { 'n' } else { $restartResponse.Trim().ToLowerInvariant() }
         if ($a -in @('n', 'no')) { Log 'Explorer restart skipped by user.' 'WARN'; return }
     }
 

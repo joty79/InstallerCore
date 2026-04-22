@@ -2,6 +2,14 @@
 
 All notable changes to `InstallerCore` live here.
 
+## [2026-04-22]
+
+### Fixed
+
+- Updated generated installer confirmations to treat `$null` `Read-Host` responses as cancellation, preventing non-interactive hosts from crashing on `.Trim()`.
+- Changed generated `-NoExplorerRestart` handling to log the intentional skip as informational instead of warning/failure state, so scripted `Install`/`Update` verification can return exit code `0`.
+
+
 ## [2026-04-16]
 
 ### Changed
