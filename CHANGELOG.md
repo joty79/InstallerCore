@@ -4,6 +4,10 @@ All notable changes to `InstallerCore` live here.
 
 ## [2026-04-22]
 
+### Changed
+
+- Generated installers now record resolved GitHub/local git commit metadata in `state\install-meta.json`, including `github_commit`, `source_git_branch`, and `source_dirty`, so downstream in-app update UIs can detect same-version hotfixes.
+
 ### Fixed
 
 - Updated generated installer confirmations to treat `$null` `Read-Host` responses as cancellation, preventing non-interactive hosts from crashing on `.Trim()`.

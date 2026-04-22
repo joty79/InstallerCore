@@ -334,3 +334,12 @@
 - Guardrail/rule: Do not add a generic `Update SystemTools...` Explorer verb from the host profile for this case. Keep `profiles/SystemTools.json` focused on deploying `Install.ps1` and context-menu tools; implement the app-side update header/submenu in downstream `AddDelPath.ps1`.
 - Files affected: `profiles/SystemTools.json`, `PROJECT_RULES.md`, downstream `SystemTools`.
 - Validation/tests run: `profiles\SystemTools.json` parsed as JSON; regenerated downstream `SystemTools\Install.ps1`; downstream update completed with exit code `0`; registry readback confirmed the mistaken `UpdateSystemTools` context-menu verb is absent.
+
+### Entry - 2026-04-22 (Generated metadata must identify installed commits)
+
+- Date: 2026-04-22
+- Problem: Downstream in-app update UIs could miss same-version hotfixes because install metadata recorded app version but left `github_commit` empty.
+- Root cause: The template resolved GitHub refs for downloads but did not resolve the commit SHA, and local-source installs did not capture the local git `HEAD` they deployed from.
+- Guardrail/rule: Generated installers should populate `state\install-meta.json` with the resolved GitHub commit when using GitHub sources and the local git `HEAD`/branch/dirty state when using a git working copy. Downstream apps can then compare installed commit metadata against the remote branch.
+- Files affected: `templates/Install.Template.ps1`, downstream `SystemTools\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Pending parser validation and downstream generation validation.

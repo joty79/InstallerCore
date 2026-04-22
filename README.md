@@ -142,7 +142,7 @@ The template provides these actions out-of-the-box for every generated installer
 │     ├─ File copy with preserve-existing support             │
 │     ├─ Core file verification after deploy                  │
 │     ├─ Wrapper script patching ({InstallRoot} replacement)  │
-│     └─ Install metadata saved to state/install-meta.json    │
+│     └─ Install metadata with version + commit provenance    │
 │                                                             │
 │  🔄 Explorer Restart                                         │
 │     ├─ Clean stop (no zombie processes)                     │
