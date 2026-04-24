@@ -2,6 +2,12 @@
 
 All notable changes to `InstallerCore` live here.
 
+## [2026-04-24]
+
+### Changed
+
+- Updated `profiles/TakeOwnership.json` to deploy and verify `app-metadata.json`, allowing the downstream tool to use the current app metadata/update-status contract while staying generated from `InstallerCore`.
+
 ## [2026-04-22]
 
 ### Changed

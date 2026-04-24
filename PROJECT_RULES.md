@@ -343,3 +343,11 @@
 - Guardrail/rule: Generated installers should populate `state\install-meta.json` with the resolved GitHub commit when using GitHub sources and the local git `HEAD`/branch/dirty state when using a git working copy. Downstream apps can then compare installed commit metadata against the remote branch.
 - Files affected: `templates/Install.Template.ps1`, downstream `SystemTools\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Parser validation passed for `templates\Install.Template.ps1`, `scripts\New-ToolInstaller.ps1`, and root `install.ps1`; `profiles\SystemTools.json` parsed as JSON; regenerated downstream `SystemTools\Install.ps1`.
+
+### Entry - 2026-04-24 (TakeOwnership profile uses app metadata but remains plain-pwsh)
+- Date: 2026-04-24
+- Problem: `TakeOwnership` needed the current generated installer metadata contract and in-app update status, but its RunAsTI launch chain should not inherit WT-first UI assumptions from other tools.
+- Root cause: The `TakeOwnership` profile predated the `app_metadata_file` contract and only deployed the original ownership/runtime files.
+- Guardrail/rule: Keep `profiles\TakeOwnership.json` as the source of truth, deploy/verify `app-metadata.json`, and let the downstream `Manage_Ownership.ps1` expose a compact plain-`pwsh` update menu rather than a Windows Terminal bootstrap.
+- Files affected: `profiles\TakeOwnership.json`, downstream `TakeOwnership`.
+- Validation/tests run: Profile parsed as JSON; downstream `TakeOwnership\\Install.ps1` regenerated; downstream parser validation passed for `Install.ps1` and `Manage_Ownership.ps1`; non-admin local-source update smoke completed with exit code `0`.
