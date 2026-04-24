@@ -21,6 +21,7 @@
 | ⬇️ | **[Repo Downloader](#-repo-downloader)** | Root `install.ps1` that refreshes the current `InstallerCore` working copy in place |
 | 📄 | **[Template Engine](#-template-engine)** | 750-line PowerShell template with embedded profile marker for code generation |
 | 📋 | **[Profile System](#-profile-system)** | JSON profiles that define every tool-specific setting — registry, files, GitHub |
+| 🖥️ | **[In-App Update UI Contract](#%EF%B8%8F-in-app-update-ui-contract)** | Downstream checklist for app-side update status, progress, output, relaunch, and old-host exit |
 | 🔧 | **[Generator Script](#-generator-script)** | One-command script that merges template + profile into a production installer |
 
 ---
@@ -251,6 +252,38 @@ Tools that live under the shared **System Tools** context menu follow strict own
 
 ---
 
+## 🖥️ In-App Update UI Contract
+
+> `InstallerCore` provides the installer/update backend. Downstream app scripts still need their own `Update app` UI adapter.
+
+Regenerating `Install.ps1` is not a complete in-app update integration by itself. The generated installer knows how to update files, write metadata, log output, and honor flags such as `-NoSelfRelaunch`, but it cannot automatically add or repair a downstream app's menu/header/progress behavior.
+
+The contract lives in [docs\IN_APP_UPDATE_UI_CONTRACT.md](docs/IN_APP_UPDATE_UI_CONTRACT.md).
+
+### Required app-side behavior
+
+| Behavior | Expectation |
+|----------|-------------|
+| Header/status | Show app version and update status from the metadata/update check contract |
+| Menu entry | Expose `Update app` inside the app script, not only in `Install.ps1` |
+| Backend call | Use the generated installer as the update backend |
+| Progress | Keep the current app session visible while the updater runs |
+| Recent output | Tail `logs\installer.log` and show recent installer output |
+| Failure path | Show exit code and recent output when update fails |
+| Success path | Relaunch the updated app host and close the old host |
+
+### Adapter families
+
+| Adapter | Use when | Canonical behavior |
+|---------|----------|--------------------|
+| `WT TUI` | The app normally runs in Windows Terminal with a resize-safe TUI | `WinAppManager` progress panel, recent output, relaunch, old-host exit |
+| `plain pwsh` | The app cannot safely bootstrap through Windows Terminal | Same behavior contract, but rendered in plain `pwsh` |
+| `host-specific` | The app has a custom launch/elevation model | Must document inherited behavior and explicit exceptions in the downstream `PROJECT_RULES.md` |
+
+Use `WinAppManager` as the canonical behavior reference unless the downstream app has a documented host-specific exception. For example, `TakeOwnership` uses the `plain pwsh` adapter because its RunAsTI chain is special and must not assume WT.
+
+---
+
 ## 🔧 Generator Script
 
 > Run one command, get a production-ready, self-contained installer with embedded profile and full parser validation.
@@ -310,7 +343,8 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 4. **List required files** — add every runtime file to `required_package_entries` and `deploy_entries`
 5. **Generate** — run `New-ToolInstaller.ps1` with your new profile
 6. **Use the generated installer as source-of-truth** — do not hand-write a bespoke repo-local `Install.ps1` once the repo is onboarded
-7. **Test** — run the generated `Install.ps1` with `-Action Install -PackageSource Local`
+7. **Implement the app-side update UI contract** — if the app exposes `Update app`, follow `docs\IN_APP_UPDATE_UI_CONTRACT.md`
+8. **Test** — run the generated `Install.ps1` with `-Action Install -PackageSource Local`
 
 ### Checklist for new profiles
 
@@ -320,6 +354,8 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 - [ ] `required_package_entries` lists every file the tool needs at runtime
 - [ ] `required_package_entries` / `deploy_entries` use only repo-relative paths
 - [ ] `Install.ps1` is generated from `InstallerCore`; no bespoke installer logic is being maintained in the downstream repo
+- [ ] If the app exposes `Update app`, the downstream UI follows `docs\IN_APP_UPDATE_UI_CONTRACT.md`
+- [ ] The downstream app declares the correct update UI adapter family (`WT TUI`, `plain pwsh`, or host-specific)
 - [ ] `registry_cleanup_keys` includes all legacy key paths (HKCU + HKCR)
 - [ ] `registry_values` uses `{InstallRoot}` placeholder for deployed file paths and contains no hardcoded `D:\...` paths
 - [ ] `registry_verify` covers at least the command keys
@@ -332,6 +368,8 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 ```
 InstallerCore/
 ├── install.ps1                     # Downloader-only self-refresh entrypoint for this repo
+├── docs/
+│   └── IN_APP_UPDATE_UI_CONTRACT.md # Downstream Update app behavior checklist
 ├── templates/
 │   └── Install.Template.ps1       # 750-line generic installer template
 ├── profiles/

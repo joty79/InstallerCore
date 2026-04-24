@@ -4,9 +4,14 @@ All notable changes to `InstallerCore` live here.
 
 ## [2026-04-24]
 
+### Added
+
+- Added `docs\IN_APP_UPDATE_UI_CONTRACT.md` to define the downstream app-side `Update app` behavior that generated installers do not provide automatically.
+
 ### Changed
 
 - Updated `profiles/TakeOwnership.json` to deploy and verify `app-metadata.json`, allowing the downstream tool to use the current app metadata/update-status contract while staying generated from `InstallerCore`.
+- Documented that downstream apps must implement update status, progress output, relaunch, and old-host exit through an app-specific adapter after `Install.ps1` regeneration.
 
 ## [2026-04-22]
 
