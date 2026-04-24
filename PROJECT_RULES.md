@@ -360,3 +360,11 @@
 - Guardrail/rule: Keep `docs\IN_APP_UPDATE_UI_CONTRACT.md` as the checklist for downstream `Update app` UI. Regenerating `Install.ps1` is not enough: the downstream app must also implement header/status, progress panel, recent installer output, failure display, relaunch, and old-host exit through the correct adapter family (`WT TUI`, `plain pwsh`, or documented host-specific).
 - Files affected: `docs\IN_APP_UPDATE_UI_CONTRACT.md`, `README.md`, `CHANGELOG.md`, `PROJECT_RULES.md`, global `AGENTS.md`.
 - Validation/tests run: Documentation review; markdown contract added; `UPDATEUI` alias documented; README checklist updated; global onboarding guardrail updated so future app work loads the contract before downstream UI edits.
+
+### Entry - 2026-04-24 (WhoIsUsingThis profile metadata for UPDATEUI)
+- Date: 2026-04-24
+- Problem: `WhoIsUsingThis` needed the in-app update UI contract, but its generated installer profile did not deploy app metadata for app-side version/update status.
+- Root cause: The profile predates the `app_metadata_file` contract and only shipped the scanner, launcher, registry, and asset files.
+- Guardrail/rule: Keep `profiles\WhoIsUsingThis.json` as the source of truth for the scanner installer, and deploy/verify `app-metadata.json` whenever the downstream `WhoIsUsingThis.ps1` exposes `Update App`.
+- Files affected: `profiles\WhoIsUsingThis.json`, downstream `WhoIsUsingThis`.
+- Validation/tests run: Profile parsed as JSON; downstream `WhoIsUsingThis\Install.ps1` regenerated; downstream parser validation passed; local-source installer update smoke completed with exit code `0`; installed file hash and registry command readback passed in `WhoIsUsingThis`.

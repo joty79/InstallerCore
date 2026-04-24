@@ -12,6 +12,7 @@ All notable changes to `InstallerCore` live here.
 ### Changed
 
 - Updated `profiles/TakeOwnership.json` to deploy and verify `app-metadata.json`, allowing the downstream tool to use the current app metadata/update-status contract while staying generated from `InstallerCore`.
+- Updated `profiles/WhoIsUsingThis.json` to deploy and verify `app-metadata.json`, allowing the downstream scanner to use the current in-app update status contract after regeneration.
 - Documented that downstream apps must implement update status, progress output, relaunch, and old-host exit through an app-specific adapter after `Install.ps1` regeneration.
 
 ## [2026-04-22]

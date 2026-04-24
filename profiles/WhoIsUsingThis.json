@@ -4,6 +4,7 @@
   "install_folder_name": "WhoIsUsingThisContext",
   "github_repo": "joty79/WhoIsUsingThis",
   "github_ref": "",
+  "app_metadata_file": "app-metadata.json",
   "legacy_root": "D:\\Users\\joty79\\scripts\\WhoIsUsingThis",
   "publisher": "joty79",
   "uninstall_key_name": "WhoIsUsingThisContext",
@@ -16,6 +17,7 @@
   ],
   "required_package_entries": [
     "Install.ps1",
+    "app-metadata.json",
     "WhoIsUsingThis.ps1",
     "WhoIsUsingThis.vbs",
     "WhoIsUsingThis.reg",
@@ -24,6 +26,7 @@
   ],
   "deploy_entries": [
     "Install.ps1",
+    "app-metadata.json",
     "WhoIsUsingThis.ps1",
     "WhoIsUsingThis.vbs",
     "WhoIsUsingThis.reg",
@@ -33,6 +36,7 @@
   "preserve_existing_entries": [],
   "verify_core_files": [
     "Install.ps1",
+    "app-metadata.json",
     "WhoIsUsingThis.ps1",
     "WhoIsUsingThis.vbs",
     "assets\\bin\\handle.exe",
