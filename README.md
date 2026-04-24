@@ -282,6 +282,15 @@ The contract lives in [docs\IN_APP_UPDATE_UI_CONTRACT.md](docs/IN_APP_UPDATE_UI_
 
 Use `WinAppManager` as the canonical behavior reference unless the downstream app has a documented host-specific exception. For example, `TakeOwnership` uses the `plain pwsh` adapter because its RunAsTI chain is special and must not assume WT.
 
+### Short aliases
+
+| Alias | Meaning |
+|-------|---------|
+| `UPDATEUI` | Apply this contract with the downstream default adapter or `WinAppManager` as canonical reference |
+| `UPDATEUI: WT` | Apply the Windows Terminal TUI adapter |
+| `UPDATEUI: plain-pwsh` | Apply the plain PowerShell adapter and avoid WT bootstrap |
+| `UPDATEUI: host-specific` | Apply a documented custom adapter |
+
 ---
 
 ## 🔧 Generator Script

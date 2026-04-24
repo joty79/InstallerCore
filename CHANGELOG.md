@@ -7,6 +7,7 @@ All notable changes to `InstallerCore` live here.
 ### Added
 
 - Added `docs\IN_APP_UPDATE_UI_CONTRACT.md` to define the downstream app-side `Update app` behavior that generated installers do not provide automatically.
+- Added the `UPDATEUI` shorthand convention for asking Codex to apply the in-app update UI contract without pasting the full prompt.
 
 ### Changed
 

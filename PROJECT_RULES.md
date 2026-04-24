@@ -11,7 +11,7 @@
 - Generated installers must keep action flow parity: Install/Update/Uninstall/Open actions, metadata, registry write+verify, and uninstall entry.
 - Generated installers must not depend on runtime files outside the tool workspace. Move imported icons, binaries, helper scripts, and sidecar files into the repo first, preferably under `.assets`, and reference only repo-local paths or `{InstallRoot}` in profiles.
 - Once a tool repo is onboarded to `InstallerCore`, do not hand-write or maintain a bespoke repo-local `Install.ps1`. Regenerate `Install.ps1` from the template/profile pair and make template/profile fixes at the source.
-- Treat app-side update UI as a separate downstream contract from the generated installer backend. Before adding or repairing an in-app `Update app` flow, follow `docs\IN_APP_UPDATE_UI_CONTRACT.md`; copying installer flags without the app behavior contract is template drift.
+- Treat app-side update UI as a separate downstream contract from the generated installer backend. Before adding or repairing an in-app `Update app` flow, follow `docs\IN_APP_UPDATE_UI_CONTRACT.md`; copying installer flags without the app behavior contract is template drift. The shorthand `UPDATEUI` means “apply this contract,” with optional adapter suffixes such as `UPDATEUI: WT` or `UPDATEUI: plain-pwsh`.
 
 ## Decision Log
 
@@ -359,4 +359,4 @@
 - Root cause: `InstallerCore` owns installer mechanics, but app-side UX lives in each downstream script. The proven `WinAppManager` behavior was treated as inspiration instead of a strict behavior contract for other apps.
 - Guardrail/rule: Keep `docs\IN_APP_UPDATE_UI_CONTRACT.md` as the checklist for downstream `Update app` UI. Regenerating `Install.ps1` is not enough: the downstream app must also implement header/status, progress panel, recent installer output, failure display, relaunch, and old-host exit through the correct adapter family (`WT TUI`, `plain pwsh`, or documented host-specific).
 - Files affected: `docs\IN_APP_UPDATE_UI_CONTRACT.md`, `README.md`, `CHANGELOG.md`, `PROJECT_RULES.md`, global `AGENTS.md`.
-- Validation/tests run: Documentation review; markdown contract added; README checklist updated; global onboarding guardrail updated so future app work loads the contract before downstream UI edits.
+- Validation/tests run: Documentation review; markdown contract added; `UPDATEUI` alias documented; README checklist updated; global onboarding guardrail updated so future app work loads the contract before downstream UI edits.

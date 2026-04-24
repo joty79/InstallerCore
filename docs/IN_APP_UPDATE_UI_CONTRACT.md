@@ -115,7 +115,33 @@ After editing:
 
 ## How To Ask For This In A Downstream App
 
-Use this wording:
+Preferred short aliases:
+
+```text
+UPDATEUI
+```
+
+Use the default adapter from the downstream project rules, or `WinAppManager` as the canonical reference when no exception exists.
+
+```text
+UPDATEUI: WT
+```
+
+Use the `WinAppManager` / Windows Terminal TUI adapter.
+
+```text
+UPDATEUI: plain-pwsh
+```
+
+Use the plain PowerShell adapter. Do not add a Windows Terminal bootstrap.
+
+```text
+UPDATEUI: host-specific
+```
+
+Use a custom adapter, but first document the inherited behavior and explicit exceptions in the downstream `PROJECT_RULES.md`.
+
+Long-form wording:
 
 ```text
 Apply the InstallerCore update integration to this app using the In-App Update UI Contract. Use WinAppManager as the canonical behavior reference unless this app has a documented host-specific exception. Regenerate Install.ps1 from InstallerCore if needed, then implement and verify the app-side Update app UI: header status, progress panel, recent installer output, relaunch, and old-host exit.
