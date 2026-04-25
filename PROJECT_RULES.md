@@ -368,3 +368,11 @@
 - Guardrail/rule: Keep `profiles\WhoIsUsingThis.json` as the source of truth for the scanner installer, and deploy/verify `app-metadata.json` whenever the downstream `WhoIsUsingThis.ps1` exposes `Update App`.
 - Files affected: `profiles\WhoIsUsingThis.json`, downstream `WhoIsUsingThis`.
 - Validation/tests run: Profile parsed as JSON; downstream `WhoIsUsingThis\Install.ps1` regenerated; downstream parser validation passed; local-source installer update smoke completed with exit code `0`; installed file hash and registry command readback passed in `WhoIsUsingThis`.
+
+### Entry - 2026-04-25 (SystemTools Clear Icon Cache profile wiring)
+- Date: 2026-04-25
+- Problem: `SystemTools` gained `Clear-IconCache.ps1` and a dedicated icon, but the generated installer profile did not package or register the new context-menu tool.
+- Root cause: The new utility was created downstream first, while `profiles\SystemTools.json` remained aligned only with the older PATH Manager, Restart Explorer, and Refresh Shell children.
+- Guardrail/rule: Keep `profiles\SystemTools.json` aligned with every shipped System Tools context-menu child. `Clear Icon Cache` must deploy `Clear-IconCache.ps1`, `Launch-ClearIconCache.vbs`, and `.assets\icons\Clear-IconCache.ico`, and verify folder, folder-background, and desktop-background registry commands/icons.
+- Files affected: `profiles\SystemTools.json`, downstream `SystemTools`.
+- Validation/tests run: Profile parsed as JSON; downstream `SystemTools\Install.ps1` regenerated; downstream parser validation passed; local-source installer update completed with exit code `0`; installed hash/readback and registry command/icon verification passed in `SystemTools`.
