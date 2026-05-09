@@ -2,6 +2,17 @@
 
 All notable changes to `InstallerCore` live here.
 
+## [2026-05-09]
+
+### Added
+
+- Added `scripts\Sync-InstallerCore.ps1` so other PCs can fast-forward `InstallerCore` from `origin/master` and verify the update UI contract/template in one command.
+
+### Changed
+
+- Updated `docs\IN_APP_UPDATE_UI_CONTRACT.md` with the current commit-aware update status requirements: installed copies compare `install-meta.json` `github_commit` to the remote branch commit, same-version commit mismatch is update-available, stale cached `UpToDate` results must be invalidated, and git working-copy updates must use git semantics instead of archive overlay.
+- Updated the README with the preferred cross-PC update command for normal git checkouts.
+
 ## [2026-04-24]
 
 ### Added

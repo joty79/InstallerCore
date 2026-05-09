@@ -61,6 +61,14 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -Action DownloadLate
 
 The target path defaults to `$PSScriptRoot`, so running the script from `D:\Users\joty79\scripts\InstallerCore` refreshes that working copy in place.
 
+For normal git checkouts on another PC, prefer the sync verifier:
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File D:\Users\joty79\scripts\InstallerCore\scripts\Sync-InstallerCore.ps1 -Pull
+```
+
+This runs a fast-forward `git pull` from `origin/master`, verifies the in-app update UI contract markers, and parser-validates the installer template. Use the root downloader only when the folder is not a normal git checkout or you intentionally want archive-download refresh behavior.
+
 ---
 
 ## 📄 Template Engine

@@ -28,11 +28,16 @@ Every downstream in-app updater should do these things:
 
 - load app identity/version/repo from `app-metadata.json` when the app uses the metadata contract
 - show version/update status in the app header or main status area
+- for installed copies, compare recorded installer provenance (`state\install-meta.json` `github_commit`) against the latest remote branch commit when versions are equal
+- treat same-version commit mismatch as `UpdateAvailable`, not `UpToDate`
+- ignore cached update-status records when local version, source kind, dirty state, or local/source commit no longer matches the current app root
+- show current source, current commit, and latest remote commit in the `Update app` details screen for troubleshooting
 - expose an `Update app` entry inside the app UI, not only in `Install.ps1`
 - resolve whether the app is running from the installed copy or from a repo working copy
 - use the generated `Install.ps1` as the backend instead of duplicating installer logic
 - use `UpdateGitHub` for installed-copy updates
-- use `DownloadLatest -NoSelfRelaunch` or a repo-aware workspace update path for working-copy updates
+- use a repo-aware `git fetch` + fast-forward pull path for git working-copy updates
+- use `DownloadLatest -NoSelfRelaunch` only for non-git working-copy/downloaded-folder update paths
 - run the updater inside the current app session
 - show visible update progress while the updater process is running
 - show recent installer output from `logs\installer.log`
@@ -47,10 +52,13 @@ Embedded app updaters should use these generated installer flags where applicabl
 | Scenario | Action | Required flags |
 |----------|--------|----------------|
 | Installed app copy | `UpdateGitHub` | `-Force -NoExplorerRestart` |
-| Repo/working-copy app | `DownloadLatest` | `-Force -NoSelfRelaunch` |
+| Git repo working-copy app | repo-aware git update | `git fetch` then fast-forward pull/merge only |
+| Non-git working-copy app | `DownloadLatest` | `-Force -NoSelfRelaunch` |
 | Local verification smoke | `Update` | `-PackageSource Local -Force -NoExplorerRestart` |
 
 `-NoSelfRelaunch` means the generated installer updates files and returns control to the app. The app owns progress UI, app relaunch, and old-host shutdown.
+
+For git working copies, do not overlay a downloaded archive onto tracked files. The update path must preserve normal git semantics, report dirty/unpublished local state clearly, and refuse destructive resets unless the user explicitly asks.
 
 ## Adapter Families
 
@@ -106,8 +114,12 @@ After editing:
 
 - [ ] Parser validation passed for edited `.ps1` files.
 - [ ] Generated installer was regenerated when profile/template changed.
+- [ ] If update-status behavior changed, this contract and `.agent-shared` shorthand rules were reviewed.
 - [ ] Local-source installer smoke completed where safe.
 - [ ] Installed files match repo files after update smoke.
+- [ ] Installed-copy same-version/newer-commit detection was tested or explicitly marked unverified.
+- [ ] Git working-copy update path was tested or explicitly marked unverified.
+- [ ] Cached `UpToDate` results cannot hide a newly pushed remote commit.
 - [ ] Update UI has progress panel and recent output.
 - [ ] Success path relaunches the app host.
 - [ ] Old host exits after successful relaunch.
@@ -144,7 +156,7 @@ Use a custom adapter, but first document the inherited behavior and explicit exc
 Long-form wording:
 
 ```text
-Apply the InstallerCore update integration to this app using the In-App Update UI Contract. Use WinAppManager as the canonical behavior reference unless this app has a documented host-specific exception. Regenerate Install.ps1 from InstallerCore if needed, then implement and verify the app-side Update app UI: header status, progress panel, recent installer output, relaunch, and old-host exit.
+Apply the InstallerCore update integration to this app using the In-App Update UI Contract. Use WinAppManager as the canonical behavior reference unless this app has a documented host-specific exception. Regenerate Install.ps1 from InstallerCore if needed, then implement and verify the app-side Update app UI: header status, commit-aware update status, cache invalidation, progress panel, recent installer output, relaunch, and old-host exit.
 ```
 
 For apps like `TakeOwnership`, add:

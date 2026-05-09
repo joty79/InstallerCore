@@ -12,8 +12,17 @@
 - Generated installers must not depend on runtime files outside the tool workspace. Move imported icons, binaries, helper scripts, and sidecar files into the repo first, preferably under `.assets`, and reference only repo-local paths or `{InstallRoot}` in profiles.
 - Once a tool repo is onboarded to `InstallerCore`, do not hand-write or maintain a bespoke repo-local `Install.ps1`. Regenerate `Install.ps1` from the template/profile pair and make template/profile fixes at the source.
 - Treat app-side update UI as a separate downstream contract from the generated installer backend. Before adding or repairing an in-app `Update app` flow, follow `docs\IN_APP_UPDATE_UI_CONTRACT.md`; copying installer flags without the app behavior contract is template drift. The shorthand `UPDATEUI` means “apply this contract,” with optional adapter suffixes such as `UPDATEUI: WT` or `UPDATEUI: plain-pwsh`.
+- For normal InstallerCore repo updates on another PC, prefer `scripts\Sync-InstallerCore.ps1 -Pull` over archive overlay. It must fast-forward from `origin/master`, verify the in-app update UI contract markers, and parser-validate the installer template.
 
 ## Decision Log
+
+### Entry - 2026-05-09 (Automate InstallerCore sync and update contract freshness)
+- Date: 2026-05-09
+- Problem: The in-app update UI contract had not been updated with the latest WinAppManager update-status fixes, and other PCs had no obvious one-command way to pull and verify current `InstallerCore`.
+- Root cause: The contract lived in `InstallerCore`, but recent lessons were first captured in downstream/project/shared-agent rules. The repo had a downloader, but no git-first sync verifier for normal checkouts.
+- Guardrail/rule: Keep `docs\IN_APP_UPDATE_UI_CONTRACT.md` as the canonical technical source for update UI behavior and update it when downstream fixes change the contract. Use `scripts\Sync-InstallerCore.ps1 -Pull` on other PCs to fast-forward from `origin/master` and verify contract/template freshness.
+- Files affected: `docs\IN_APP_UPDATE_UI_CONTRACT.md`, `scripts\Sync-InstallerCore.ps1`, `README.md`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: PowerShell parser validation for `scripts\Sync-InstallerCore.ps1`, `templates\Install.Template.ps1`, and `install.ps1`; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` confirmed contract markers, README/project-rule references, remote freshness, and template parser validity.
 
 ### Entry - 2026-02-26
 - Date: 2026-02-26
