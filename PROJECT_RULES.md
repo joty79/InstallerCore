@@ -38,7 +38,7 @@
 - Root cause: `Get-GitHubRemoteInfo` did not use `git ls-remote`, even though the same host had working git credentials for the private repo.
 - Guardrail/rule: Generated installers should use git-backed branch/default detection when `gh`/API branch discovery fails. If git verifies the branch/default ref, this is a normal private-repo path, not a warning.
 - Files affected: `templates\Install.Template.ps1`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
-- Validation/tests run: Planned parser validation, downstream regenerate, and installed `UpdateGitHub` smoke.
+- Validation/tests run: PowerShell parser validation for `templates\Install.Template.ps1`, `scripts\Sync-InstallerCore.ps1`, and `install.ps1`; `scripts\Sync-InstallerCore.ps1 -VerifyOnly`; downstream `WinAppManager` regenerate; installed `UpdateGitHub` smoke returned exit code `0` with `Auto-detected GitHub ref: master`, git clone fallback, and install metadata at published commit `1a56948`.
 
 ### Entry - 2026-05-09 (Automate InstallerCore sync and update contract freshness)
 - Date: 2026-05-09
