@@ -31,6 +31,9 @@ Every downstream in-app updater should do these things:
 - for installed copies, compare recorded installer provenance (`state\install-meta.json` `github_commit`) against the latest remote branch commit when versions are equal
 - treat same-version commit mismatch as `UpdateAvailable`, not `UpToDate`
 - ignore cached update-status records when local version, source kind, dirty state, or local/source commit no longer matches the current app root
+- never use a stale cached `UpToDate` result as a fallback when a fresh remote check fails; show an error/unknown state instead
+- stale cached `UpdateAvailable` may be used as a warning fallback, but stale `UpToDate` is unsafe because it can hide a newly published version
+- for private repos, if `gh`/GitHub API/raw metadata requests fail but `git` credentials work, use a git-backed metadata fallback before declaring the update check unavailable
 - show current source, current commit, and latest remote commit in the `Update app` details screen for troubleshooting
 - expose an `Update app` entry inside the app UI, not only in `Install.ps1`
 - resolve whether the app is running from the installed copy or from a repo working copy
@@ -120,6 +123,8 @@ After editing:
 - [ ] Installed-copy same-version/newer-commit detection was tested or explicitly marked unverified.
 - [ ] Git working-copy update path was tested or explicitly marked unverified.
 - [ ] Cached `UpToDate` results cannot hide a newly pushed remote commit.
+- [ ] A stale cached `UpToDate` result is not reused when the fresh remote check fails.
+- [ ] Private-repo update checks work through either authenticated `gh`/API access or a git-backed metadata fallback.
 - [ ] Update UI has progress panel and recent output.
 - [ ] Success path relaunches the app host.
 - [ ] Old host exits after successful relaunch.
@@ -156,7 +161,7 @@ Use a custom adapter, but first document the inherited behavior and explicit exc
 Long-form wording:
 
 ```text
-Apply the InstallerCore update integration to this app using the In-App Update UI Contract. Use WinAppManager as the canonical behavior reference unless this app has a documented host-specific exception. Regenerate Install.ps1 from InstallerCore if needed, then implement and verify the app-side Update app UI: header status, commit-aware update status, cache invalidation, progress panel, recent installer output, relaunch, and old-host exit.
+Apply the InstallerCore update integration to this app using the In-App Update UI Contract. Use WinAppManager as the canonical behavior reference unless this app has a documented host-specific exception. Regenerate Install.ps1 from InstallerCore if needed, then implement and verify the app-side Update app UI: header status, commit-aware update status, cache invalidation, stale-UpToDate remote-failure fallback blocking, private-repo git metadata fallback, progress panel, recent installer output, relaunch, and old-host exit.
 ```
 
 For apps like `TakeOwnership`, add:

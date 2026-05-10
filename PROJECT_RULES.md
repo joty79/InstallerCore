@@ -16,6 +16,14 @@
 
 ## Decision Log
 
+### Entry - 2026-05-10 (Stale UpToDate fallback is forbidden in update UI contract)
+- Date: 2026-05-10
+- Problem: A downstream installed app could show green `Up to date` from stale cache after a newer version was published if the fresh remote check failed.
+- Root cause: The shared in-app update UI contract required cache invalidation for normal reads, but did not explicitly forbid stale `UpToDate` as the remote-failure fallback path. Downstream fixes stayed in `WinAppManager` instead of being promoted immediately to `InstallerCore`.
+- Guardrail/rule: `docs\IN_APP_UPDATE_UI_CONTRACT.md` must require downstream update UIs to reject stale cached `UpToDate` on remote-check failure, while allowing stale `UpdateAvailable` only as a warning fallback. Private repos must also support authenticated `gh`/API or git-backed metadata fallback before declaring the update check unavailable.
+- Files affected: `docs\IN_APP_UPDATE_UI_CONTRACT.md`, `scripts\Sync-InstallerCore.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: PowerShell parser validation for `scripts\Sync-InstallerCore.ps1`, `templates\Install.Template.ps1`, and `install.ps1`; `scripts\Sync-InstallerCore.ps1 -VerifyOnly`; fixed script default `RepoRoot` resolution after verification exposed `$PSScriptRoot` was empty inside the parameter default in this host.
+
 ### Entry - 2026-05-09 (Automate InstallerCore sync and update contract freshness)
 - Date: 2026-05-09
 - Problem: The in-app update UI contract had not been updated with the latest WinAppManager update-status fixes, and other PCs had no obvious one-command way to pull and verify current `InstallerCore`.
