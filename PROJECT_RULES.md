@@ -30,7 +30,15 @@
 - Root cause: `templates\Install.Template.ps1` allowed GitHub-source resolution to silently use local fallback roots (`SourcePath`/`InstallPath`) after archive/API download failures. In installed-update mode, that fallback can be the stale install root itself.
 - Guardrail/rule: Explicit GitHub package updates must either fetch a real GitHub package or fail. For private repos, the template should try a git clone fallback using local git credentials after archive/API download fails. It must not treat self-copy from the installed folder as a successful GitHub update.
 - Files affected: `templates\Install.Template.ps1`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
-- Validation/tests run: Planned parser validation for `templates\Install.Template.ps1`; planned downstream regenerate and installed update smoke in `WinAppManager`.
+- Validation/tests run: PowerShell parser validation for `templates\Install.Template.ps1`; downstream regenerate and installed update smoke in `WinAppManager` proved the installed copy reached `v1.0.9` with `package_source=GitHub` and the correct GitHub commit, but also exposed a false warning exit from private-repo branch autodetect.
+
+### Entry - 2026-05-10 (Private repo branch autodetect should use git credentials)
+- Date: 2026-05-10
+- Problem: After the git clone fallback fixed the actual installed update, `UpdateGitHub` still returned a warning exit because branch autodetect could not query the private repo through `gh`/API and fell back to `master` with a warning.
+- Root cause: `Get-GitHubRemoteInfo` did not use `git ls-remote`, even though the same host had working git credentials for the private repo.
+- Guardrail/rule: Generated installers should use git-backed branch/default detection when `gh`/API branch discovery fails. If git verifies the branch/default ref, this is a normal private-repo path, not a warning.
+- Files affected: `templates\Install.Template.ps1`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Planned parser validation, downstream regenerate, and installed `UpdateGitHub` smoke.
 
 ### Entry - 2026-05-09 (Automate InstallerCore sync and update contract freshness)
 - Date: 2026-05-09

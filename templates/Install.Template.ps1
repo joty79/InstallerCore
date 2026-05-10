@@ -314,6 +314,33 @@ function Get-GitHubRemoteInfo([string]$Repo) {
     }
     catch {}
 
+    if (Get-Command git.exe -ErrorAction SilentlyContinue) {
+        try {
+            $cloneUrl = Get-GitHubCloneUrl $Repo
+            $headInfo = (& git.exe ls-remote --symref $cloneUrl HEAD 2>$null | Out-String).Trim()
+            foreach ($line in @($headInfo -split "`r?`n")) {
+                $match = [regex]::Match($line, '^ref:\s+refs/heads/(?<branch>\S+)\s+HEAD$')
+                if ($match.Success) {
+                    $result.DefaultBranch = NormalizeGitHubRef ([string]$match.Groups['branch'].Value)
+                }
+            }
+
+            $branchInfo = (& git.exe ls-remote --heads $cloneUrl 2>$null | Out-String).Trim()
+            foreach ($line in @($branchInfo -split "`r?`n")) {
+                $match = [regex]::Match($line, 'refs/heads/(?<branch>\S+)$')
+                if ($match.Success) {
+                    $name = NormalizeGitHubRef ([string]$match.Groups['branch'].Value)
+                    if (-not [string]::IsNullOrWhiteSpace($name) -and -not $result.Branches.Contains($name)) {
+                        $result.Branches.Add($name)
+                    }
+                }
+            }
+
+            if ($result.DefaultBranch -or $result.Branches.Count -gt 0) { return [pscustomobject]$result }
+        }
+        catch {}
+    }
+
     return [pscustomobject]$result
 }
 function ResolveGitHubRefAuto {
