@@ -24,6 +24,14 @@
 - Files affected: `docs\IN_APP_UPDATE_UI_CONTRACT.md`, `scripts\Sync-InstallerCore.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: PowerShell parser validation for `scripts\Sync-InstallerCore.ps1`, `templates\Install.Template.ps1`, and `install.ps1`; `scripts\Sync-InstallerCore.ps1 -VerifyOnly`; fixed script default `RepoRoot` resolution after verification exposed `$PSScriptRoot` was empty inside the parameter default in this host.
 
+### Entry - 2026-05-10 (GitHub update must not fall back to installed folder)
+- Date: 2026-05-10
+- Problem: A downstream installed `UpdateGitHub` run failed to download a private GitHub archive, then fell back to the existing installed folder and reported success while leaving the app at the old version.
+- Root cause: `templates\Install.Template.ps1` allowed GitHub-source resolution to silently use local fallback roots (`SourcePath`/`InstallPath`) after archive/API download failures. In installed-update mode, that fallback can be the stale install root itself.
+- Guardrail/rule: Explicit GitHub package updates must either fetch a real GitHub package or fail. For private repos, the template should try a git clone fallback using local git credentials after archive/API download fails. It must not treat self-copy from the installed folder as a successful GitHub update.
+- Files affected: `templates\Install.Template.ps1`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Planned parser validation for `templates\Install.Template.ps1`; planned downstream regenerate and installed update smoke in `WinAppManager`.
+
 ### Entry - 2026-05-09 (Automate InstallerCore sync and update contract freshness)
 - Date: 2026-05-09
 - Problem: The in-app update UI contract had not been updated with the latest WinAppManager update-status fixes, and other PCs had no obvious one-command way to pull and verify current `InstallerCore`.

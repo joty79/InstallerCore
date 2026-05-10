@@ -9,6 +9,7 @@ All notable changes to `InstallerCore` live here.
 - Tightened `docs\IN_APP_UPDATE_UI_CONTRACT.md` so downstream app-side update UIs must reject stale cached `UpToDate` results when a fresh remote check fails.
 - Added private-repo git-backed metadata fallback to the in-app update UI contract, matching the current `WinAppManager` canonical behavior.
 - Updated `scripts\Sync-InstallerCore.ps1` to verify the new stale-cache and git-fallback contract markers.
+- Updated the generated installer template so explicit GitHub package updates try a git clone fallback when archive/API download fails, and no longer report success by falling back to the already-installed local folder.
 
 ## [2026-05-09]
 

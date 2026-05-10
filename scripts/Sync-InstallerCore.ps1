@@ -91,6 +91,8 @@ if ($localHead -ne $remoteHead) {
 Assert-FileContains -Path (Join-Path $RepoRoot 'docs\IN_APP_UPDATE_UI_CONTRACT.md') -Pattern 'commit-aware update status|github_commit|same-version commit mismatch' -Label 'in-app update UI contract'
 Assert-FileContains -Path (Join-Path $RepoRoot 'docs\IN_APP_UPDATE_UI_CONTRACT.md') -Pattern 'stale cached `UpToDate` result is not reused|stale-UpToDate remote-failure fallback' -Label 'in-app update UI contract'
 Assert-FileContains -Path (Join-Path $RepoRoot 'docs\IN_APP_UPDATE_UI_CONTRACT.md') -Pattern 'git-backed metadata fallback' -Label 'in-app update UI contract'
+Assert-FileContains -Path (Join-Path $RepoRoot 'docs\IN_APP_UPDATE_UI_CONTRACT.md') -Pattern 'must not fall back to deploying from the existing installed folder' -Label 'in-app update UI contract'
+Assert-FileContains -Path (Join-Path $RepoRoot 'templates\Install.Template.ps1') -Pattern 'git clone fallback with local git credentials' -Label 'installer template'
 Assert-FileContains -Path (Join-Path $RepoRoot 'README.md') -Pattern 'IN_APP_UPDATE_UI_CONTRACT\.md' -Label 'README'
 Assert-FileContains -Path (Join-Path $RepoRoot 'PROJECT_RULES.md') -Pattern 'app-side update UI' -Label 'project rules'
 

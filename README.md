@@ -274,7 +274,9 @@ The contract lives in [docs\IN_APP_UPDATE_UI_CONTRACT.md](docs/IN_APP_UPDATE_UI_
 |----------|-------------|
 | Header/status | Show app version and update status from the metadata/update check contract |
 | Menu entry | Expose `Update app` inside the app script, not only in `Install.ps1` |
-| Backend call | Use the generated installer as the update backend |
+| Backend call | Use the generated installer as the update backend; installed `UpdateGitHub` must fetch real GitHub content or fail, never self-copy the existing install root |
+| Private repos | Support authenticated `gh`/API access or git-backed package/metadata fallback |
+| Cache safety | Never reuse stale cached `UpToDate` when a fresh remote check fails |
 | Progress | Keep the current app session visible while the updater runs |
 | Recent output | Tail `logs\installer.log` and show recent installer output |
 | Failure path | Show exit code and recent output when update fails |

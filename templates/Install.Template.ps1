@@ -207,6 +207,10 @@ function Get-GitHubApiHeaders {
     }
     return $headers
 }
+function Get-GitHubCloneUrl([string]$Repo) {
+    if ([string]::IsNullOrWhiteSpace($Repo)) { return '' }
+    return "https://github.com/$Repo.git"
+}
 function ResolveGitHubCommit([string]$Repo, [string]$Ref) {
     if ([string]::IsNullOrWhiteSpace($Repo) -or [string]::IsNullOrWhiteSpace($Ref)) { return '' }
 
@@ -226,6 +230,17 @@ function ResolveGitHubCommit([string]$Repo, [string]$Ref) {
         }
     }
     catch {}
+
+    if (Get-Command git.exe -ErrorAction SilentlyContinue) {
+        try {
+            $remoteLine = (& git.exe ls-remote (Get-GitHubCloneUrl $Repo) "refs/heads/$Ref" 2>$null | Select-Object -First 1 | Out-String).Trim()
+            if (-not [string]::IsNullOrWhiteSpace($remoteLine)) {
+                $sha = ($remoteLine -split '\s+')[0]
+                if (-not [string]::IsNullOrWhiteSpace($sha)) { return $sha }
+            }
+        }
+        catch {}
+    }
 
     return ''
 }
@@ -358,13 +373,11 @@ function ResolveSourceRoot {
     if ([string]::IsNullOrWhiteSpace($GitHubRef)) { EnsureGitHubRefResolved }
     if ([string]::IsNullOrWhiteSpace($GitHubRef)) { throw 'GitHubRef could not be resolved for GitHub package source.' }
     $script:ResolvedPackageSource = 'GitHub'
-    $fallbackRoots = @()
-    if (TestPkgRoot $SourcePath) { $fallbackRoots += $SourcePath }
-    if ((Test-Path -LiteralPath $InstallPath) -and (TestPkgRoot $InstallPath)) { $fallbackRoots += $InstallPath }
     $url = if ([string]::IsNullOrWhiteSpace($GitHubZipUrl)) { "https://codeload.github.com/$GitHubRepo/zip/refs/heads/$GitHubRef" } else { $GitHubZipUrl.Trim() }
     $tmp = Join-Path $env:TEMP ("$($script:ToolName)_pkg_" + [guid]::NewGuid().ToString('N'))
     $zip = Join-Path $tmp 'pkg.zip'
     $ext = Join-Path $tmp 'extract'
+    $cloneRoot = Join-Path $tmp 'git'
     EnsureDir $tmp; EnsureDir $ext
     $script:TempPackageRoots.Add($tmp) | Out-Null
     Log "Downloading package: $url"
@@ -398,11 +411,24 @@ function ResolveSourceRoot {
             catch {}
         }
         if (-not $downloaded) {
-            if ($fallbackRoots.Count -gt 0) {
-                Log "GitHub fetch failed. Falling back to local package source: $($fallbackRoots[0])" 'WARN'
-                $script:ResolvedPackageSource = 'Local'
-                Set-LocalSourceGitMetadata -Root $fallbackRoots[0]
-                return $fallbackRoots[0]
+            if (Get-Command git.exe -ErrorAction SilentlyContinue) {
+                try {
+                    Log 'GitHub archive fetch failed; trying git clone fallback with local git credentials...'
+                    & git.exe clone --quiet --depth 1 --branch $GitHubRef (Get-GitHubCloneUrl $GitHubRepo) $cloneRoot 2>$null
+                    if ($LASTEXITCODE -eq 0) {
+                        $candidateRoots = @($cloneRoot) + @(Get-ChildItem -LiteralPath $cloneRoot -Directory -Recurse -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
+                        foreach ($candidateRoot in $candidateRoots) {
+                            if (TestPkgRoot $candidateRoot) {
+                                $commit = (& git.exe -C $cloneRoot rev-parse HEAD 2>$null | Out-String).Trim()
+                                if (-not [string]::IsNullOrWhiteSpace($commit)) { $script:ResolvedGitHubCommit = $commit }
+                                $script:ResolvedSourceGitBranch = $GitHubRef
+                                $script:ResolvedSourceDirty = $false
+                                return $candidateRoot
+                            }
+                        }
+                    }
+                }
+                catch {}
             }
             throw
         }
@@ -411,22 +437,10 @@ function ResolveSourceRoot {
         Expand-Archive -Path $zip -DestinationPath $ext -Force
     }
     catch {
-        if ($fallbackRoots.Count -gt 0) {
-            Log "GitHub extract failed. Falling back to local package source: $($fallbackRoots[0])" 'WARN'
-            $script:ResolvedPackageSource = 'Local'
-            Set-LocalSourceGitMetadata -Root $fallbackRoots[0]
-            return $fallbackRoots[0]
-        }
         throw
     }
     $roots = @(Get-ChildItem -LiteralPath $ext -Directory -Recurse -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
     foreach ($r in $roots) { if (TestPkgRoot $r) { return $r } }
-    if ($fallbackRoots.Count -gt 0) {
-        Log "Downloaded package missing required files. Falling back to local package source: $($fallbackRoots[0])" 'WARN'
-        $script:ResolvedPackageSource = 'Local'
-        Set-LocalSourceGitMetadata -Root $fallbackRoots[0]
-        return $fallbackRoots[0]
-    }
     throw 'Downloaded package does not contain required files.'
 }
 

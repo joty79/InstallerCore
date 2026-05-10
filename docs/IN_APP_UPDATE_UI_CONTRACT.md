@@ -63,6 +63,8 @@ Embedded app updaters should use these generated installer flags where applicabl
 
 For git working copies, do not overlay a downloaded archive onto tracked files. The update path must preserve normal git semantics, report dirty/unpublished local state clearly, and refuse destructive resets unless the user explicitly asks.
 
+For installed-copy `UpdateGitHub`, the generated installer must fetch real GitHub package content. If private-repo archive/API download fails, it may use a git clone fallback with local git credentials. It must not fall back to deploying from the existing installed folder and report success.
+
 ## Adapter Families
 
 ### WT TUI Adapter
