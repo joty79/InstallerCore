@@ -18,6 +18,7 @@
   "required_package_entries": [
     "Install.ps1",
     "app-metadata.json",
+    "ContextLens.ps1",
     "Invoke-ContextLens.ps1",
     "Launch-ContextLens.vbs",
     "Manage-ContextLens.ps1",
@@ -27,6 +28,7 @@
   "deploy_entries": [
     "Install.ps1",
     "app-metadata.json",
+    "ContextLens.ps1",
     "Invoke-ContextLens.ps1",
     "Launch-ContextLens.vbs",
     "Manage-ContextLens.ps1",
@@ -36,6 +38,7 @@
   "verify_core_files": [
     "Install.ps1",
     "app-metadata.json",
+    "ContextLens.ps1",
     "Invoke-ContextLens.ps1",
     "Launch-ContextLens.vbs",
     "Manage-ContextLens.ps1",

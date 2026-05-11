@@ -2,6 +2,7 @@
 
 ## 2026-05-11
 
+- Updated the `ContextLens` profile to deploy the downstream app-side `ContextLens.ps1` UI.
 - Added the `ContextLens` profile for the combined OCR and clipboard image context menu workspace.
 
 All notable changes to `InstallerCore` live here.

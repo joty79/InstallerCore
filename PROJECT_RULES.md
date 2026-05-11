@@ -16,6 +16,15 @@
 
 ## Decision Log
 
+### Entry - 2026-05-11 (ContextLens app-side update UI)
+
+- Date: 2026-05-11
+- Problem: ContextLens initially opened the generated InstallerCore `Install.ps1` UI directly from its Manager context-menu action, which did not match the WinAppManager-style app-side update UI contract.
+- Root cause: The downstream app UI layer was missing, so the generated installer backend was exposed as the user-facing manager.
+- Guardrail/rule: `profiles\ContextLens.json` must deploy and verify `ContextLens.ps1`. The generated installer remains the backend; ContextLens owns its app-side main menu and `Update app` submenu.
+- Files affected: `profiles\ContextLens.json`, downstream `ContextLens\ContextLens.ps1`, downstream `ContextLens\Install.ps1`, `PROJECT_RULES.md`.
+- Validation/tests run: Synced local InstallerCore to current `origin/master`; `profiles\ContextLens.json` parsed as JSON; downstream `ContextLens\Install.ps1` regenerated from `scripts\New-ToolInstaller.ps1`; parser validation passed for generated installer, `ContextLens.ps1`, `Invoke-ContextLens.ps1`, `Manage-ContextLens.ps1`, generator, and template; `scripts\Sync-InstallerCore.ps1 -VerifyOnly`; downstream local install smoke deployed `ContextLens.ps1`; installed `ContextLens.ps1 -NoUI` smoke showed app header/update status.
+
 ### Entry - 2026-05-11 (ContextLens profile onboarding)
 
 - Date: 2026-05-11
