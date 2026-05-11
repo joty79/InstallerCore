@@ -23,7 +23,7 @@
 - Root cause: The downstream app UI layer was missing, so the generated installer backend was exposed as the user-facing manager.
 - Guardrail/rule: `profiles\ContextLens.json` must deploy and verify `ContextLens.ps1`. The generated installer remains the backend; ContextLens owns its app-side main menu and `Update app` submenu.
 - Files affected: `profiles\ContextLens.json`, downstream `ContextLens\ContextLens.ps1`, downstream `ContextLens\Install.ps1`, `PROJECT_RULES.md`.
-- Validation/tests run: Synced local InstallerCore to current `origin/master`; `profiles\ContextLens.json` parsed as JSON; downstream `ContextLens\Install.ps1` regenerated from `scripts\New-ToolInstaller.ps1`; parser validation passed for generated installer, `ContextLens.ps1`, `Invoke-ContextLens.ps1`, `Manage-ContextLens.ps1`, generator, and template; `scripts\Sync-InstallerCore.ps1 -VerifyOnly`; downstream local install smoke deployed `ContextLens.ps1`; installed `ContextLens.ps1 -NoUI` smoke showed app header/update status.
+- Validation/tests run: Synced local InstallerCore to current `origin/master`; `profiles\ContextLens.json` parsed as JSON; downstream `ContextLens\Install.ps1` regenerated from `scripts\New-ToolInstaller.ps1`; parser validation passed for generated installer, `ContextLens.ps1`, `Invoke-ContextLens.ps1`, `Manage-ContextLens.ps1`, generator, and template; `scripts\Sync-InstallerCore.ps1 -VerifyOnly`; downstream local install smoke deployed `ContextLens.ps1`; installed `ContextLens.ps1 -NoUI` smoke showed app header/update status; downstream installed `UpdateGitHub` smoke pulled commit `db53b8a` and final app smoke showed v0.2.0 up to date.
 
 ### Entry - 2026-05-11 (ContextLens profile onboarding)
 
