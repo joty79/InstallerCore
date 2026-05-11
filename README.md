@@ -77,7 +77,7 @@ This runs a fast-forward `git pull` from `origin/master`, verifies the in-app up
 
 ### The Problem
 
-- Every context menu tool (`WhoIsUsingThis`, `TakeOwnership`, `SystemCleanup`) needs its own `Install.ps1`
+- Every context menu tool (`WhoIsUsingThis`, `TakeOwnership`, `SystemCleanup`, `ContextLens`) needs its own `Install.ps1`
 - Each installer must handle: **registry writes**, **file deployment**, **GitHub downloads**, **Explorer restart**, **legacy cleanup**, **uninstall entries** — all identically
 - Maintaining separate installers per tool leads to **drift** — one gets a fix, others don't
 - Testing installer changes requires touching every downstream repo
@@ -93,6 +93,7 @@ A single `Install.Template.ps1` with a placeholder marker (`__EMBEDDED_PROFILE_J
 │  profiles/                 templates/                       │
 │  ├── WhoIsUsingThis.json   └── Install.Template.ps1         │
 │  ├── TakeOwnership.json         │                           │
+│  ├── ContextLens.json           │                           │
 │  └── SystemCleanup.json         │  __EMBEDDED_PROFILE_JSON__ │
 │         │                       │         ▲                  │
 │         │    ┌──────────────┐    │         │                  │
@@ -324,6 +325,11 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
   -ProfilePath .\profiles\SystemCleanup.json `
   -OutputPath D:\Users\joty79\scripts\SystemCleanup\Install.ps1
+
+# Generate installer for ContextLens
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
+  -ProfilePath .\profiles\ContextLens.json `
+  -OutputPath D:\Users\joty79\scripts\ContextLens\Install.ps1
 ```
 
 | Parameter | Type | Default | Description |
@@ -396,6 +402,7 @@ InstallerCore/
 │   ├── TakeOwnership.json         # Ownership manager tool profile
 │   ├── Firewall.json              # Firewall context-menu tool profile
 │   ├── RunAsTI.json               # TrustedInstaller context-menu profile
+│   ├── ContextLens.json           # OCR and clipboard image context-menu profile
 │   ├── SystemCleanup.json         # System cleanup tool profile
 │   └── SystemTools.json           # Shared System Tools host profile
 ├── scripts/

@@ -16,6 +16,15 @@
 
 ## Decision Log
 
+### Entry - 2026-05-11 (ContextLens profile onboarding)
+
+- Date: 2026-05-11
+- Problem: Lens OCR and SaveClipboardImage needed a combined workspace with a generated installer instead of separate registry files and launchers.
+- Root cause: The original tools were separate scripts with mixed HKCU/HKCR context-menu registration.
+- Guardrail/rule: Keep `profiles\ContextLens.json` as the InstallerCore source of truth for ContextLens install/update/uninstall behavior. ContextLens owns its dispatcher, manager, launcher, metadata, and assets; InstallerCore owns registry installation and generated `Install.ps1`.
+- Files affected: `profiles\ContextLens.json`, downstream `ContextLens\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: `profiles\ContextLens.json` parsed as JSON; generated downstream `ContextLens\Install.ps1` with `scripts\New-ToolInstaller.ps1`; parser validation passed for generated installer and edited ContextLens scripts; downstream non-admin local install smoke completed with `-NoExplorerRestart`; installed file readback and `reg.exe` registry readback passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed.
+
 ### Entry - 2026-05-11 (Unicode-safe registry helper belongs in template)
 - Date: 2026-05-11
 - Problem: Regenerating a downstream installer from `InstallerCore` reverted a Unicode-safe registry fix and risked writing emoji menu labels as `???`.

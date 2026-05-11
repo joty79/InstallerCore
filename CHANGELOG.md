@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-05-11
+
+- Added the `ContextLens` profile for the combined OCR and clipboard image context menu workspace.
+
 All notable changes to `InstallerCore` live here.
 
 ## [2026-05-11]
