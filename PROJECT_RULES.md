@@ -13,8 +13,18 @@
 - Once a tool repo is onboarded to `InstallerCore`, do not hand-write or maintain a bespoke repo-local `Install.ps1`. Regenerate `Install.ps1` from the template/profile pair and make template/profile fixes at the source.
 - Treat app-side update UI as a separate downstream contract from the generated installer backend. Before adding or repairing an in-app `Update app` flow, follow `docs\IN_APP_UPDATE_UI_CONTRACT.md`; copying installer flags without the app behavior contract is template drift. The shorthand `UPDATEUI` means “apply this contract,” with optional adapter suffixes such as `UPDATEUI: WT` or `UPDATEUI: plain-pwsh`.
 - For normal InstallerCore repo updates on another PC, prefer `scripts\Sync-InstallerCore.ps1 -Pull` over archive overlay. It must fast-forward from `origin/master`, verify the in-app update UI contract markers, and parser-validate the installer template.
+- Not every InstallerCore change requires regenerating every downstream installer. Regenerate downstream installers when the shared template changes, a profile changes, or the downstream app explicitly needs the new generated behavior. Use `scripts\Update-DownstreamInstallers.ps1` for targeted or batch regeneration instead of hand-running one command per repo.
 
 ## Decision Log
+
+### Entry - 2026-05-11 (Batch downstream regeneration helper)
+
+- Date: 2026-05-11
+- Problem: Every InstallerCore behavior fix felt like it required manually updating every downstream tool repo, making the update feature painful and easy to distrust.
+- Root cause: InstallerCore had a single-profile generator but no batch orchestration or explicit rule for when downstream regeneration is actually required.
+- Guardrail/rule: Use `scripts\Update-DownstreamInstallers.ps1` for targeted or all-profile regeneration. Do not update every downstream repo for docs-only or unrelated profile changes; regenerate when the template changed, a profile changed, or the downstream app needs the new generated behavior.
+- Files affected: `scripts\Update-DownstreamInstallers.ps1`, `README.md`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: PowerShell parser validation for `scripts\Update-DownstreamInstallers.ps1`, `scripts\New-ToolInstaller.ps1`, and `templates\Install.Template.ps1`; targeted `-ProfileName ContextLens -WhatIf`; targeted `-ProfileName ContextLens` regeneration; parser validation of regenerated downstream `ContextLens\Install.ps1`; confirmed targeted regeneration produced no downstream git diff.
 
 ### Entry - 2026-05-11 (ContextLens app-side update UI)
 

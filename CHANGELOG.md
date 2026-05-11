@@ -2,6 +2,7 @@
 
 ## 2026-05-11
 
+- Added `scripts\Update-DownstreamInstallers.ps1` to regenerate one or all downstream generated installers from their InstallerCore profiles.
 - Updated the `ContextLens` profile to deploy the downstream app-side `ContextLens.ps1` UI.
 - Added the `ContextLens` profile for the combined OCR and clipboard image context menu workspace.
 

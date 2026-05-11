@@ -23,6 +23,7 @@
 | 📋 | **[Profile System](#-profile-system)** | JSON profiles that define every tool-specific setting — registry, files, GitHub |
 | 🖥️ | **[In-App Update UI Contract](#%EF%B8%8F-in-app-update-ui-contract)** | Downstream checklist for app-side update status, progress, output, relaunch, and old-host exit |
 | 🔧 | **[Generator Script](#-generator-script)** | One-command script that merges template + profile into a production installer |
+| 🔁 | **[Batch Regeneration](#-batch-regeneration)** | Regenerate one or all downstream installers from their profiles |
 
 ---
 
@@ -358,6 +359,32 @@ The generator **fails fast** on parse errors — you'll never ship a broken inst
 
 ---
 
+## 🔁 Batch Regeneration
+
+> Regenerate downstream `Install.ps1` files from their InstallerCore profiles without hand-running one command per repo.
+
+Use this after a template/profile change that actually affects generated downstream installers:
+
+```powershell
+# Dry-run one profile
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Update-DownstreamInstallers.ps1 `
+  -ProfileName ContextLens `
+  -WhatIf
+
+# Regenerate one profile
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Update-DownstreamInstallers.ps1 `
+  -ProfileName ContextLens
+
+# Regenerate every profile whose downstream root exists
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\Update-DownstreamInstallers.ps1 `
+  -All `
+  -SkipMissingRoot
+```
+
+Not every InstallerCore change means every downstream repo must be updated immediately. Regenerate downstream installers when the shared template changed, a profile changed, or the downstream app needs the new generated behavior. Documentation-only changes and profile changes for another tool do not require touching every app.
+
+---
+
 ## 📦 Adding a New Tool
 
 ### Step-by-step
@@ -406,7 +433,8 @@ InstallerCore/
 │   ├── SystemCleanup.json         # System cleanup tool profile
 │   └── SystemTools.json           # Shared System Tools host profile
 ├── scripts/
-│   └── New-ToolInstaller.ps1      # Profile→template merger + validator
+│   ├── New-ToolInstaller.ps1      # Profile→template merger + validator
+│   └── Update-DownstreamInstallers.ps1 # Batch regeneration helper
 ├── PROJECT_RULES.md               # Decision log and project guardrails
 ├── CHANGELOG.md                   # Notable repo-level changes
 └── README.md                      # You are here
