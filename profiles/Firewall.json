@@ -3,7 +3,8 @@
   "installer_title": "Firewall Installer",
   "install_folder_name": "FirewallContext",
   "github_repo": "joty79/Firewall",
-  "github_ref": "",
+  "app_metadata_file": "app-metadata.json",
+  "github_ref": "master",
   "legacy_root": "D:\\Users\\joty79\\scripts\\Firewall",
   "publisher": "joty79",
   "uninstall_key_name": "FirewallContext",
@@ -16,21 +17,27 @@
   ],
   "required_package_entries": [
     "Install.ps1",
+    "app-metadata.json",
     "FirewallMenu.ps1",
+    "Launch-FirewallMenu.vbs",
     "FirewallMenu.reg",
     ".assets",
     ".assets\\icons\\firewall.ico"
   ],
   "deploy_entries": [
     "Install.ps1",
+    "app-metadata.json",
     "FirewallMenu.ps1",
+    "Launch-FirewallMenu.vbs",
     "FirewallMenu.reg",
     ".assets"
   ],
   "preserve_existing_entries": [],
   "verify_core_files": [
     "Install.ps1",
+    "app-metadata.json",
     "FirewallMenu.ps1",
+    "Launch-FirewallMenu.vbs",
     ".assets\\icons\\firewall.ico"
   ],
   "migration_copy_entries": [
@@ -42,7 +49,9 @@
   ],
   "registry_cleanup_keys": [
     "HKCR\\exefile\\shell\\FirewallManager",
-    "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager"
+    "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager",
+    "HKCR\\Applications\\FirewallMenu.ps1",
+    "HKCU\\Software\\Classes\\Applications\\FirewallMenu.ps1"
   ],
   "registry_values": [
     {
@@ -61,7 +70,7 @@
       "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager\\command",
       "name": "(default)",
       "type": "REG_SZ",
-      "value": "wt.exe -- pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\FirewallMenu.ps1\" -TargetItem \"%1\""
+      "value": "wscript.exe \"{InstallRoot}\\Launch-FirewallMenu.vbs\" \"%1\""
     }
   ],
   "registry_verify": [
@@ -78,10 +87,15 @@
     {
       "key": "HKCU\\Software\\Classes\\exefile\\shell\\FirewallManager\\command",
       "name": "(default)",
-      "expected": "wt.exe -- pwsh.exe -NoProfile -ExecutionPolicy Bypass -File \"{InstallRoot}\\FirewallMenu.ps1\" -TargetItem \"%1\""
+      "expected": "wscript.exe \"{InstallRoot}\\Launch-FirewallMenu.vbs\" \"%1\""
     }
   ],
   "wrapper_patches": [
+    {
+      "file": "Launch-FirewallMenu.vbs",
+      "regex": "(?i)d:\\\\Users\\\\joty79\\\\scripts\\\\Firewall\\\\FirewallMenu\\.ps1",
+      "replacement": "{InstallRoot}\\FirewallMenu.ps1"
+    },
     {
       "file": "FirewallMenu.reg",
       "regex": "(?i)d:\\\\Users\\\\joty79\\\\Documents\\\\Icons\\\\firewall\\.ico",
@@ -91,6 +105,11 @@
       "file": "FirewallMenu.reg",
       "regex": "(?i)d:\\\\Users\\\\joty79\\\\scripts\\\\firewall\\\\FirewallMenu\\.ps1",
       "replacement": "{InstallRoot}\\FirewallMenu.ps1"
+    },
+    {
+      "file": "FirewallMenu.reg",
+      "regex": "(?i)wscript\\.exe \\\"D:\\\\Users\\\\joty79\\\\scripts\\\\Firewall\\\\Launch-FirewallMenu\\.vbs\\\"",
+      "replacement": "wscript.exe \"{InstallRoot}\\Launch-FirewallMenu.vbs\""
     }
   ]
 }
