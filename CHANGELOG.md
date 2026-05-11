@@ -2,6 +2,12 @@
 
 All notable changes to `InstallerCore` live here.
 
+## [2026-05-11]
+
+### Fixed
+
+- Updated the generated installer template to write/read registry values through `Microsoft.Win32.RegistryKey`, preserving Unicode menu labels and raw `REG_EXPAND_SZ` strings during verification.
+
 ## [2026-05-10]
 
 ### Changed

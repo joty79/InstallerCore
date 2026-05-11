@@ -16,6 +16,14 @@
 
 ## Decision Log
 
+### Entry - 2026-05-11 (Unicode-safe registry helper belongs in template)
+- Date: 2026-05-11
+- Problem: Regenerating a downstream installer from `InstallerCore` reverted a Unicode-safe registry fix and risked writing emoji menu labels as `???`.
+- Root cause: The fix existed only in the downstream generated `Install.ps1`, while `templates\Install.Template.ps1` still used `reg.exe add/query` for registry values.
+- Guardrail/rule: Template-owned registry value writes and readback must use `Microsoft.Win32.RegistryKey`, with `reg.exe` reserved for targeted cleanup. Downstream generated installers should not carry bespoke registry helper fixes.
+- Files affected: `templates\Install.Template.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`, downstream regenerated installers.
+- Validation/tests run: PowerShell parser validation for `templates\Install.Template.ps1`, `scripts\New-ToolInstaller.ps1`, and `scripts\Sync-InstallerCore.ps1`; `scripts\Sync-InstallerCore.ps1 -VerifyOnly`; regenerated downstream `WhoIsUsingThis\Install.ps1` and confirmed generated helper uses `Microsoft.Win32.RegistryKey`.
+
 ### Entry - 2026-05-10 (Stale UpToDate fallback is forbidden in update UI contract)
 - Date: 2026-05-10
 - Problem: A downstream installed app could show green `Up to date` from stale cache after a newer version was published if the fresh remote check failed.
