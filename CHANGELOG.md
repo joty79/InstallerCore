@@ -2,6 +2,7 @@
 
 ## 2026-05-12
 
+- Flattened the visible `System Tools` menu profile layout to direct ordered entries after native nested submenu borders looked awkward.
 - Updated `SystemTools`, `TakeOwnership`, `WhoIsUsingThis`, `WinAppManager`, `SystemCleanup`, and `Firewall` profiles for the shared `System Tools` category menu layout.
 - Moved child tool registry paths under `Explorer` or `AppsWindows` category folders while keeping old flat child paths in cleanup lists for migration.
 

@@ -26,6 +26,15 @@
 - Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, `profiles\WinAppManager.json`, `profiles\SystemCleanup.json`, `profiles\Firewall.json`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Profile JSON parse validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream installers regenerated and parser-validated; live HKCU registry verification handled through the affected downstream installs.
 
+### Entry - 2026-05-12 (SystemTools visible menu stays one cascade)
+
+- Date: 2026-05-12
+- Problem: The category-folder profile layout was maintainable but produced awkward native borders in the second nested context-menu cascade.
+- Root cause: Explorer renders each nested cascade with legacy Win32 menu borders that cannot be styled or aligned from registry data.
+- Guardrail/rule: Use one visible `System Tools` cascade with direct, numerically ordered child verb keys (`01...`, `02...`, `20...`). Keep child repos separate and child-only, but target the ordered direct child keys instead of adding another visible category cascade.
+- Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, `profiles\WinAppManager.json`, `profiles\SystemCleanup.json`, `profiles\Firewall.json`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON parse validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream installers regenerated and parser-validated; local-source downstream updates completed; live HKCU registry readback confirmed ordered direct child keys and old category keys removed.
+
 ### Entry - 2026-05-11 (Batch downstream regeneration helper)
 
 - Date: 2026-05-11
