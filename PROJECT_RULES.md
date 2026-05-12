@@ -35,6 +35,15 @@
 - Files affected: `PROJECT_RULES.md`.
 - Validation/tests run: Reverted flatten profile commit and restored category profile layout.
 
+### Entry - 2026-05-12 (SystemTools manager profile wiring)
+
+- Date: 2026-05-12
+- Problem: The shared `System Tools` menu needed a family updater/manager entry while keeping each tool in its own repo.
+- Root cause: Separate repos are maintainable, but non-coder update workflows need one obvious place in the context menu.
+- Guardrail/rule: `profiles\SystemTools.json` deploys `SystemToolsManager.ps1` and `Launch-SystemToolsManager.vbs`, and registers `Tool Manager / Updates` under `...\SystemTools\shell\Explorer`. The manager orchestrates generated downstream installers; it must not change child repo ownership.
+- Files affected: `profiles\SystemTools.json`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON parse validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream `SystemTools\Install.ps1` regenerated and parser-validated; installed registry/readback validation passed in `SystemTools`.
+
 ### Entry - 2026-05-11 (Batch downstream regeneration helper)
 
 - Date: 2026-05-11

@@ -2,6 +2,7 @@
 
 ## 2026-05-12
 
+- Added `SystemToolsManager.ps1` and its launcher to the `SystemTools` profile, with `Tool Manager / Updates` registered under the `Explorer` submenu.
 - Updated `SystemTools`, `TakeOwnership`, `WhoIsUsingThis`, `WinAppManager`, `SystemCleanup`, and `Firewall` profiles for the shared `System Tools` category menu layout.
 - Moved child tool registry paths under `Explorer` or `AppsWindows` category folders while keeping old flat child paths in cleanup lists for migration.
 
