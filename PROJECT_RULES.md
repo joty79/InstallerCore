@@ -26,6 +26,15 @@
 - Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, `profiles\WinAppManager.json`, `profiles\SystemCleanup.json`, `profiles\Firewall.json`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Profile JSON parse validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream installers regenerated and parser-validated; live HKCU registry verification handled through the affected downstream installs.
 
+### Entry - 2026-05-12 (Visible layout changes need confirmation)
+
+- Date: 2026-05-12
+- Problem: The `SystemTools` visible menu was flattened to avoid submenu border artifacts without explicit approval for changing the layout model.
+- Root cause: A profile-level maintainability change and a visible UX structure change were treated as the same kind of fix.
+- Guardrail/rule: For downstream visible context-menu structure, InstallerCore profiles may fix paths/order/cleanup directly, but switching between nested categories and flat direct children requires explicit user confirmation.
+- Files affected: `PROJECT_RULES.md`.
+- Validation/tests run: Reverted flatten profile commit and restored category profile layout.
+
 ### Entry - 2026-05-11 (Batch downstream regeneration helper)
 
 - Date: 2026-05-11
