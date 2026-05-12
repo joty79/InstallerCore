@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-05-12
+
+- Updated `SystemTools`, `TakeOwnership`, `WhoIsUsingThis`, `WinAppManager`, `SystemCleanup`, and `Firewall` profiles for the shared `System Tools` category menu layout.
+- Moved child tool registry paths under `Explorer` or `AppsWindows` category folders while keeping old flat child paths in cleanup lists for migration.
+
 ## 2026-05-11
 
 - Added `scripts\Update-DownstreamInstallers.ps1` to regenerate one or all downstream generated installers from their InstallerCore profiles.

@@ -17,6 +17,15 @@
 
 ## Decision Log
 
+### Entry - 2026-05-12 (Shared SystemTools category folders)
+
+- Date: 2026-05-12
+- Problem: The visible `System Tools` context menu was becoming a flat list even though the tools are maintained as separate repos.
+- Root cause: Host and child InstallerCore profiles all targeted direct children under `...\SystemTools\shell\<Tool>`, with no stable category layer.
+- Guardrail/rule: `profiles\SystemTools.json` owns the shared parent keys and category folders (`Explorer`, `AppsWindows`). Child profiles must remain child-only and target nested category child paths, for example `...\SystemTools\shell\Explorer\shell\WhoIsUsingThis` or `...\SystemTools\shell\AppsWindows\shell\WinAppManager`. Keep old flat child paths in cleanup lists during migration.
+- Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, `profiles\WinAppManager.json`, `profiles\SystemCleanup.json`, `profiles\Firewall.json`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON parse validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream installers regenerated and parser-validated; live HKCU registry verification handled through the affected downstream installs.
+
 ### Entry - 2026-05-11 (Batch downstream regeneration helper)
 
 - Date: 2026-05-11
