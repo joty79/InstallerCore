@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-05-13
+
+- Updated `profiles\SystemTools.json` so host installs preserve the shared `SystemTools` parent registry trees and clean only old host-owned child keys.
+- Added `.assets\systemtools-family.json` to the `SystemTools` profile package/verification list for the config-driven family manager.
+
 ## 2026-05-12
 
 - Added `SystemToolsManager.ps1` and its launcher to the `SystemTools` profile, with `Tool Manager / Updates` registered under the `Explorer` submenu.

@@ -44,6 +44,15 @@
 - Files affected: `profiles\SystemTools.json`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Profile JSON parse validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream `SystemTools\Install.ps1` regenerated and parser-validated; installed registry/readback validation passed in `SystemTools`.
 
+### Entry - 2026-05-13 (SystemTools host profile must preserve child-owned menu trees)
+
+- Date: 2026-05-13
+- Problem: Updating the `SystemTools` host could remove child entries such as `Take Ownership`, `Who is using this?`, `WinAppManager`, `SystemCleanup`, and `Firewall`.
+- Root cause: `profiles\SystemTools.json` deleted the full shared parent registry trees in `registry_cleanup_keys`, so child-owned subkeys disappeared before the host rewrote only its own entries.
+- Guardrail/rule: Host profiles that own a shared context-menu parent must not delete that parent tree during install/update. Clean explicit host-owned legacy child keys only; child repos remain responsible for their own child keys and migration cleanup.
+- Files affected: `profiles\SystemTools.json`, `CHANGELOG.md`, downstream `SystemTools\Install.ps1`.
+- Validation/tests run: `profiles\SystemTools.json` parsed as JSON; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream `SystemTools\Install.ps1` regenerated and parser-validated; downstream host update followed by manager `VerifyMenu` kept all child entries present.
+
 ### Entry - 2026-05-11 (Batch downstream regeneration helper)
 
 - Date: 2026-05-11
