@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-05-14
+
+- Renamed the shared `SystemTools` utility category from `Explorer` to `Windows Utilities` in the host and child profiles.
+- Moved `Tool Manager / Updates` out of the category folder and registered it as a direct child of the shared `System Tools` parent.
+- Updated `TakeOwnership` and `WhoIsUsingThis` profiles to target `WindowsUtilities` while cleaning old `Explorer` child paths.
+- Fixed generated installers so `wrapper_patches: null` is treated as an empty patch list instead of crashing under `Set-StrictMode`.
+
 ## 2026-05-13
 
 - Updated `profiles\SystemTools.json` so host installs preserve the shared `SystemTools` parent registry trees and clean only old host-owned child keys.

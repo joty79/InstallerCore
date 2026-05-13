@@ -53,6 +53,24 @@
 - Files affected: `profiles\SystemTools.json`, `CHANGELOG.md`, downstream `SystemTools\Install.ps1`.
 - Validation/tests run: `profiles\SystemTools.json` parsed as JSON; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream `SystemTools\Install.ps1` regenerated and parser-validated; downstream host update followed by manager `VerifyMenu` kept all child entries present.
 
+### Entry - 2026-05-14 (Windows Utilities category and top-level manager)
+
+- Date: 2026-05-14
+- Problem: The shared `Explorer` category was no longer the right label for ownership and lock-inspection tools, and the manager/updater was one submenu too deep.
+- Root cause: The category name came from early host-only shell actions, before the menu became a broader Windows utility toolbox.
+- Guardrail/rule: `profiles\SystemTools.json` owns a `WindowsUtilities` category with visible label `Windows Utilities`. `Tool Manager / Updates` must be registered directly under `...\SystemTools\shell\ToolManager`. Child profiles such as `TakeOwnership` and `WhoIsUsingThis` must target `...\SystemTools\shell\WindowsUtilities\shell\<Tool>` and keep old `Explorer` child cleanup during migration.
+- Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON parse validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream installers regenerated and parser-validated.
+
+### Entry - 2026-05-14 (Null wrapper_patches must be safe)
+
+- Date: 2026-05-14
+- Problem: Generated child installers crashed during local update when a profile had `wrapper_patches: null`.
+- Root cause: `PatchWrappers` enumerated the raw profile value and then accessed `$p.file` under `Set-StrictMode`, so a null row became a runtime failure.
+- Guardrail/rule: Template optional object-array fields must skip `$null` rows and verify required properties before property access. Profiles may use `null` or `[]` for no wrapper patches.
+- Files affected: `templates\Install.Template.ps1`, downstream regenerated `Install.ps1` files.
+- Validation/tests run: Parser validation passed for the template and regenerated installers; local updates passed for `SystemTools`, `TakeOwnership`, and `WhoIsUsingThis`.
+
 ### Entry - 2026-05-11 (Batch downstream regeneration helper)
 
 - Date: 2026-05-11

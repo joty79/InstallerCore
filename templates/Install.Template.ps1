@@ -678,6 +678,8 @@ function Deploy([string]$SourceRoot, [string]$InstallRoot) {
 
 function PatchWrappers([string]$InstallRoot) {
     foreach ($p in @((Get-P 'wrapper_patches' @()))) {
+        if ($null -eq $p) { continue }
+        if (-not ($p.PSObject.Properties['file']) -or -not ($p.PSObject.Properties['regex'])) { continue }
         $fileRel = [string]$p.file; $regex = [string]$p.regex; $repRaw = [string]$p.replacement
         if ([string]::IsNullOrWhiteSpace($fileRel) -or [string]::IsNullOrWhiteSpace($regex)) { continue }
         $target = Join-Path $InstallRoot $fileRel
