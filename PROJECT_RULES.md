@@ -508,3 +508,12 @@
 - Guardrail/rule: `profiles\SystemTools.json` must keep `Explorer` for shell actions only. The app/Windows category key is `Windows` with visible label `Windows`. `TakeOwnership`, `WhoIsUsingThis`, `WinAppManager`, `SystemCleanup`, and `Firewall` child profiles target `...\SystemTools\shell\Windows\shell\<Tool>`. `Tool Manager / Updates` is a direct child named `z_ToolManager` with `CommandFlags=0x20` so it sorts last and has a separator before it.
 - Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, `profiles\WinAppManager.json`, `profiles\SystemCleanup.json`, `profiles\Firewall.json`, downstream regenerated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Pending profile JSON validation, `scripts\Sync-InstallerCore.ps1 -VerifyOnly`, downstream parser validation, local-source installs, and HKCU registry readback.
+
+### Entry - 2026-05-14 (Single-file menu and Firewall top-level correction)
+
+- Date: 2026-05-14
+- Problem: Right-clicking a single file such as `.md` showed an `Explorer` submenu even though Explorer shell actions are folder/background tools, and Firewall had been nested under `System Tools` for `.exe` files.
+- Root cause: The host profile applied the same category model too broadly to wildcard file targets and treated Firewall as part of the shared toolbox menu instead of its natural `.exe` verb.
+- Guardrail/rule: For `*\shell\SystemTools`, create only the `Windows` category and `z_ToolManager`; single-file child tools under `Windows` should be limited to file-safe tools such as `Take Ownership` and `Who is using this?`. Do not create the `Explorer` category for wildcard file targets. Keep Firewall as a top-level `exefile\shell\FirewallManager` verb, not under `SystemTools`.
+- Files affected: `profiles\SystemTools.json`, `profiles\Firewall.json`, downstream `SystemTools\Install.ps1`, downstream `Firewall\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Pending profile JSON validation, downstream parser validation, local-source installs, and HKCU registry readback.

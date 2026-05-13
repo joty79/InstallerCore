@@ -2,6 +2,8 @@
 
 ## 2026-05-14
 
+- Adjusted `SystemTools` single-file menu behavior so wildcard file targets create `Windows` and `z_ToolManager` only, with no `Explorer` shell-action category on files.
+- Restored `Firewall` to its top-level `.exe` shell verb and kept cleanup for the temporary nested `SystemTools\shell\Windows\shell\FirewallManager` path.
 - Corrected the shared `SystemTools` menu profile so `Explorer` remains the shell-action category, `AppsWindows` becomes `Windows`, ownership/lock tools move under `Windows`, and `Tool Manager / Updates` registers as `z_ToolManager` with a separator before it.
 - Updated `WinAppManager`, `SystemCleanup`, and `Firewall` profiles to target the new `Windows` category while cleaning old `AppsWindows` child paths.
 - Renamed the shared `SystemTools` utility category from `Explorer` to `Windows Utilities` in the host and child profiles.
