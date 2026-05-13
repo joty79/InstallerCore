@@ -517,3 +517,12 @@
 - Guardrail/rule: For `*\shell\SystemTools`, create only the `Windows` category and `z_ToolManager`; single-file child tools under `Windows` should be limited to file-safe tools such as `Take Ownership` and `Who is using this?`. Do not create the `Explorer` category for wildcard file targets. Keep Firewall as a top-level `exefile\shell\FirewallManager` verb, not under `SystemTools`.
 - Files affected: `profiles\SystemTools.json`, `profiles\Firewall.json`, downstream `SystemTools\Install.ps1`, downstream `Firewall\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Pending profile JSON validation, downstream parser validation, local-source installs, and HKCU registry readback.
+
+### Entry - 2026-05-14 (Literal wildcard branch matching)
+
+- Date: 2026-05-14
+- Problem: A SystemTools profile edit removed folder/background `Explorer` values while trying to remove only the single-file `*` branch `Explorer` submenu.
+- Root cause: Wildcard-like branch matching was used against registry strings that contain a literal `*` branch name.
+- Guardrail/rule: InstallerCore profile migration scripts must use exact string/prefix checks for literal registry branches. Treat `HKCU\Software\Classes\*\...` as a literal branch, not a pattern that can match `Directory` or other classes.
+- Files affected: `profiles\SystemTools.json`, downstream `SystemTools\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON validation passed; generated installer parser validation passed; local-source update and `reg.exe` readback confirmed expected file/folder/background/desktop/exe menu surfaces.
