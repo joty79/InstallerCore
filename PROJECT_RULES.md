@@ -499,3 +499,12 @@
 - Guardrail/rule: Keep `profiles\SystemTools.json` aligned with every shipped System Tools context-menu child. `Clear Icon Cache` must deploy `Clear-IconCache.ps1`, `Launch-ClearIconCache.vbs`, and `.assets\icons\Clear-IconCache.ico`, and verify folder, folder-background, and desktop-background registry commands/icons.
 - Files affected: `profiles\SystemTools.json`, downstream `SystemTools`.
 - Validation/tests run: Profile parsed as JSON; downstream `SystemTools\Install.ps1` regenerated; downstream parser validation passed; local-source installer update completed with exit code `0`; installed hash/readback and registry command/icon verification passed in `SystemTools`.
+
+### Entry - 2026-05-14 (Corrected SystemTools Windows category and bottom manager)
+
+- Date: 2026-05-14
+- Problem: The previous profile change renamed `Explorer` to `Windows Utilities`, but the intended visual request was to rename `Apps & Windows` to `Windows` and place ownership/lock tools inside that category.
+- Root cause: The latest explicit user instruction was not followed closely enough; the earlier proposed structure leaked into implementation.
+- Guardrail/rule: `profiles\SystemTools.json` must keep `Explorer` for shell actions only. The app/Windows category key is `Windows` with visible label `Windows`. `TakeOwnership`, `WhoIsUsingThis`, `WinAppManager`, `SystemCleanup`, and `Firewall` child profiles target `...\SystemTools\shell\Windows\shell\<Tool>`. `Tool Manager / Updates` is a direct child named `z_ToolManager` with `CommandFlags=0x20` so it sorts last and has a separator before it.
+- Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, `profiles\WinAppManager.json`, `profiles\SystemCleanup.json`, `profiles\Firewall.json`, downstream regenerated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Pending profile JSON validation, `scripts\Sync-InstallerCore.ps1 -VerifyOnly`, downstream parser validation, local-source installs, and HKCU registry readback.
