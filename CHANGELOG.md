@@ -3,6 +3,7 @@
 ## 2026-05-14
 
 - Added desktop-background `Power Options` / Safe Mode registry values to the `SystemTools` profile so generated installs and repairs create the SafeMode menu directly under `System Tools`.
+- Switched the internal `SystemTools` SafeMode submenu key from `PowerMenu` to `SafeModeOptions` and added cleanup for the earlier key because Explorer did not render `PowerMenu` even when registry readback was correct.
 - Adjusted `SystemTools` single-file menu behavior so wildcard file targets create `Windows` and `z_ToolManager` only, with no `Explorer` shell-action category on files.
 - Restored `Firewall` to its top-level `.exe` shell verb and kept cleanup for the temporary nested `SystemTools\shell\Windows\shell\FirewallManager` path.
 - Corrected the shared `SystemTools` menu profile so `Explorer` remains the shell-action category, `AppsWindows` becomes `Windows`, ownership/lock tools move under `Windows`, and `Tool Manager / Updates` registers as `z_ToolManager` with a separator before it.
