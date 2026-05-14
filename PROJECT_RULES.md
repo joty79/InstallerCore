@@ -526,3 +526,12 @@
 - Guardrail/rule: InstallerCore profile migration scripts must use exact string/prefix checks for literal registry branches. Treat `HKCU\Software\Classes\*\...` as a literal branch, not a pattern that can match `Directory` or other classes.
 - Files affected: `profiles\SystemTools.json`, downstream `SystemTools\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Profile JSON validation passed; generated installer parser validation passed; local-source update and `reg.exe` readback confirmed expected file/folder/background/desktop/exe menu surfaces.
+
+### Entry - 2026-05-14 (SystemTools SafeMode PowerMenu profile source)
+
+- Date: 2026-05-14
+- Problem: The downstream `SystemTools` menu script could add SafeMode / power actions, but the generated installer profile did not own those registry values.
+- Root cause: SafeMode was imported from a legacy standalone repo into `SystemTools` files without promoting its desktop-background menu contract into `profiles\SystemTools.json`.
+- Guardrail/rule: `profiles\SystemTools.json` owns the desktop-background `PowerMenu` under `HKCU\Software\Classes\DesktopBackground\Shell\SystemTools\shell\PowerMenu`. Generated installs must deploy `SafeMode.ps1`, `NormalMode.ps1`, their launchers, and the SafeMode icon, then verify the Safe/Normal/Sleep commands.
+- Files affected: `profiles\SystemTools.json`, downstream `SystemTools\Install.ps1`, `CHANGELOG.md`.
+- Validation/tests run: Profile JSON validation passed; InstallerCore script/template parser validation passed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed; downstream `SystemTools\Install.ps1` regenerated and parser-validated; downstream local-source update completed; `SystemToolsManager.ps1 -Action VerifyMenu -NoPause` passed; HKCU registry readback confirmed the generated `PowerMenu` commands.
