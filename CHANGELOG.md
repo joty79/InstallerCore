@@ -2,6 +2,7 @@
 
 ## 2026-05-14
 
+- Removed desktop-background `SystemTools > Windows` entries from the `TakeOwnership` and `WhoIsUsingThis` profiles, removed nested `FirewallRules` from the `SystemTools` host profile, and restored repo-owned `Explorer` / `Windows` category icons.
 - Added desktop-background `Power Options` / Safe Mode registry values to the `SystemTools` profile so generated installs and repairs create the SafeMode menu directly under `System Tools`.
 - Switched the internal `SystemTools` SafeMode submenu key from `PowerMenu` to `SafeModeOptions` and added cleanup for the earlier key because Explorer did not render `PowerMenu` even when registry readback was correct.
 - Moved the `SystemTools` SafeMode submenu under desktop `SystemTools\shell\Windows\shell\SafeModeOptions` after Explorer also refused to display a direct `SafeModeOptions` child despite correct registry readback.
