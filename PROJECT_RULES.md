@@ -544,3 +544,12 @@
 - Guardrail/rule: `profiles\TakeOwnership.json` and `profiles\WhoIsUsingThis.json` must not write desktop-background `SystemTools > Windows` child entries. `profiles\SystemTools.json` must not write nested `FirewallRules`; keep Firewall top-level on `exefile`. Host category icons must use `{InstallRoot}\.assets\icons\explorer.ico` and `{InstallRoot}\.assets\icons\windows.ico`.
 - Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, downstream regenerated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Profile JSON validation passed; InstallerCore verify passed; downstream parser validation passed; local-source updates completed for `SystemTools`, `TakeOwnership`, and `WhoIsUsingThis`; HKCU registry readback confirmed desktop-background `TakeOwnership`, `WhoIsUsingThis`, and `FirewallRules` keys are absent and category icons are restored.
+
+### Entry - 2026-05-14 (Directory Background is desktop-visible)
+
+- Date: 2026-05-14
+- Problem: The visible desktop right-click menu still showed ownership/lock entries and did not show SafeMode entries after the `DesktopBackground` branch was fixed.
+- Root cause: Explorer's visible desktop right-click menu on this host is backed by `HKCU\Software\Classes\Directory\Background\shell`, while the previous profile cleanup only handled `DesktopBackground\Shell`.
+- Guardrail/rule: For `SystemTools` desktop menu work, treat `Directory\Background` as desktop-visible and verify it explicitly. `profiles\SystemTools.json` must mirror SafeMode/power actions to `Directory\Background\shell\SystemTools\shell\Windows`; `profiles\TakeOwnership.json` and `profiles\WhoIsUsingThis.json` must not write `Directory\Background` child values under `SystemTools > Windows`.
+- Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON validation passed; InstallerCore verify passed; downstream parser validation passed; local-source updates completed for `SystemTools`, `TakeOwnership`, and `WhoIsUsingThis`; HKCU registry readback confirmed `Directory\Background` contains SafeMode/power entries and omits `TakeOwnership` / `WhoIsUsingThis`; `SystemToolsManager.ps1 -Action VerifyMenu -NoPause` passed; Explorer restarted.
