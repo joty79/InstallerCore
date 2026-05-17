@@ -589,3 +589,12 @@
 - Guardrail/rule: Profiles must reference bundled install assets, not user document paths. `profiles\TakeOwnership.json` deploys `assets\icons\TakeOwnership.ico` and uses `{InstallRoot}\assets\icons\TakeOwnership.ico` for every SystemTools child icon value.
 - Files affected: `profiles\TakeOwnership.json`, downstream `TakeOwnership\Install.ps1`, downstream `TakeOwnership\assets\icons\TakeOwnership.ico`.
 - Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed all four target branches point to the installed bundled icon; Explorer restarted.
+
+### Entry - 2026-05-17 (SystemTools SafeMode separate and PATH icon)
+
+- Date: 2026-05-17
+- Problem: `Safe Mode Options` needed to return without being nested inside `SystemTools`, and `Manage Folder PATH...` needed a new custom icon.
+- Root cause: The earlier SafeMode-in-SystemTools design consumed the shared `Windows` cascade budget. Reusing the old `folder_to_path.ico` path would also risk Explorer icon-cache reuse.
+- Guardrail/rule: `profiles\SystemTools.json` owns a separate top-level `SafeModeOptions` menu under both `Directory\Background` and `DesktopBackground`, with only `01_BootNormal` and `02_BootSafe`. `PathManager` uses `{InstallRoot}\.assets\icons\managefolderpath.ico`.
+- Files affected: `profiles\SystemTools.json`, downstream `SystemTools\Install.ps1`, downstream `SystemTools\.assets\icons\managefolderpath.ico`.
+- Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed PathManager icon values, SafeMode top-level values, and cascade counts; `SystemToolsManager.ps1 -Action VerifyMenu -NoPause` passed; Explorer restarted.
