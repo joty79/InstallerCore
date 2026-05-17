@@ -571,3 +571,12 @@
 - Guardrail/rule: Keep icon values consistent across all target branches. `WhoIsUsingThis` uses `{InstallRoot}\assets\icons\WhoIsUsingThis.ico` everywhere. `TakeOwnership` uses `imageres.dll,-5324` everywhere unless a real bundled icon is added later. `TakeOwnership` commands must call `SilentOwnership.vbs` for `%1` and `%V` targets.
 - Files affected: `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, downstream regenerated installers.
 - Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source updates completed; HKCU readback confirmed all eight affected icon values and commands.
+
+### Entry - 2026-05-17 (SystemCleanup icon cache bypass)
+
+- Date: 2026-05-17
+- Problem: Updating the bytes of `SystemCleanup.ico` did not change the visible Explorer context-menu icon; the old white-background artwork persisted.
+- Root cause: Explorer cached the icon by path/filename. The registry also needed to point at the `SystemCleanup` install folder instead of relying on a copied host icon path.
+- Guardrail/rule: `profiles\SystemCleanup.json` points the SystemTools child icon to `{InstallRoot}\assets\icons\SystemCleanupClean.ico`. Use a new filename when changing context-menu icon artwork if Explorer keeps rendering the old bitmap.
+- Files affected: `profiles\SystemCleanup.json`, downstream `SystemCleanup\Install.ps1`, downstream `SystemCleanup\assets\icons\SystemCleanupClean.ico`.
+- Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed both background branches point to installed `SystemCleanupClean.ico`; Explorer restarted.
