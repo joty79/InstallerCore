@@ -580,3 +580,12 @@
 - Guardrail/rule: `profiles\SystemCleanup.json` points the SystemTools child icon to `{InstallRoot}\assets\icons\SystemCleanupClean.ico`. Use a new filename when changing context-menu icon artwork if Explorer keeps rendering the old bitmap.
 - Files affected: `profiles\SystemCleanup.json`, downstream `SystemCleanup\Install.ps1`, downstream `SystemCleanup\assets\icons\SystemCleanupClean.ico`.
 - Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed both background branches point to installed `SystemCleanupClean.ico`; Explorer restarted.
+
+### Entry - 2026-05-17 (Bundle TakeOwnership custom icon)
+
+- Date: 2026-05-17
+- Problem: `TakeOwnership` had a real custom icon available but the profile still used the `imageres.dll,-5324` fallback.
+- Root cause: The icon existed outside the repo under `Documents\Icons`, so it was not deployable through the generated installer.
+- Guardrail/rule: Profiles must reference bundled install assets, not user document paths. `profiles\TakeOwnership.json` deploys `assets\icons\TakeOwnership.ico` and uses `{InstallRoot}\assets\icons\TakeOwnership.ico` for every SystemTools child icon value.
+- Files affected: `profiles\TakeOwnership.json`, downstream `TakeOwnership\Install.ps1`, downstream `TakeOwnership\assets\icons\TakeOwnership.ico`.
+- Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed all four target branches point to the installed bundled icon; Explorer restarted.
