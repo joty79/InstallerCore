@@ -598,3 +598,12 @@
 - Guardrail/rule: `profiles\SystemTools.json` owns a separate top-level `SafeModeOptions` menu under both `Directory\Background` and `DesktopBackground`, with only `01_BootNormal` and `02_BootSafe`. `PathManager` uses `{InstallRoot}\.assets\icons\managefolderpath.ico`.
 - Files affected: `profiles\SystemTools.json`, downstream `SystemTools\Install.ps1`, downstream `SystemTools\.assets\icons\managefolderpath.ico`.
 - Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed PathManager icon values, SafeMode top-level values, and cascade counts; `SystemToolsManager.ps1 -Action VerifyMenu -NoPause` passed; Explorer restarted.
+
+### Entry - 2026-05-17 (SafeMode Extended visibility)
+
+- Date: 2026-05-17
+- Problem: The separate `Safe Mode Options` context menu should be hidden unless Shift is held.
+- Root cause: The generated `SystemTools` profile registered SafeMode root keys without `Extended`.
+- Guardrail/rule: `profiles\SystemTools.json` must write empty `Extended` values to both `HKCU\Software\Classes\Directory\Background\shell\SafeModeOptions` and `HKCU\Software\Classes\DesktopBackground\Shell\SafeModeOptions`.
+- Files affected: `profiles\SystemTools.json`, downstream `SystemTools\Install.ps1`, downstream `SystemTools\Install-SystemToolsMenu.ps1`.
+- Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed `Extended` on both root keys; `SystemToolsManager.ps1 -Action VerifyMenu -NoPause` and InstallerCore verify passed; Explorer restarted.
