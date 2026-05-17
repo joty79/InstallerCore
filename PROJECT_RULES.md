@@ -607,3 +607,12 @@
 - Guardrail/rule: `profiles\SystemTools.json` must write empty `Extended` values to both `HKCU\Software\Classes\Directory\Background\shell\SafeModeOptions` and `HKCU\Software\Classes\DesktopBackground\Shell\SafeModeOptions`.
 - Files affected: `profiles\SystemTools.json`, downstream `SystemTools\Install.ps1`, downstream `SystemTools\Install-SystemToolsMenu.ps1`.
 - Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source update completed; HKCU readback confirmed `Extended` on both root keys; `SystemToolsManager.ps1 -Action VerifyMenu -NoPause` and InstallerCore verify passed; Explorer restarted.
+
+### Entry - 2026-05-17 (Firewall profile cleanup-only mode)
+
+- Date: 2026-05-17
+- Problem: The `Firewall` downstream installer still recreated old standalone `FirewallManager` verbs even though the supported live entry had moved under `SystemTools > Windows`.
+- Root cause: The downstream `Firewall` profile still defined top-level `registry_values` / `registry_verify` for `exefile\shell\FirewallManager`, and older generated output had also carried `Directory\shell\FirewallManager`.
+- Guardrail/rule: For `Firewall`, keep `registry_cleanup_keys` for legacy `FirewallManager` verbs but leave `registry_values` and `registry_verify` empty. The shared `SystemTools` host owns the live Explorer verbs.
+- Files affected: `profiles\Firewall.json`, regenerated `D:\Users\joty79\scripts\Firewall\Install.ps1`.
+- Validation/tests run: Pending profile JSON validation, installer regeneration, parser validation, local-source update, and registry readback.
