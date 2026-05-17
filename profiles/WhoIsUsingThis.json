@@ -130,7 +130,7 @@
       "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
       "name": "Icon",
       "type": "REG_SZ",
-      "value": "imageres.dll,-102"
+      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
     },
     {
       "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
@@ -148,7 +148,7 @@
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
       "name": "Icon",
       "type": "REG_SZ",
-      "value": "imageres.dll,-102"
+      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
     },
     {
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",

@@ -562,3 +562,12 @@
 - Guardrail/rule: Registry-based `SystemTools` stays small: root `Explorer`, `Windows`, `Tool Manager / Updates`; `Windows` has `FirewallRules`, `PathManager`, `SystemCleanup`, `TakeOwnership`, `WhoIsUsingThis`, `WinAppManager`. SafeMode/power actions stay separate until a COM/DLL approach exists. Child profiles may write their own Windows child entries, but must not clean sibling tool keys.
 - Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source updates completed for `SystemTools`, `TakeOwnership`, and `WhoIsUsingThis`; HKCU readback confirmed both `Directory\Background` and `DesktopBackground` Windows submenus contain the six expected entries and no SafeMode/power leftovers.
+
+### Entry - 2026-05-17 (Normalize child tool icons and launchers)
+
+- Date: 2026-05-17
+- Problem: `TakeOwnership` and `WhoIsUsingThis` showed inconsistent/wrong icons across file, folder, and background `SystemTools > Windows` branches; `TakeOwnership` background entries also launched an invalid `TakeOwnership.vbs` path.
+- Root cause: The profiles mixed fallback DLL icons with bundled icon paths, and `TakeOwnership` referenced a custom icon/launcher that does not exist in its repo.
+- Guardrail/rule: Keep icon values consistent across all target branches. `WhoIsUsingThis` uses `{InstallRoot}\assets\icons\WhoIsUsingThis.ico` everywhere. `TakeOwnership` uses `imageres.dll,-5324` everywhere unless a real bundled icon is added later. `TakeOwnership` commands must call `SilentOwnership.vbs` for `%1` and `%V` targets.
+- Files affected: `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, downstream regenerated installers.
+- Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source updates completed; HKCU readback confirmed all eight affected icon values and commands.
