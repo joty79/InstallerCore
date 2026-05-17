@@ -59,7 +59,6 @@
     "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\WhoIsUsingThis",
     "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
     "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\WhoIsUsingThis",
-    "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
     "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\CheckLocks",
     "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\Windows\\shell\\CheckLocks",
     "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\CheckLocks",
@@ -79,7 +78,6 @@
     "HKCR\\Directory\\Background\\shell\\SystemTools\\shell\\WhoIsUsingThis",
     "HKCR\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
     "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\WhoIsUsingThis",
-    "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
     "HKCR\\*\\shell\\SystemTools\\shell\\CheckLocks",
     "HKCR\\*\\shell\\SystemTools\\shell\\Windows\\shell\\CheckLocks",
     "HKCR\\Directory\\shell\\SystemTools\\shell\\CheckLocks",
@@ -119,9 +117,7 @@
     "HKCR\\*\\shell\\SystemTools\\shell\\WindowsUtilities\\shell\\CheckLocks",
     "HKCR\\Directory\\shell\\SystemTools\\shell\\WindowsUtilities\\shell\\CheckLocks",
     "HKCR\\Directory\\Background\\shell\\SystemTools\\shell\\WindowsUtilities\\shell\\CheckLocks",
-    "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\WindowsUtilities\\shell\\CheckLocks",
-    "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\TakeOwnership",
-    "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\TakeOwnership"
+    "HKCR\\DesktopBackground\\Shell\\SystemTools\\shell\\WindowsUtilities\\shell\\CheckLocks"
   ],
   "registry_values": [
     {
@@ -159,6 +155,42 @@
       "name": "(default)",
       "type": "REG_SZ",
       "value": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Who is using this?"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Who is using this?"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%V\""
     }
   ],
   "registry_verify": [
@@ -176,8 +208,12 @@
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
       "name": "(default)",
       "expected": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%V\""
     }
   ],
   "wrapper_patches": null
 }
-

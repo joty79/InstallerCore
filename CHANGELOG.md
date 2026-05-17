@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-05-17
+
+- Restored the `SystemTools` profiles to the stable pre-SafeMode layout: SafeMode/power actions are removed from the shared registry cascade, old `z10_BootSafe` through `z15_LogOff` keys are cleaned, and `FirewallRules` / `PathManager` are host-owned Windows children.
+- Updated `TakeOwnership` and `WhoIsUsingThis` profiles to write their `Directory\Background` and `DesktopBackground` `SystemTools > Windows` child entries again for the current 6-item Windows submenu, and removed cross-cleanup keys that could delete each other's desktop entries.
+
 ## 2026-05-14
 
 - Mirrored `SystemTools` SafeMode/power actions to `Directory\Background` and removed `TakeOwnership` / `WhoIsUsingThis` folder-background child values because the visible desktop right-click menu is backed by `Directory\Background` on this host.

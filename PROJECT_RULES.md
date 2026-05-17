@@ -553,3 +553,12 @@
 - Guardrail/rule: For `SystemTools` desktop menu work, treat `Directory\Background` as desktop-visible and verify it explicitly. `profiles\SystemTools.json` must mirror SafeMode/power actions to `Directory\Background\shell\SystemTools\shell\Windows`; `profiles\TakeOwnership.json` and `profiles\WhoIsUsingThis.json` must not write `Directory\Background` child values under `SystemTools > Windows`.
 - Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: Profile JSON validation passed; InstallerCore verify passed; downstream parser validation passed; local-source updates completed for `SystemTools`, `TakeOwnership`, and `WhoIsUsingThis`; HKCU registry readback confirmed `Directory\Background` contains SafeMode/power entries and omits `TakeOwnership` / `WhoIsUsingThis`; `SystemToolsManager.ps1 -Action VerifyMenu -NoPause` passed; Explorer restarted.
+
+### Entry - 2026-05-17 (Restore stable SystemTools registry budget)
+
+- Date: 2026-05-17
+- Problem: The generated profiles still encoded the failed SafeMode-in-SystemTools experiment and could regenerate a fragile/truncated desktop menu.
+- Root cause: `profiles\SystemTools.json` owned SafeMode/power entries under the same static cascade as child tools, and `TakeOwnership` / `WhoIsUsingThis` had cross-cleanup keys that could remove each other's desktop entries.
+- Guardrail/rule: Registry-based `SystemTools` stays small: root `Explorer`, `Windows`, `Tool Manager / Updates`; `Windows` has `FirewallRules`, `PathManager`, `SystemCleanup`, `TakeOwnership`, `WhoIsUsingThis`, `WinAppManager`. SafeMode/power actions stay separate until a COM/DLL approach exists. Child profiles may write their own Windows child entries, but must not clean sibling tool keys.
+- Files affected: `profiles\SystemTools.json`, `profiles\TakeOwnership.json`, `profiles\WhoIsUsingThis.json`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON validation passed; downstream parser validation passed; local-source updates completed for `SystemTools`, `TakeOwnership`, and `WhoIsUsingThis`; HKCU readback confirmed both `Directory\Background` and `DesktopBackground` Windows submenus contain the six expected entries and no SafeMode/power leftovers.
