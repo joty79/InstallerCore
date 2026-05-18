@@ -98,6 +98,30 @@
 - Files affected: `profiles\ContextLens.json`, downstream `ContextLens\Install.ps1`, `CHANGELOG.md`, `PROJECT_RULES.md`.
 - Validation/tests run: `profiles\ContextLens.json` parsed as JSON; generated downstream `ContextLens\Install.ps1` with `scripts\New-ToolInstaller.ps1`; parser validation passed for generated installer and edited ContextLens scripts; downstream non-admin local install smoke completed with `-NoExplorerRestart`; installed file readback and `reg.exe` registry readback passed; downstream GitHub `UpdateGitHub` smoke from `joty79/ContextLens` `master` completed; `scripts\Sync-InstallerCore.ps1 -VerifyOnly` passed.
 
+### Entry - 2026-05-11 (Generated installers self-elevate for protected registry cleanup)
+- Date: 2026-05-11
+- Problem: Users commonly launch generated `Install.ps1` files from Explorer with right-click `Run with PowerShell 7`, which runs non-admin and can leave protected `HKCR`/machine-level context-menu leftovers behind.
+- Root cause: The template attempted HKCU/HKCR cleanup in the current process only. Protected leftovers required a separate manual admin run, which is easy to forget and makes migration cleanup inconsistent.
+- Guardrail/rule: Generated installers should start least-privilege, detect protected legacy registry cleanup failures, then offer a UAC relaunch into an encoded `RegistryRepair` action that performs registry cleanup/write/verify and Explorer restart. Do not require always-admin installs by default.
+- Files affected: `templates\Install.Template.ps1`, downstream generated installers, `CHANGELOG.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Template parser validation; downstream mklink regeneration and parser validation planned.
+
+### Entry - 2026-05-11 (mklink profile onboarding)
+- Date: 2026-05-11
+- Problem: `mklink` needed a classic generated installer for context-menu setup, runtime asset deployment, update, uninstall, and registry verification.
+- Root cause: The downstream repo had manual `.reg` integration and repo-local scripts, but no InstallerCore profile as the source of truth.
+- Guardrail/rule: Keep `profiles\mklink.json` as the mklink installer contract. The downstream `mklink\Install.ps1` must be regenerated from InstallerCore and should not be hand-edited.
+- Files affected: `profiles\mklink.json`, downstream `mklink\Install.ps1`, downstream `mklink\app-metadata.json`, downstream `.assets\icons\mklink.ico`, `CHANGELOG.md`, `README.md`, `PROJECT_RULES.md`.
+- Validation/tests run: Profile JSON parse, InstallerCore generator, generated installer parser validation planned/performed downstream.
+
+### Entry - 2026-05-11 (mklink cascade requires verified SubCommands)
+- Date: 2026-05-11
+- Problem: The generated mklink context-menu parent appeared as a clickable command and produced the Windows “no app associated” error instead of opening a submenu. Old standalone `mklink Target (Junction)` entries also remained visible.
+- Root cause: The profile created nested `shell\...` child keys but did not write the required empty-string `SubCommands` value on the cascade parent keys, cleanup missed some old HKCU/HKCR standalone key variants, and protected leftovers only cleared after an elevated/admin installer run.
+- Guardrail/rule: For mklink cascade parents, write and verify `SubCommands=""` using the template's Unicode/empty-string-safe registry helper. Keep old standalone verb cleanup broad across HKCU and HKCR variants. If stale entries remain after non-admin update/install, instruct an elevated/admin installer run and mark non-admin cleanup verification incomplete.
+- Files affected: `profiles\mklink.json`, downstream `mklink\Install.ps1`, downstream `mklink\mklink.reg`, downstream `mklink\PROJECT_RULES.md`, downstream `mklink\CHANGELOG.md`.
+- Validation/tests run: Profile JSON parse, InstallerCore generator, generated installer parser validation; user confirmed cascade fix worked and stale entries cleared after admin installer run.
+
 ### Entry - 2026-05-11 (Unicode-safe registry helper belongs in template)
 - Date: 2026-05-11
 - Problem: Regenerating a downstream installer from `InstallerCore` reverted a Unicode-safe registry fix and risked writing emoji menu labels as `???`.

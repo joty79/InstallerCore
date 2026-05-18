@@ -78,7 +78,7 @@ This runs a fast-forward `git pull` from `origin/master`, verifies the in-app up
 
 ### The Problem
 
-- Every context menu tool (`WhoIsUsingThis`, `TakeOwnership`, `SystemCleanup`, `ContextLens`) needs its own `Install.ps1`
+- Every context menu tool (`WhoIsUsingThis`, `TakeOwnership`, `SystemCleanup`, `ContextLens`, `mklink`) needs its own `Install.ps1`
 - Each installer must handle: **registry writes**, **file deployment**, **GitHub downloads**, **Explorer restart**, **legacy cleanup**, **uninstall entries** — all identically
 - Maintaining separate installers per tool leads to **drift** — one gets a fix, others don't
 - Testing installer changes requires touching every downstream repo
@@ -95,7 +95,8 @@ A single `Install.Template.ps1` with a placeholder marker (`__EMBEDDED_PROFILE_J
 │  ├── WhoIsUsingThis.json   └── Install.Template.ps1         │
 │  ├── TakeOwnership.json         │                           │
 │  ├── ContextLens.json           │                           │
-│  └── SystemCleanup.json         │  __EMBEDDED_PROFILE_JSON__ │
+│  ├── SystemCleanup.json         │  __EMBEDDED_PROFILE_JSON__ │
+│  └── mklink.json                │                           │
 │         │                       │         ▲                  │
 │         │    ┌──────────────┐    │         │                  │
 │         └──▶ │ New-Tool     │────┘         │                  │
@@ -106,6 +107,7 @@ A single `Install.Template.ps1` with a placeholder marker (`__EMBEDDED_PROFILE_J
 │              WhoIsUsingThis/Install.ps1  (generated)         │
 │              TakeOwnership/Install.ps1   (generated)         │
 │              SystemCleanup/Install.ps1   (generated)         │
+│              mklink/Install.ps1          (generated)         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -123,6 +125,7 @@ The template provides these actions out-of-the-box for every generated installer
 | `InstallGitHub` | CLI-only | Direct GitHub install (no prompts when used with `-Force`) |
 | `UpdateGitHub` | CLI-only | Direct GitHub update |
 | `DownloadLatest` | Interactive | Downloads latest files to `$PSScriptRoot` and relaunches |
+| `RegistryRepair` | Internal | Elevated registry cleanup/write/verify path used after UAC relaunch |
 | `OpenInstallDirectory` | Utility | Opens the install folder in Explorer |
 | `OpenInstallLogs` | Utility | Opens the installer log file |
 
@@ -147,7 +150,8 @@ The template provides these actions out-of-the-box for every generated installer
 │     ├─ Cleanup legacy keys before writing new ones          │
 │     ├─ Empty-string write + readback verification           │
 │     ├─ Post-install registry verify against expected values │
-│     └─ HKCR Access Denied suppression for non-elevated      │
+│     ├─ Non-admin first, UAC repair only when needed         │
+│     └─ Encoded elevated RegistryRepair for protected HKCR   │
 │                                                             │
 │  📂 Deployment                                               │
 │     ├─ File copy with preserve-existing support             │
@@ -331,6 +335,11 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
   -ProfilePath .\profiles\ContextLens.json `
   -OutputPath D:\Users\joty79\scripts\ContextLens\Install.ps1
+
+# Generate installer for mklink
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-ToolInstaller.ps1 `
+  -ProfilePath .\profiles\mklink.json `
+  -OutputPath D:\Users\joty79\scripts\mklink\Install.ps1
 ```
 
 | Parameter | Type | Default | Description |
@@ -431,7 +440,8 @@ InstallerCore/
 │   ├── RunAsTI.json               # TrustedInstaller context-menu profile
 │   ├── ContextLens.json           # OCR and clipboard image context-menu profile
 │   ├── SystemCleanup.json         # System cleanup tool profile
-│   └── SystemTools.json           # Shared System Tools host profile
+│   ├── SystemTools.json           # Shared System Tools host profile
+│   └── mklink.json                # mklink junction manager profile
 ├── scripts/
 │   ├── New-ToolInstaller.ps1      # Profile→template merger + validator
 │   └── Update-DownstreamInstallers.ps1 # Batch regeneration helper

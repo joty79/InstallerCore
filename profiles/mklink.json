@@ -1,0 +1,389 @@
+{
+  "tool_name": "mklink",
+  "installer_title": "mklink Installer",
+  "install_folder_name": "mklink",
+  "github_repo": "joty79/mklink",
+  "github_ref": "",
+  "app_metadata_file": "app-metadata.json",
+  "legacy_root": "D:\\Users\\joty79\\scripts\\mklink",
+  "publisher": "joty79",
+  "uninstall_key_name": "mklink",
+  "uninstall_display_name": "mklink Manager",
+  "menu_option_5_label": "Open install logs",
+  "required_commands": [
+    "cmd.exe",
+    "pwsh.exe",
+    "wscript.exe",
+    "wt.exe"
+  ],
+  "required_package_entries": [
+    "Install.ps1",
+    "app-metadata.json",
+    "README.md",
+    "CHANGELOG.md",
+    "MklinkCore.ps1",
+    "MklinkManager.ps1",
+    "MklinkManager.vbs",
+    "mklinkSource.ps1",
+    "mklinkTarget.ps1",
+    "mklinkRevert.ps1",
+    "mklinkClearSource.ps1",
+    "mklink_Silent.vbs",
+    "mklink_Target.vbs",
+    "mklink_Revert.vbs",
+    "mklink_Clear.vbs",
+    "mklink.reg",
+    ".assets\\icons\\mklink.ico"
+  ],
+  "deploy_entries": [
+    "Install.ps1",
+    "app-metadata.json",
+    "README.md",
+    "CHANGELOG.md",
+    "MklinkCore.ps1",
+    "MklinkManager.ps1",
+    "MklinkManager.vbs",
+    "mklinkSource.ps1",
+    "mklinkTarget.ps1",
+    "mklinkRevert.ps1",
+    "mklinkClearSource.ps1",
+    "mklink_Silent.vbs",
+    "mklink_Target.vbs",
+    "mklink_Revert.vbs",
+    "mklink_Clear.vbs",
+    "mklink.reg",
+    ".assets\\icons\\mklink.ico"
+  ],
+  "preserve_existing_entries": [],
+  "verify_core_files": [
+    "Install.ps1",
+    "app-metadata.json",
+    "MklinkCore.ps1",
+    "MklinkManager.ps1",
+    "MklinkManager.vbs",
+    "mklinkSource.ps1",
+    "mklinkTarget.ps1",
+    "mklinkRevert.ps1",
+    "mklinkClearSource.ps1",
+    "mklink_Silent.vbs",
+    "mklink_Target.vbs",
+    "mklink_Revert.vbs",
+    "mklink_Clear.vbs",
+    ".assets\\icons\\mklink.ico"
+  ],
+  "migration_copy_entries": [
+    "logs",
+    "state",
+    "mklink.log",
+    "error_log.txt"
+  ],
+  "uninstall_preserve_files": [
+    "Install.ps1"
+  ],
+  "registry_cleanup_keys": [
+    "HKCU\\Software\\Classes\\Directory\\shell\\mklink",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink",
+    "HKCU\\Software\\Classes\\Directory\\Shell\\mklinkSource",
+    "HKCU\\Software\\Classes\\Directory\\Background\\Shell\\mklinkTarget",
+    "HKCU\\Software\\Classes\\Directory\\shell\\mklinkSource",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklinkTarget",
+    "HKCR\\Directory\\Shell\\mklinkSource",
+    "HKCR\\Directory\\Background\\Shell\\mklinkTarget",
+    "HKCR\\Directory\\shell\\mklinkSource",
+    "HKCR\\Directory\\Background\\shell\\mklinkTarget",
+    "HKCR\\Directory\\shell\\mklink",
+    "HKCR\\Directory\\Background\\shell\\mklink"
+  ],
+  "registry_values": [
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "mklink"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Set as source"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Revert junction"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\mklink_Revert.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Open Manager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager",
+      "name": "CommandFlags",
+      "type": "REG_DWORD",
+      "value": "32"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\MklinkManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Clear pending source"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\mklink_Clear.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "mklink"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink",
+      "name": "SubCommands",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\01_createHere",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Create junction here"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\01_createHere",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\01_createHere",
+      "name": "HasLUAShield",
+      "type": "REG_SZ",
+      "value": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\01_createHere\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\mklink_Target.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\02_manager",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Open Manager"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\02_manager",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\02_manager",
+      "name": "CommandFlags",
+      "type": "REG_DWORD",
+      "value": "32"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\02_manager\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\MklinkManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\03_clear",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Clear pending source"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\03_clear",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\03_clear\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\mklink_Clear.vbs\""
+    }
+  ],
+  "registry_verify": [
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink",
+      "name": "MUIVerb",
+      "expected": "mklink"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\mklink_Revert.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\MklinkManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\mklink_Clear.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink",
+      "name": "MUIVerb",
+      "expected": "mklink"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink",
+      "name": "SubCommands",
+      "expected": ""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\01_createHere\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\mklink_Target.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\02_manager\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\MklinkManager.vbs\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\03_clear\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\mklink_Clear.vbs\""
+    }
+  ],
+  "wrapper_patches": [
+    {
+      "file": "mklink_Silent.vbs",
+      "regex": "(?i)d:\\\\users\\\\joty79\\\\scripts\\\\mklink",
+      "replacement": "{InstallRoot}"
+    },
+    {
+      "file": "mklink_Target.vbs",
+      "regex": "(?i)d:\\\\users\\\\joty79\\\\scripts\\\\mklink",
+      "replacement": "{InstallRoot}"
+    },
+    {
+      "file": "mklink_Revert.vbs",
+      "regex": "(?i)d:\\\\users\\\\joty79\\\\scripts\\\\mklink",
+      "replacement": "{InstallRoot}"
+    },
+    {
+      "file": "mklink_Clear.vbs",
+      "regex": "(?i)d:\\\\users\\\\joty79\\\\scripts\\\\mklink",
+      "replacement": "{InstallRoot}"
+    },
+    {
+      "file": "MklinkManager.vbs",
+      "regex": "(?i)d:\\\\users\\\\joty79\\\\scripts\\\\mklink",
+      "replacement": "{InstallRoot}"
+    },
+    {
+      "file": "mklink.reg",
+      "regex": "(?i)d:\\\\Users\\\\joty79\\\\scripts\\\\mklink",
+      "replacement": "{InstallRoot}"
+    },
+    {
+      "file": "mklink.reg",
+      "regex": "(?i)d:\\\\Users\\\\joty79\\\\Documents\\\\Icons\\\\mklink\\.ico",
+      "replacement": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    }
+  ]
+}

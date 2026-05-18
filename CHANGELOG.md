@@ -43,8 +43,15 @@ All notable changes to `InstallerCore` live here.
 
 ## [2026-05-11]
 
+### Added
+
+- Added `profiles/mklink.json` so the mklink context-menu tool can use the shared InstallerCore install/update/uninstall flow and generated downstream `Install.ps1`.
+- Added self-elevated registry cleanup repair for generated installers: non-admin installs can relaunch via UAC with an encoded `RegistryRepair` action when protected legacy context-menu keys need admin cleanup.
+
 ### Fixed
 
+- Fixed the new mklink profile to write verified empty `SubCommands` values on cascade parent keys and clean up old standalone HKCU/HKCR verbs.
+- Documented the mklink migration finding that stale legacy context-menu entries may require an elevated/admin installer run when non-admin cleanup cannot remove protected HKCR leftovers.
 - Updated the generated installer template to write/read registry values through `Microsoft.Win32.RegistryKey`, preserving Unicode menu labels and raw `REG_EXPAND_SZ` strings during verification.
 
 ## [2026-05-10]
