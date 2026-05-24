@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-05-24
+
+- Updated the `WhoIsUsingThis` profile to deploy the imported `assets\icons\whoisusingthis-custom.ico` artwork and verify all generated icon registry values.
+- Added `.gitattributes` to pin LF for scripts/docs/config and CRLF for Windows integration files.
+
 ## 2026-05-17
 
 - Restored the `SystemTools` profiles to the stable pre-SafeMode layout: SafeMode/power actions are removed from the shared registry cascade, old `z10_BootSafe` through `z15_LogOff` keys are cleaned, and `FirewallRules` / `PathManager` are host-owned Windows children.

@@ -17,6 +17,15 @@
 
 ## Decision Log
 
+### Entry - 2026-05-24 (WhoIsUsingThis icon import stays portable)
+
+- Date: 2026-05-24
+- Problem: The desired `WhoIsUsingThis` context-menu icon lived at `D:\Users\joty79\Documents\Icons\whoisusingthis.ico`, but generated profiles reject absolute runtime dependencies.
+- Root cause: Directly using the Documents path would make the generated installer workstation-specific and failed `New-ToolInstaller.ps1` validation.
+- Guardrail/rule: When a downstream tool needs artwork from `Documents\Icons`, import the file into the downstream repo and reference it through `{InstallRoot}`. Keep absolute document paths out of `profiles/*.json`.
+- Files affected: `.gitattributes`, `profiles\WhoIsUsingThis.json`, `CHANGELOG.md`, `PROJECT_RULES.md`, downstream `WhoIsUsingThis\Install.ps1`, downstream `WhoIsUsingThis\assets\icons\whoisusingthis-custom.ico`.
+- Validation/tests run: `Update-DownstreamInstallers.ps1 -ProfileName WhoIsUsingThis` regenerated successfully; parser validation and `Sync-InstallerCore.ps1 -VerifyOnly` passed.
+
 ### Entry - 2026-05-12 (Shared SystemTools category folders)
 
 - Date: 2026-05-12

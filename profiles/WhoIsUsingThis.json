@@ -22,7 +22,8 @@
     "WhoIsUsingThis.vbs",
     "WhoIsUsingThis.reg",
     "assets\\bin\\handle.exe",
-    "assets\\icons\\WhoIsUsingThis.ico"
+    "assets\\icons\\WhoIsUsingThis.ico",
+    "assets\\icons\\whoisusingthis-custom.ico"
   ],
   "deploy_entries": [
     "Install.ps1",
@@ -31,7 +32,8 @@
     "WhoIsUsingThis.vbs",
     "WhoIsUsingThis.reg",
     "assets\\bin\\handle.exe",
-    "assets\\icons\\WhoIsUsingThis.ico"
+    "assets\\icons\\WhoIsUsingThis.ico",
+    "assets\\icons\\whoisusingthis-custom.ico"
   ],
   "preserve_existing_entries": null,
   "verify_core_files": [
@@ -40,7 +42,8 @@
     "WhoIsUsingThis.ps1",
     "WhoIsUsingThis.vbs",
     "assets\\bin\\handle.exe",
-    "assets\\icons\\WhoIsUsingThis.ico"
+    "assets\\icons\\WhoIsUsingThis.ico",
+    "assets\\icons\\whoisusingthis-custom.ico"
   ],
   "migration_copy_entries": [
     "logs",
@@ -130,7 +133,7 @@
       "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
       "name": "Icon",
       "type": "REG_SZ",
-      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
+      "value": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
     },
     {
       "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
@@ -148,7 +151,7 @@
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
       "name": "Icon",
       "type": "REG_SZ",
-      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
+      "value": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
     },
     {
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
@@ -166,7 +169,7 @@
       "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
       "name": "Icon",
       "type": "REG_SZ",
-      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
+      "value": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
     },
     {
       "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
@@ -184,7 +187,7 @@
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
       "name": "Icon",
       "type": "REG_SZ",
-      "value": "{InstallRoot}\\assets\\icons\\WhoIsUsingThis.ico"
+      "value": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
     },
     {
       "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
@@ -200,9 +203,19 @@
       "expected": "Who is using this?"
     },
     {
+      "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
+    },
+    {
       "key": "HKCU\\Software\\Classes\\*\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
       "name": "(default)",
       "expected": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
     },
     {
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
@@ -210,9 +223,19 @@
       "expected": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%1\""
     },
     {
+      "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
+    },
+    {
       "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis\\command",
       "name": "(default)",
       "expected": "wscript.exe \"{InstallRoot}\\WhoIsUsingThis.vbs\" \"%V\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\DesktopBackground\\Shell\\SystemTools\\shell\\Windows\\shell\\WhoIsUsingThis",
+      "name": "Icon",
+      "expected": "{InstallRoot}\\assets\\icons\\whoisusingthis-custom.ico"
     }
   ],
   "wrapper_patches": null
