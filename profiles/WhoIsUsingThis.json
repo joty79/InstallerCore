@@ -22,6 +22,7 @@
     "WhoIsUsingThis.vbs",
     "WhoIsUsingThis.reg",
     "assets\\bin\\handle.exe",
+    "assets\\bin\\Procmon64.exe",
     "assets\\icons\\WhoIsUsingThis.ico",
     "assets\\icons\\whoisusingthis-custom.ico"
   ],
@@ -32,6 +33,7 @@
     "WhoIsUsingThis.vbs",
     "WhoIsUsingThis.reg",
     "assets\\bin\\handle.exe",
+    "assets\\bin\\Procmon64.exe",
     "assets\\icons\\WhoIsUsingThis.ico",
     "assets\\icons\\whoisusingthis-custom.ico"
   ],
@@ -42,6 +44,7 @@
     "WhoIsUsingThis.ps1",
     "WhoIsUsingThis.vbs",
     "assets\\bin\\handle.exe",
+    "assets\\bin\\Procmon64.exe",
     "assets\\icons\\WhoIsUsingThis.ico",
     "assets\\icons\\whoisusingthis-custom.ico"
   ],
