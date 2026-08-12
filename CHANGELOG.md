@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-12
+
+- Updated `profiles\mklink.json` with separate `MoveSource` and `ExistingTarget` Explorer selections, then verified both commands and the renamed pending-selection controls in the generated downstream installer.
+
 ## 2026-05-24
 
 - Updated the `WhoIsUsingThis` profile to deploy the imported `assets\icons\whoisusingthis-custom.ico` artwork and verify all generated icon registry values.

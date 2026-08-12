@@ -117,7 +117,7 @@
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource",
       "name": "MUIVerb",
       "type": "REG_SZ",
-      "value": "Set as source"
+      "value": "Set as source (move)"
     },
     {
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource",
@@ -129,70 +129,88 @@
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource\\command",
       "name": "(default)",
       "type": "REG_SZ",
-      "value": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\""
+      "value": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\" \"MoveSource\""
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_setExistingTarget",
+      "name": "MUIVerb",
+      "type": "REG_SZ",
+      "value": "Set as existing target"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_setExistingTarget",
+      "name": "Icon",
+      "type": "REG_SZ",
+      "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_setExistingTarget\\command",
+      "name": "(default)",
+      "type": "REG_SZ",
+      "value": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\" \"ExistingTarget\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_revert",
       "name": "MUIVerb",
       "type": "REG_SZ",
       "value": "Revert junction"
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_revert",
       "name": "Icon",
       "type": "REG_SZ",
       "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_revert",
       "name": "HasLUAShield",
       "type": "REG_SZ",
       "value": ""
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert\\command",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_revert\\command",
       "name": "(default)",
       "type": "REG_SZ",
       "value": "wscript.exe \"{InstallRoot}\\mklink_Revert.vbs\" \"%V\""
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_manager",
       "name": "MUIVerb",
       "type": "REG_SZ",
       "value": "Open Manager"
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_manager",
       "name": "Icon",
       "type": "REG_SZ",
       "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_manager",
       "name": "CommandFlags",
       "type": "REG_DWORD",
       "value": "32"
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager\\command",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_manager\\command",
       "name": "(default)",
       "type": "REG_SZ",
       "value": "wscript.exe \"{InstallRoot}\\MklinkManager.vbs\""
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\05_clear",
       "name": "MUIVerb",
       "type": "REG_SZ",
-      "value": "Clear pending source"
+      "value": "Clear pending selection"
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\05_clear",
       "name": "Icon",
       "type": "REG_SZ",
       "value": "{InstallRoot}\\.assets\\icons\\mklink.ico"
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear\\command",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\05_clear\\command",
       "name": "(default)",
       "type": "REG_SZ",
       "value": "wscript.exe \"{InstallRoot}\\mklink_Clear.vbs\""
@@ -267,7 +285,7 @@
       "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\03_clear",
       "name": "MUIVerb",
       "type": "REG_SZ",
-      "value": "Clear pending source"
+      "value": "Clear pending selection"
     },
     {
       "key": "HKCU\\Software\\Classes\\Directory\\Background\\shell\\mklink\\shell\\03_clear",
@@ -301,20 +319,25 @@
     {
       "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\01_setSource\\command",
       "name": "(default)",
-      "expected": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\""
+      "expected": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\" \"MoveSource\""
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_revert\\command",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\02_setExistingTarget\\command",
+      "name": "(default)",
+      "expected": "wscript.exe \"{InstallRoot}\\mklink_Silent.vbs\" \"%V\" \"ExistingTarget\""
+    },
+    {
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_revert\\command",
       "name": "(default)",
       "expected": "wscript.exe \"{InstallRoot}\\mklink_Revert.vbs\" \"%V\""
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\03_manager\\command",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_manager\\command",
       "name": "(default)",
       "expected": "wscript.exe \"{InstallRoot}\\MklinkManager.vbs\""
     },
     {
-      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\04_clear\\command",
+      "key": "HKCU\\Software\\Classes\\Directory\\shell\\mklink\\shell\\05_clear\\command",
       "name": "(default)",
       "expected": "wscript.exe \"{InstallRoot}\\mklink_Clear.vbs\""
     },
