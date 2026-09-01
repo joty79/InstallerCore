@@ -22,6 +22,8 @@
     "Launch-FirewallMenu.vbs",
     "FirewallMenu.reg",
     ".assets",
+    ".assets\\FirewallMenu.Runtime.ps1",
+    ".assets\\PS_UI_Blueprint.psm1",
     ".assets\\icons\\firewall.ico"
   ],
   "deploy_entries": [
@@ -38,6 +40,8 @@
     "app-metadata.json",
     "FirewallMenu.ps1",
     "Launch-FirewallMenu.vbs",
+    ".assets\\FirewallMenu.Runtime.ps1",
+    ".assets\\PS_UI_Blueprint.psm1",
     ".assets\\icons\\firewall.ico"
   ],
   "migration_copy_entries": [
